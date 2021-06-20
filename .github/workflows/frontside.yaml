@@ -1,0 +1,15 @@
+name: Frontside PR
+on:
+  issue_comment:
+    types: [created]
+env:
+  trigger-phrase: "/run-tests"
+jobs:
+  test:
+    if: contains(github.event.comment.html_url, '/pull/') # enable comment trigger for the PRs only
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hello world
+        if: contains(github.event.comment.body, env.trigger-phrase) # trigger phrase
+        run: |
+          echo "Hello world"
