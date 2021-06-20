@@ -1,16 +1,30 @@
-name: Frontside PR
+name: Frontside
 on:
-  pull_request:
   issue_comment:
     types: [created]
 env:
   trigger-phrase: "/run-tests"
 jobs:
   test:
-    if: contains(github.event.comment.html_url, '/pull/') # enable comment trigger for the PRs only
+    if: |
+      contains(github.event.comment.html_url, '/pull/')  || # enable comment trigger for the PRs only
+      contains(github.event.comment.body, env.trigger-phrase)
     runs-on: ubuntu-latest
     steps:
+      # Set PENDING commit status
+      - uses: actions/checkout@v2
+      - uses: ouzi-dev/commit-status-updater@v1.1.0
+        with:
+          name: "frontside/test"
+
+      # Hello world
       - name: Hello world
-        if: contains(github.event.comment.body, env.trigger-phrase) # trigger phrase
         run: |
           echo "Hello world"
+
+      # Set job status as the commit status
+      - if: always()
+        uses: ouzi-dev/commit-status-updater@v1.1.0
+        with:
+          name: "frontside/test"
+          status: "${{ job.status }}"
