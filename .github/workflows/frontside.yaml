@@ -9,4 +9,4 @@ jobs:
       # Hello world
       - name: Hello world
         run: |
-          echo "Hello world"
+          exit 1
