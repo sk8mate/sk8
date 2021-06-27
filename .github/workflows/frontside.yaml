@@ -3,8 +3,8 @@ on:
   pull_request:
     types: [opened, synchronize]
     paths:
-      - "frontside/**" # run only when frontside is affected
       - ".github/workflows/**"
+      - "frontside/**" # run only when frontside is affected
 jobs:
   lint:
     runs-on: ubuntu-latest
