@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontside/routers/routers.dart';
 import 'package:frontside/theme.dart';
 import 'package:frontside/views/home/home.dart';
 
@@ -12,7 +13,8 @@ class Sk8 extends StatelessWidget {
     return MaterialApp(
       title: 'sk8',
       theme: defaultTheme,
-      home: Home(),
+      initialRoute: RouteManager.home,
+      onGenerateRoute: RouteManager.generateRoute,
     );
   }
 }
