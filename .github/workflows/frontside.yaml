@@ -4,9 +4,13 @@ on:
     types: [opened, synchronize]
     paths:
       - "frontside/**" # run only when frontside is affected
+      - ".github/workflows/**"
 jobs:
   lint:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontside
     steps:
       - name: Checkout
         uses: actions/checkout@v2
