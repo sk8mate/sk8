@@ -1,0 +1,27 @@
+service: backside
+
+frameworkVersion: '2'
+
+provider:
+  name: aws
+
+plugins:
+  - serverless-offline
+
+package:
+  exclude:
+    - ./**
+  include:
+    - ./bin/**
+
+functions:
+  hello:
+    runtime: go1.x
+    handler: bin/hello
+    events:
+      - http: GET hello
+  world:
+    runtime: go1.x
+    handler: bin/world
+    events:
+      - http: GET world

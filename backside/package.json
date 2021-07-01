@@ -1,0 +1,14 @@
+{
+    "name": "lambda-golang-offline",
+    "description": "To run the golang lambda service locally",
+    "version": "1.0.0",
+    "scripts": {
+        "start": "node ./node_modules/.bin/serverless offline start --useDocker",
+        "watch": "nodemon --watch ./ -e go,js --exec make build"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.9",
+        "serverless": "^2.50.0",
+        "serverless-offline": "^7.0.0"
+    }
+}
