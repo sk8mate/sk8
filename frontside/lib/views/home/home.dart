@@ -1,7 +1,6 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:frontside/routers/routers.dart';
+import 'package:beamer/beamer.dart';
 
 class Home extends StatelessWidget {
   Home({Key? key}) : super(key: key);
@@ -26,7 +25,7 @@ class Home extends StatelessWidget {
                 SizedBox(height: 10),
                 ElevatedButton.icon(
                   icon: Icon(Icons.home, size:32),
-                  onPressed: (){Navigator.of(context).pushNamed(RouteManager.about);},
+                  onPressed: (){ context.beamToNamed(RouteManager.aboutRoute); },
                   style: ElevatedButton.styleFrom(
                     primary: Colors.black,
                     onPrimary: Colors.lightGreenAccent,

@@ -1,32 +1,22 @@
-import 'package:flutter/material.dart';
+import 'package:beamer/beamer.dart';
 import 'package:frontside/views/about/about.dart';
 import 'package:frontside/views/home/home.dart';
 
 
 
 class RouteManager{
-  static const String home = "/";
-  static const String about = "/about";
+  static const String homeRoute = "/";
+  static const String aboutRoute = "/about";
 
-  static Route<dynamic> generateRoute(RouteSettings routeSettings){
+  static final routerDelegate = BeamerDelegate(
+    locationBuilder: SimpleLocationBuilder(
+        routes: {
 
-    switch(routeSettings.name){
-      case home:
-        return MaterialPageRoute(
-          builder: (context) => Home(),
+          homeRoute: (context, state) => Home(),
+          aboutRoute: (context, state) => About(),
+        }
 
-        );
-      case about:
-        return MaterialPageRoute(
-            builder: (context) => About()
-
-        );
-
-      default:
-        throw FormatException("ups");
-
-    }
-
-  }
+    ),
+  );
 
 }
