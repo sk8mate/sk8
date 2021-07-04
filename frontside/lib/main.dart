@@ -1,8 +1,8 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:frontside/routers/routers.dart';
-
 void main() {
+  Beamer.setPathUrlStrategy();
   runApp(Sk8());
 }
 
