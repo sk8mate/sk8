@@ -6,4 +6,4 @@
 
 
 # Join the Discord server
-https://discord.gg/m6zg2uJG9H
+https://discord.gg/ge2Vj8kxCZ
