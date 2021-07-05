@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontside/routers/routers.dart';
+import 'package:frontside/routers.dart';
 import 'package:beamer/beamer.dart';
 
 class Home extends StatelessWidget {
@@ -25,15 +25,15 @@ class Home extends StatelessWidget {
                 SizedBox(height: 10),
                 ElevatedButton.icon(
                   icon: Icon(Icons.home, size:32),
-                  onPressed: (){ context.beamToNamed(RouteManager.aboutRoute); },
+                  onPressed: (){ context.beamToNamed(RouteManager.about); },
                   style: ElevatedButton.styleFrom(
                     primary: Colors.black,
                     onPrimary: Colors.lightGreenAccent,
 
                   ),
                   label: Text("About"),
-               ),
-                SizedBox(height: 10),
+
+                ),
               ],
             )
           )
