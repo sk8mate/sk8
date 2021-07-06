@@ -2,7 +2,7 @@ name: frontside-web-deployment
 on:
   push:
     branches:
-      - main
+      - deploy-frontside-web
     paths:
       - ".github/workflows/**"
       - "frontside/**" # run only when frontside is affected
