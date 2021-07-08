@@ -1,7 +1,6 @@
 {
-    "name": "lambda-golang-offline",
-    "description": "To run the golang lambda service locally",
-    "version": "1.0.0",
+    "name": "sk8-backside",
+    "version": "0.0.1",
     "scripts": {
         "start": "node ./node_modules/.bin/serverless offline start --useDocker",
         "watch": "nodemon --watch ./ -e go,js --exec make build"

@@ -1,17 +1,17 @@
-service: backside
+service: sk8-backside
 
 frameworkVersion: '2'
 
 provider:
   name: aws
+  lambdaHashingVersion: 20201221
 
 plugins:
   - serverless-offline
 
 package:
-  exclude:
-    - ./**
-  include:
+  patterns:
+    - '!./**'
     - ./bin/**
 
 functions:
@@ -19,9 +19,9 @@ functions:
     runtime: go1.x
     handler: bin/hello
     events:
-      - http: GET hello
+      - http: GET /hello
   world:
     runtime: go1.x
     handler: bin/world
     events:
-      - http: GET world
+      - http: GET /world

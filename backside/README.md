@@ -1,13 +1,7 @@
 Setup:
 
-    dep init
-    
-    npm i
-
-    sudo npm i -g serverless-offline
-
-    sudo npm i -g serverless
+    sudo npm i
 
     make build
 
-    sls offline --useDocker
+    npm start
