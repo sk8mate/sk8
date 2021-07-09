@@ -2,16 +2,28 @@ name: frontside-pr
 on:
   pull_request:
     types: [opened, synchronize]
-    paths:
-      - ".github/workflows/**"
-      - "frontside/**" # run only when frontside is affected
 jobs:
+  pre_check:
+    outputs:
+      status: ${{ join(steps.*.conclusion) }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check for changes
+        uses: getsentry/paths-filter@v2
+        id: changes
+        with:
+          filters: frontside/**
+
   lint:
+    needs: pre_check
+    if: contains(needs.pre_check.outputs.status, 'success')
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./frontside
     steps:
+      -
+
       - name: Checkout
         uses: actions/checkout@v2
 
