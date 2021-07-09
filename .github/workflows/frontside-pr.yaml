@@ -2,9 +2,9 @@ name: frontside-pr
 on:
   pull_request:
     types: [opened, synchronize]
-    paths:
-      - ".github/workflows/**"
-      - "frontside/**" # run only when frontside is affected
+    # paths:
+    #   - ".github/workflows/**"
+    #   - "frontside/**" # run only when frontside is affected
 jobs:
   lint:
     runs-on: ubuntu-latest
