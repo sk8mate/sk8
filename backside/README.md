@@ -1,6 +1,6 @@
 Setup:
 
-    sudo npm i
+    npm i
 
     make build
 
