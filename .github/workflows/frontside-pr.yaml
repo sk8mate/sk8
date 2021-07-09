@@ -18,7 +18,7 @@ jobs:
 
   lint:
     needs: pre_check
-    if: contains(needs.pre_check.outputs.status, 'success')
+    if: !contains(needs.pre_check.outputs.status, 'success')
     runs-on: ubuntu-latest
     defaults:
       run:
