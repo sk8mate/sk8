@@ -12,9 +12,9 @@ jobs:
         uses: getsentry/paths-filter@v2
         id: changes
         with:
-          filters:
+          filters: |
             frontside:
-              - frontside/**
+              - 'frontside/**'
 
   lint:
     needs: pre_check
