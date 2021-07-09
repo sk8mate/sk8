@@ -14,11 +14,11 @@ jobs:
         with:
           filters: |
             frontside:
-              - 'frontside/**'
+              - 'frontend/**'
 
   lint:
     needs: pre_check
-    if: !contains(needs.pre_check.outputs.status , 'failure')
+    if: contains(needs.pre_check.outputs.status, 'success')
     runs-on: ubuntu-latest
     defaults:
       run:
