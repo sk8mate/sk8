@@ -1,8 +1,13 @@
 # frontside
 The frontend app built in Flutter (Dart).
-## Requirements
-- Flutter SDK / [official installation guide](https://flutter.dev/docs/get-started/install)
+
+## Environments
+- http://web.sk8.town
+  Currently, the web version is deployed on every push to the `main` branch.
 ## Local development
+### Requirements
+- Flutter SDK / [official installation guide](https://flutter.dev/docs/get-started/install)
+
 ### Install dependencies
 Clone the repository and navigate to the `frontside` directory.
 ```bash
