@@ -1,16 +1,22 @@
 # frontside
+The frontend app built in Flutter (Dart).
+## Requirements
+- Flutter SDK / [official installation guide](https://flutter.dev/docs/get-started/install)
+## Local development
+### Install dependencies
+Clone the repository and navigate to the `frontside` directory.
+```bash
+flutter pub get
+```
 
-A new Flutter project.
+### Run
+You can run the app on Android emulator, iOS emulator, in a web browser, or on a real device. To do so, follow the [get started guidelines](https://flutter.dev/docs/get-started/install).
+<img src="https://user-images.githubusercontent.com/85256521/123563602-f6869680-d7b5-11eb-9b08-a0c758eac908.png" width="150">
+```bash
+flutter run
+```
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Lint
+```bash
+flutter analyze
+```
