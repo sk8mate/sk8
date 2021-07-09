@@ -14,16 +14,18 @@ jobs:
         with:
           filters: |
             frontside:
-              - 'frontend/**'
+              - 'frontside/**'
 
   lint:
     needs: pre_check
-    if: contains(needs.pre_check.outputs.status, 'success')
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./frontside
     steps:
+      - name: Get color
+        run: echo "The selected color is ${{ needs.pre_check.outputs.status }}"
+
       - name: Checkout
         uses: actions/checkout@v2
 
