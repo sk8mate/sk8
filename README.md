@@ -4,6 +4,7 @@
 
 [Read the MVP draft.](https://github.com/sk8mate/sk8/issues/1)
 
+<img src="skaters.jpg" />
 
 # Join the Discord server
 https://discord.gg/ge2Vj8kxCZ
