@@ -1,0 +1,13 @@
+{
+    "name": "sk8-backside",
+    "version": "0.0.1",
+    "scripts": {
+        "start": "node ./node_modules/.bin/serverless offline start --useDocker",
+        "watch": "nodemon --watch ./ -e go,js --exec make build"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.9",
+        "serverless": "^2.50.0",
+        "serverless-offline": "^7.0.0"
+    }
+}
