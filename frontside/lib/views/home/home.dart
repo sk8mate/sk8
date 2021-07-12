@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:frontside/routers.dart';
 import 'package:beamer/beamer.dart';
+import 'package:frontside/views/about/about.dart';
 
 class Home extends StatelessWidget {
+  static const String route = "/";
+
   Home({Key? key}) : super(key: key);
 
   @override
@@ -15,32 +17,27 @@ class Home extends StatelessWidget {
       body: Column(
         children: <Widget>[
           Container(
-            color: Colors.lightGreenAccent,
-
-            width: double.infinity,
-            padding: EdgeInsets.all(10),
-            child: Column(
-
-              children: <Widget>[
-                SizedBox(height: 10),
-                ElevatedButton.icon(
-                  icon: Icon(Icons.home, size:32),
-                  onPressed: (){ context.beamToNamed(RouteManager.about); },
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.black,
-                    onPrimary: Colors.lightGreenAccent,
-
+              color: Colors.lightGreenAccent,
+              width: double.infinity,
+              padding: EdgeInsets.all(10),
+              child: Column(
+                children: <Widget>[
+                  SizedBox(height: 10),
+                  ElevatedButton.icon(
+                    icon: Icon(Icons.home, size: 32),
+                    onPressed: () {
+                      context.beamToNamed(About.route);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.black,
+                      onPrimary: Colors.lightGreenAccent,
+                    ),
+                    label: Text("About"),
                   ),
-                  label: Text("About"),
-
-                ),
-              ],
-            )
-          )
-
+                ],
+              ))
         ],
       ),
-
     );
   }
 }
