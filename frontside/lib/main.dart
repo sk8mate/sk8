@@ -1,18 +1,23 @@
+import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
+import 'package:frontside/beamer_router.dart';
 import 'package:frontside/theme.dart';
-import 'package:frontside/views/home/home.dart';
 
 void main() {
+  Beamer.setPathUrlStrategy();
   runApp(Sk8());
 }
 
 class Sk8 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'sk8',
       theme: defaultTheme,
-      home: Home(),
+      routeInformationParser: BeamerParser(),
+      routerDelegate: BeamerRouter.routerDelegate,
+      backButtonDispatcher:
+          BeamerBackButtonDispatcher(delegate: BeamerRouter.routerDelegate),
     );
   }
 }
