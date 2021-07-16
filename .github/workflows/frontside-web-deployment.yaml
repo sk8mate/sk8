@@ -22,7 +22,7 @@ jobs:
       - name: Build
         run: flutter build web --release
 
-      - name: Deploy
+      - name: Upload to S3
         uses: jakejarvis/s3-sync-action@master
         with:
           args: --follow-symlinks --delete
@@ -32,3 +32,12 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.CI_SECRET_ACCESS_KEY }}
           AWS_REGION: "eu-west-1"
           SOURCE_DIR: "frontside/build/web"
+
+      - name: Invalidate CloudFront
+        uses: chetan/invalidate-cloudfront-action@master
+        env:
+          DISTRIBUTION: ${{ secrets.DISTRIBUTION_WEB_SK8_TOWN }}
+          PATHS: '/*'
+          AWS_REGION: 'eu-west-1'
+          AWS_ACCESS_KEY_ID: ${{ secrets.CI_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.CI_SECRET_ACCESS_KEY }}
