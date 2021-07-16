@@ -30,8 +30,11 @@ resource "aws_route53_record" "web_sk8_town_s3" {
 resource "aws_acm_certificate" "sk8_town" {
   provider                  = aws.us_east_1
   domain_name               = "sk8.town"
-  subject_alternative_names = ["www.sk8.town", "web.sk8.town"]
+  subject_alternative_names = ["web.sk8.town"]
   validation_method         = "DNS"
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 locals {
