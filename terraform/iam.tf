@@ -30,6 +30,14 @@ resource "aws_iam_user_policy" "ci" {
       ],
       "Effect": "Allow",
       "Resource": "${aws_s3_bucket.web_sk8_town.arn}/*"
+    },
+    {
+      "Sid": "Stmt1625607934827",
+      "Action": [
+        "cloudfront:CreateInvalidation"
+      ],
+      "Effect": "Allow",
+      "Resource": "${aws_cloudfront_distribution.web_sk8_town.arn}"
     }
   ]
 }

@@ -2,7 +2,7 @@
 The frontend app built in Flutter (Dart).
 
 ## Environments
-- http://web.sk8.town
+- https://web.sk8.town
   Currently, the web version is deployed on every push to the `main` branch.
 ## Local development
 ### Requirements
