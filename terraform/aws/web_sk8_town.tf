@@ -1,7 +1,31 @@
-resource "aws_route53_zone" "sk8_town" {
-  name = "sk8.town"
+# S3
+resource "aws_s3_bucket" "web_sk8_town" {
+  bucket = "web.sk8.town"
+  acl    = "public-read"
+  policy = <<POLICY
+{
+  "Id": "Policy1625590597815",
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "Stmt1625590591483",
+      "Action": [
+        "s3:GetObject"
+      ],
+      "Effect": "Allow",
+      "Resource": "arn:aws:s3:::web.sk8.town/*",
+      "Principal": "*"
+    }
+  ]
+}
+POLICY
+
+  website {
+    index_document = "index.html"
+  }
 }
 
+# Route53
 resource "aws_route53_zone" "web_sk8_town" {
   name = "web.sk8.town"
 }
@@ -24,47 +48,6 @@ resource "aws_route53_record" "web_sk8_town_s3" {
     zone_id                = aws_cloudfront_distribution.web_sk8_town.hosted_zone_id
     evaluate_target_health = true
   }
-}
-
-# Certficiate
-resource "aws_acm_certificate" "sk8_town" {
-  provider                  = aws.us_east_1
-  domain_name               = "sk8.town"
-  subject_alternative_names = ["web.sk8.town"]
-  validation_method         = "DNS"
-  lifecycle {
-    create_before_destroy = true
-  }
-}
-
-locals {
-  domain_to_zone_id = {
-    "web.sk8.town" = aws_route53_zone.web_sk8_town.zone_id
-  }
-}
-
-resource "aws_route53_record" "sk8_town" {
-  for_each = {
-    for dvo in aws_acm_certificate.sk8_town.domain_validation_options : dvo.domain_name => {
-      name   = dvo.resource_record_name
-      record = dvo.resource_record_value
-      type   = dvo.resource_record_type
-      zone_id = lookup(local.domain_to_zone_id, dvo.domain_name, aws_route53_zone.sk8_town.zone_id)
-    }
-  }
-
-  allow_overwrite = true
-  name            = each.value.name
-  records         = [each.value.record]
-  ttl             = 60
-  type            = each.value.type
-  zone_id         = each.value.zone_id
-}
-
-resource "aws_acm_certificate_validation" "sk8_town" {
-  provider                = aws.us_east_1
-  certificate_arn         = aws_acm_certificate.sk8_town.arn
-  validation_record_fqdns = [for record in aws_route53_record.sk8_town : record.fqdn]
 }
 
 # Cloudfront
@@ -115,4 +98,42 @@ resource "aws_cloudfront_distribution" "web_sk8_town" {
     acm_certificate_arn = aws_acm_certificate.sk8_town.arn
     ssl_support_method = "sni-only"
   }
+}
+
+# IAM Policy
+resource "aws_iam_user_policy" "web_sk8_town" {
+  name = "web_sk8_town"
+  user = aws_iam_user.ci.name
+
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "Stmt1546506260896",
+      "Action": "s3:ListBucket",
+      "Effect": "Allow",
+      "Resource": "${aws_s3_bucket.web_sk8_town.arn}"
+    },
+    {
+      "Sid": "Stmt1625607934826",
+      "Action": [
+        "s3:DeleteObject",
+        "s3:GetObject",
+        "s3:PutObject"
+      ],
+      "Effect": "Allow",
+      "Resource": "${aws_s3_bucket.web_sk8_town.arn}/*"
+    },
+    {
+      "Sid": "Stmt1625607934827",
+      "Action": [
+        "cloudfront:CreateInvalidation"
+      ],
+      "Effect": "Allow",
+      "Resource": "${aws_cloudfront_distribution.web_sk8_town.arn}"
+    }
+  ]
+}
+POLICY
 }
