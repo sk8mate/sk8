@@ -2,7 +2,7 @@
 
 **sk8** is a community driven app to find, rate, and comment the best skate spots in the city.
 
-[Read the incomplete specification.](https://github.com/sk8mate/sk8/issues/1)
+[Read the incomplete specification.](spec/index.md)
 
 ![skaters](skaters.jpg)
 
