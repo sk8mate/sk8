@@ -1,14 +1,16 @@
-# sk8
+<img src="https://user-images.githubusercontent.com/85256521/126249884-2e4bc7f8-ae04-48e8-9379-0a184f924ab1.png" alt="sk8 logo" width="150" />
 
-**sk8** is a community driven app to find, rate, and comment the best skate spots in the city.
 
-[Read the incomplete specification.](spec/index.md)
-
-![skaters](skaters.jpg)
-
-*By Huiru Huang, Aarhus School of Architecture, Studio 1A, Urban Design and Landscape Architecture, 10. semester*
+<strong>sk8</strong> is a community driven app to find, rate, and comment the best skate spots in the city.
+<br /><a href="spec/index.md">Read the incomplete specification.</a>
 
 # Contributing
 Ideally, you like to skate, but you don't have to. Join the Discord server, and we will be happy to discuss what you can do.
+<br />https://discord.gg/ge2Vj8kxCZ
 
-https://discord.gg/ge2Vj8kxCZ
+---
+
+<img src="skaters.jpg" alt="just skate poem" width="600" />
+
+*By Huiru Huang, Aarhus School of Architecture, Studio 1A, Urban Design and Landscape Architecture, 10. semester*
+
