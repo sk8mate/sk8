@@ -10,7 +10,7 @@ Ideally, you like to skate, but you don't have to. Join the Discord server, and 
 
 ---
 
-<img src="skaters.jpg" alt="just skate poem" width="600" />
+<img src="skaters.jpg" alt="just skate poem" />
 
 *By Huiru Huang, Aarhus School of Architecture, Studio 1A, Urban Design and Landscape Architecture, 10. semester*
 
