@@ -37,6 +37,7 @@ By default, the map centers itself on the user's location. However, the map posi
   | name | type | description | required |
   | -- | -- | -- | -- |
   | search | string | any point of interest (e.g. city or district) | yes |
+  | language | string | user's device language | yes |
 
   ```go
   type Coordinates struct {
