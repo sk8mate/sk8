@@ -32,6 +32,7 @@ By default, the map centers itself on the user's location. However, the map posi
 **Backside**
 - `/places GET`
   Return `X` matching places based on the `search` parameter value.
+  
   Parameters
   | name | type | description | required |
   | -- | -- | -- | -- |
@@ -56,7 +57,7 @@ Users can filter the skate spots by their parameters, such as `lighting` or `typ
 **Frontside**
 - require data from `/filters` endpoint to render
 - nice buttons with checkbox functionality under the hood
-- scrollable stacked in one row, can go beyond the screen
+- scrollable, stacked in one row, can go beyond the screen
 - trigger `/spots` API request on every filter change
 
 **Backside**
@@ -65,6 +66,7 @@ Users can filter the skate spots by their parameters, such as `lighting` or `typ
 
 - `/spots GET`
   Return list of spots based on the input location (lat, long params).
+  
   Parameters:
   <table>
     <tr>
