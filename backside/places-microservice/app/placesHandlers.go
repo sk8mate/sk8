@@ -2,8 +2,8 @@ package app
 
 import (
 	"encoding/json"
-	"github.com/sk8mate/sk8/backside/dto"
-	"github.com/sk8mate/sk8/backside/service"
+	"github.com/sk8mate/sk8/backside/places-microservice/dto"
+	"github.com/sk8mate/sk8/backside/places-microservice/service"
 	"net/http"
 )
 

@@ -2,11 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5f430343-5dba-4f73-90c8-c369d8829dbf" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/places-microservice/dto/placesAutocompleteRequest_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/places-microservice/app/app.go" beforeDir="false" afterPath="$PROJECT_DIR$/places-microservice/app/app.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/places-microservice/app/placesHandlers.go" beforeDir="false" afterPath="$PROJECT_DIR$/places-microservice/app/placesHandlers.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/places-microservice/domain/places.go" beforeDir="false" afterPath="$PROJECT_DIR$/places-microservice/domain/places.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/places-microservice/domain/placesAutocompleteRepository.go" beforeDir="false" afterPath="$PROJECT_DIR$/places-microservice/domain/placesAutocompleteRepository.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/places-microservice/domain/placesAutocompleteRepositoryStub.go" beforeDir="false" afterPath="$PROJECT_DIR$/places-microservice/domain/placesAutocompleteRepositoryStub.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/places-microservice/dto/placesAutocompleteRequest.go" beforeDir="false" afterPath="$PROJECT_DIR$/places-microservice/dto/placesAutocompleteRequest.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/places-microservice/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/places-microservice/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/places-microservice/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/places-microservice/go.mod" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/places-microservice/service/placesAutocompleteService.go" beforeDir="false" afterPath="$PROJECT_DIR$/places-microservice/service/placesAutocompleteService.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -52,7 +55,21 @@
       <recent name="$PROJECT_DIR$/places-microservice" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Go Build.go build github.com/sk8mate/sk8/backside/places-microservice">
+    <configuration name="go build github.com/sk8mate/sk8/backside/places-microservice" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true">
+      <module name="backside" />
+      <working_directory value="$PROJECT_DIR$/places-microservice" />
+      <envs>
+        <env name="SERVER_ADDRESS" value="localhost" />
+        <env name="SERVER_PORT" value="8000" />
+        <env name="TOM_TOM_API_KEY" value="H5ggDAByEhfMiwKEFqwGAmQQ1qu7FvAN" />
+      </envs>
+      <kind value="PACKAGE" />
+      <package value="github.com/sk8mate/sk8/backside/places-microservice" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/places-microservice/main.go" />
+      <method v="2" />
+    </configuration>
     <configuration name="go test github.com/sk8mate/sk8/backside/dto" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="backside" />
       <working_directory value="$PROJECT_DIR$/places-microservice/dto" />
@@ -64,8 +81,13 @@
       <framework value="gotest" />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Go Test.go test github.com/sk8mate/sk8/backside/dto" />
+      <item itemvalue="Go Build.go build github.com/sk8mate/sk8/backside/places-microservice" />
+    </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Build.go build github.com/sk8mate/sk8/backside/places-microservice" />
         <item itemvalue="Go Test.go test github.com/sk8mate/sk8/backside/dto" />
       </list>
     </recent_temporary>

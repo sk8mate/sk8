@@ -1,8 +1,8 @@
 package domain
 
 import (
-	"github.com/sk8mate/sk8/backside/dto"
-	"github.com/sk8mate/sk8/backside/errs"
+	"github.com/sk8mate/sk8/backside/places-microservice/dto"
+	"github.com/sk8mate/sk8/backside/places-microservice/errs"
 )
 
 type Places struct {

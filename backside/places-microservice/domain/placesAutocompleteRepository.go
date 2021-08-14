@@ -3,8 +3,8 @@ package domain
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/sk8mate/sk8/backside/errs"
-	"github.com/sk8mate/sk8/backside/logger"
+	"github.com/sk8mate/sk8/backside/places-microservice/errs"
+	"github.com/sk8mate/sk8/backside/places-microservice/logger"
 	"net/http"
 )
 

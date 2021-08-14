@@ -3,8 +3,8 @@ package app
 import (
 	"fmt"
 	"github.com/gorilla/mux"
-	"github.com/sk8mate/sk8/backside/domain"
-	"github.com/sk8mate/sk8/backside/service"
+	"github.com/sk8mate/sk8/backside/places-microservice/domain"
+	"github.com/sk8mate/sk8/backside/places-microservice/service"
 	"log"
 	"net/http"
 	"os"

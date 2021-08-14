@@ -1,7 +1,7 @@
 package dto
 
 import (
-	"github.com/sk8mate/sk8/backside/errs"
+	"github.com/sk8mate/sk8/backside/places-microservice/errs"
 )
 
 type PlacesAutocompleteRequest struct {
