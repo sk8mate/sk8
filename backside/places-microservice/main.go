@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	logger.Info("Starting the application...")
+	logger.Info("Starting places microservice...")
 	app.Start()
 }
 

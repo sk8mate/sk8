@@ -17,7 +17,7 @@ func (placesHandlers *PlacesHandlers) getPlacesByAutocomplete(writer http.Respon
 	if err != nil {
 		writeResponse(writer, http.StatusBadRequest, err.Error())
 	} else {
-		response, appError := placesHandlers.service.GetPlaces(placesAutocompleteRequest.Search, placesAutocompleteRequest.Language)
+		response, appError := placesHandlers.service.GetPlaces(placesAutocompleteRequest)
 		if appError != nil {
 			writeResponse(writer, appError.Code, appError.Message)
 		} else {
