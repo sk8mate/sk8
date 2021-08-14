@@ -8,11 +8,11 @@ import (
 	"net/http"
 )
 
-type PlacesAutocompleteRepository struct {
+type DefaultPlacesRepository struct {
 	apiKey string
 }
 
-func (repo PlacesAutocompleteRepository) GetPlaces(search string, language string) (*Places, *errs.AppError) {
+func (repo DefaultPlacesRepository) GetPlaces(search string, language string) (*Places, *errs.AppError) {
 	url := fmt.Sprintf("https://api.tomtom.com/search/2/search/%s.json?key=%s&typeahead=true&language=%s", search, repo.apiKey, language)
 	response, err := http.Get(url)
 	if response == nil {
@@ -29,6 +29,6 @@ func (repo PlacesAutocompleteRepository) GetPlaces(search string, language strin
 	return &places, nil
 }
 
-func NewPlacesAutocompleteRepository(apiKey string) PlacesAutocompleteRepository {
-	return PlacesAutocompleteRepository{apiKey}
+func NewPlacesRepository(apiKey string) PlacesRepository {
+	return DefaultPlacesRepository{apiKey}
 }

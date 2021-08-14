@@ -23,8 +23,8 @@ func Start() {
 	router := mux.NewRouter()
 
 	placesApiKey := os.Getenv("TOM_TOM_API_KEY")
-	placesAutocompleteRepository := domain.NewPlacesAutocompleteRepository(placesApiKey)
-	placesHandlers := PlacesHandlers{service.NewPlacesAutocompleteService(placesAutocompleteRepository)}
+	placesAutocompleteRepository := domain.NewPlacesRepository(placesApiKey)
+	placesHandlers := PlacesHandlers{service.NewPlacesService(placesAutocompleteRepository)}
 	router.HandleFunc("/places/autocomplete", placesHandlers.getPlacesByAutocomplete).Methods(http.MethodGet).Name("GetPlacesAutocomplete")
 
 	address := os.Getenv("SERVER_ADDRESS")

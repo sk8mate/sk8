@@ -114,6 +114,7 @@ func (places Places) ToDto() []dto.PlacesAutocompleteResponseEntry {
 	return responseEntries
 }
 
+//go:generate mockgen -destination=../mocks/domain/mockPlacesRepository.go -package=domain github.com/sk8mate/sk8/backside/places-microservice/domain PlacesRepository
 type PlacesRepository interface {
 	GetPlaces(search string, language string) (*Places, *errs.AppError)
 }

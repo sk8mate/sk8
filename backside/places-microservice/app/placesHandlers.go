@@ -8,7 +8,7 @@ import (
 )
 
 type PlacesHandlers struct {
-	service service.PlacesAutocompleteService
+	service service.PlacesService
 }
 
 func (placesHandlers *PlacesHandlers) getPlacesByAutocomplete(writer http.ResponseWriter, request *http.Request) {
