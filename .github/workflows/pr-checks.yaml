@@ -16,7 +16,7 @@ jobs:
               - 'frontside/**'
 
       - name: Checkout
-        if: contains([steps.changes.outputs.frontside, steps.changes.outputs.backside], 'true')
+        if: ${{ contains([steps.changes.outputs.frontside, steps.changes.outputs.backside], 'true') }}
         uses: actions/checkout@v2
 
       # Frontside
