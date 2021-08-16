@@ -16,9 +16,10 @@ jobs:
               - 'frontside/**'
 
       - name: Checkout
-        if: steps.changes.outputs.frontside == 'true'
+        if: contains([steps.changes.outputs.frontside, steps.changes.outputs.backside], 'true')
         uses: actions/checkout@v2
 
+      # Frontside
       - name: Setup flutter environment
         if: steps.changes.outputs.frontside == 'true'
         uses: subosito/flutter-action@v1
@@ -32,3 +33,11 @@ jobs:
         if: steps.changes.outputs.frontside == 'true'
         working-directory: ./frontside
         run: flutter format --set-exit-if-changed .
+
+      # Backside
+      - name: Lint (golangci-lint)
+        if: steps.changes.outputs.backside == 'true'
+        uses: golangci/golangci-lint-action@v2
+        with:
+          version: latest
+          working-directory: backside/places-microservice # subject to change
