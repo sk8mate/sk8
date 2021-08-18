@@ -1,12 +1,12 @@
 package service
 
 import (
-	"github.com/sk8mate/sk8/backside/places-microservice/domain"
-	"github.com/sk8mate/sk8/backside/places-microservice/dto"
-	"github.com/sk8mate/sk8/backside/places-microservice/errs"
+	"sk8.town/backside/places/domain"
+	"sk8.town/backside/places/dto"
+	"sk8.town/backside/places/errs"
 )
 
-//go:generate mockgen -destination=../mocks/service/mockPlacesService.go -package=service github.com/sk8mate/sk8/backside/places-microservice/service PlacesService
+//go:generate mockgen -destination=../mocks/service/mockPlacesService.go -package=service sk8.town/backside/places/service PlacesService
 type PlacesService interface {
 	GetPlaces(dto.PlacesAutocompleteRequest) ([]dto.PlacesAutocompleteResponseEntry, *errs.AppError)
 }

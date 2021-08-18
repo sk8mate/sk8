@@ -1,15 +1,16 @@
 package service
 
 import (
-	"github.com/golang/mock/gomock"
-	realdomain "github.com/sk8mate/sk8/backside/places-microservice/domain"
-	"github.com/sk8mate/sk8/backside/places-microservice/dto"
-	"github.com/sk8mate/sk8/backside/places-microservice/errs"
-	"github.com/sk8mate/sk8/backside/places-microservice/mocks/domain"
 	"testing"
+
+	"github.com/golang/mock/gomock"
+	realdomain "sk8.town/backside/places/domain"
+	"sk8.town/backside/places/dto"
+	"sk8.town/backside/places/errs"
+	"sk8.town/backside/places/mocks/domain"
 )
 
-func Test_should_return_a_validation_error_response_when_the_request_is_not_validated(t *testing.T){
+func Test_should_return_a_validation_error_response_when_the_request_is_not_validated(t *testing.T) {
 	request := dto.PlacesAutocompleteRequest{
 		Search:   "",
 		Language: "",
@@ -23,7 +24,7 @@ func Test_should_return_a_validation_error_response_when_the_request_is_not_vali
 	}
 }
 
-func Test_should_return_an_error_from_the_server_side_if_can_not_get_places(t *testing.T){
+func Test_should_return_an_error_from_the_server_side_if_can_not_get_places(t *testing.T) {
 	request := dto.PlacesAutocompleteRequest{
 		Search:   "search",
 		Language: "language",
@@ -41,7 +42,7 @@ func Test_should_return_an_error_from_the_server_side_if_can_not_get_places(t *t
 	}
 }
 
-func Test_should_return_places_response_when_places_retrieved_successfully(t *testing.T){
+func Test_should_return_places_response_when_places_retrieved_successfully(t *testing.T) {
 	request := dto.PlacesAutocompleteRequest{
 		Search:   "search",
 		Language: "language",
@@ -71,7 +72,7 @@ func Test_should_return_places_response_when_places_retrieved_successfully(t *te
 	}
 
 	if len(actualPlaces) != 0 {
-			t.Error("failed while matching retrieved places")
+		t.Error("failed while matching retrieved places")
 	}
 }
 

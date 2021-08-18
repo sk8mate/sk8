@@ -2,12 +2,13 @@ package app
 
 import (
 	"fmt"
-	"github.com/gorilla/mux"
-	"github.com/sk8mate/sk8/backside/places-microservice/domain"
-	"github.com/sk8mate/sk8/backside/places-microservice/service"
 	"log"
 	"net/http"
 	"os"
+
+	"github.com/gorilla/mux"
+	"sk8.town/backside/places/domain"
+	"sk8.town/backside/places/service"
 )
 
 func sanityCheck() {

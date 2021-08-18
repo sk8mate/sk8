@@ -2,14 +2,15 @@ package app
 
 import (
 	"bytes"
-	"github.com/golang/mock/gomock"
-	"github.com/gorilla/mux"
-	"github.com/sk8mate/sk8/backside/places-microservice/dto"
-	"github.com/sk8mate/sk8/backside/places-microservice/errs"
-	"github.com/sk8mate/sk8/backside/places-microservice/mocks/service"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/golang/mock/gomock"
+	"github.com/gorilla/mux"
+	"sk8.town/backside/places/dto"
+	"sk8.town/backside/places/errs"
+	"sk8.town/backside/places/mocks/service"
 )
 
 var router *mux.Router

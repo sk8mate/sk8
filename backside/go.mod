@@ -1,4 +1,4 @@
-module github.com/sk8mate/sk8/backside/places-microservice
+module sk8.town/backside
 
 go 1.16
 

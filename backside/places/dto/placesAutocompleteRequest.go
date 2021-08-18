@@ -1,11 +1,11 @@
 package dto
 
 import (
-	"github.com/sk8mate/sk8/backside/places-microservice/errs"
+	"sk8.town/backside/places/errs"
 )
 
 type PlacesAutocompleteRequest struct {
-	Search string `json:"search"`
+	Search   string `json:"search"`
 	Language string `json:"language"`
 }
 

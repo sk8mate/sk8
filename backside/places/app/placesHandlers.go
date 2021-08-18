@@ -2,9 +2,10 @@ package app
 
 import (
 	"encoding/json"
-	"github.com/sk8mate/sk8/backside/places-microservice/dto"
-	"github.com/sk8mate/sk8/backside/places-microservice/service"
 	"net/http"
+
+	"sk8.town/backside/places/dto"
+	"sk8.town/backside/places/service"
 )
 
 type PlacesHandlers struct {

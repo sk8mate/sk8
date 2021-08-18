@@ -1,8 +1,8 @@
 package domain
 
 import (
-	"github.com/sk8mate/sk8/backside/places-microservice/dto"
-	"github.com/sk8mate/sk8/backside/places-microservice/errs"
+	"sk8.town/backside/places/dto"
+	"sk8.town/backside/places/errs"
 )
 
 type Places struct {
@@ -114,7 +114,7 @@ func (places Places) ToDto() []dto.PlacesAutocompleteResponseEntry {
 	return responseEntries
 }
 
-//go:generate mockgen -destination=../mocks/domain/mockPlacesRepository.go -package=domain github.com/sk8mate/sk8/backside/places-microservice/domain PlacesRepository
+//go:generate mockgen -destination=../mocks/domain/mockPlacesRepository.go -package=domain sk8.town/backside/places/domain PlacesRepository
 type PlacesRepository interface {
 	GetPlaces(search string, language string) (*Places, *errs.AppError)
 }

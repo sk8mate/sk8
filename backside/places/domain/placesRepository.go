@@ -3,9 +3,10 @@ package domain
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/sk8mate/sk8/backside/places-microservice/errs"
-	"github.com/sk8mate/sk8/backside/places-microservice/logger"
 	"net/http"
+
+	"sk8.town/backside/places/errs"
+	"sk8.town/backside/places/logger"
 )
 
 type DefaultPlacesRepository struct {
