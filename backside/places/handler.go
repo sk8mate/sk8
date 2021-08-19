@@ -1,24 +1,23 @@
-package app
+package places
 
 import (
 	"encoding/json"
 	"net/http"
 
 	"sk8.town/backside/places/dto"
-	"sk8.town/backside/places/service"
 )
 
-type PlacesHandlers struct {
-	service service.PlacesService
+type Handler struct {
+	Service Service
 }
 
-func (placesHandlers *PlacesHandlers) getPlacesByAutocomplete(writer http.ResponseWriter, request *http.Request) {
-	var placesAutocompleteRequest dto.PlacesAutocompleteRequest
-	err := json.NewDecoder(request.Body).Decode(&placesAutocompleteRequest)
+func (handler Handler) GetPlacesAutocomplete(writer http.ResponseWriter, request *http.Request) {
+	var placesRequest dto.AutocompleteRequest
+	err := json.NewDecoder(request.Body).Decode(&placesRequest)
 	if err != nil {
 		writeResponse(writer, http.StatusBadRequest, err.Error())
 	} else {
-		response, appError := placesHandlers.service.GetPlaces(placesAutocompleteRequest)
+		response, appError := handler.Service.GetPlaces(placesRequest)
 		if appError != nil {
 			writeResponse(writer, appError.Code, appError.Message)
 		} else {

@@ -6,7 +6,7 @@ import (
 )
 
 func Test_given_empty_search_field_should_return_error(t *testing.T) {
-	request := PlacesAutocompleteRequest{
+	request := AutocompleteRequest{
 		Search:   "",
 		Language: "language",
 	}
@@ -23,7 +23,7 @@ func Test_given_empty_search_field_should_return_error(t *testing.T) {
 }
 
 func Test_given_empty_language_field_should_return_error(t *testing.T) {
-	request := PlacesAutocompleteRequest{
+	request := AutocompleteRequest{
 		Search:   "warsaw",
 		Language: "",
 	}

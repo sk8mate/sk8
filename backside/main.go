@@ -1,11 +1,37 @@
 package main
 
 import (
-	"sk8.town/backside/places/app"
-	"sk8.town/backside/places/logger"
+	"fmt"
+	"log"
+	"net/http"
+
+	"github.com/gorilla/mux"
+	"github.com/kelseyhightower/envconfig"
+	"sk8.town/backside/places"
 )
 
+type config struct {
+	Address string `default:"localhost"`
+	Port    int    `default:"8080"`
+}
+
+func getConfig() config {
+	var config config
+	err := envconfig.Process("sk8", &config)
+
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	return config
+}
+
 func main() {
-	logger.Info("Starting places microservice...")
-	app.Start()
+	config := getConfig()
+	router := mux.NewRouter()
+
+	places.Make(router)
+
+	fmt.Printf("Starting server on %s:%d", config.Address, config.Port)
+	log.Fatal(http.ListenAndServe(fmt.Sprintf("%s:%d", config.Address, config.Port), router))
 }

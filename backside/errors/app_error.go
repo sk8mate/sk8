@@ -1,4 +1,4 @@
-package errs
+package errors
 
 import "net/http"
 
@@ -16,6 +16,10 @@ func NewNotFoundError(message string) *AppError {
 }
 
 func NewUnexpectedError(message string) *AppError {
+	if message == "" {
+		message = "Internal server error"
+	}
+
 	return &AppError{Message: message, Code: http.StatusInternalServerError}
 }
 
