@@ -7,16 +7,17 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/kelseyhightower/envconfig"
+
 	"sk8.town/backside/places"
 )
 
-type config struct {
+type Config struct {
 	Address string `default:"localhost"`
 	Port    int    `default:"8080"`
 }
 
-func getConfig() config {
-	var config config
+func getConfig() Config {
+	var config Config
 	err := envconfig.Process("sk8", &config)
 
 	if err != nil {
