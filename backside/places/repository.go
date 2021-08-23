@@ -19,7 +19,24 @@ type Repository struct {
 	apiKey string
 }
 
+func (repo Repository) ParseLanguage(language string) (string, *errors.AppError) {
+	switch language {
+	case "pl":
+		return "pl-PL", nil
+	case "en":
+		return "en-US", nil
+	default:
+		logger.Error(fmt.Sprintf("Could not parse language \"%s\".", language))
+		return "", errors.NewUnexpectedError("")
+	}
+}
+
 func (repo Repository) GetPlaces(search string, language string) (*domain.GetPlacesResponse, *errors.AppError) {
+	language, languageErr := repo.ParseLanguage(language)
+	if languageErr != nil {
+		return nil, languageErr
+	}
+
 	url := fmt.Sprintf("https://api.tomtom.com/search/2/search/%s.json?key=%s&typeahead=true&language=%s", search, repo.apiKey, language)
 	response, err := http.Get(url)
 

@@ -1,6 +1,9 @@
 package dto
 
 import (
+	"fmt"
+	"strings"
+
 	"sk8.town/backside/errors"
 )
 
@@ -9,13 +12,28 @@ type AutocompleteRequest struct {
 	Language string `json:"language"`
 }
 
-func (request AutocompleteRequest) Validate() *errors.AppError {
-	if request.Search == "" {
-		return errors.NewValidationError("Search field not provided")
+func validateLanguage(language string) string {
+	if language == "" {
+		return "Field \"language\" is required."
 	}
 
-	if request.Language == "" {
-		return errors.NewValidationError("Language field not provided")
+	var languages = []string{"pl", "en"} // TODO: should be declared in some global scope when introducing i18n
+	for _, l := range languages {
+		if l == language {
+			return ""
+		}
+	}
+
+	return fmt.Sprintf("Field \"language\" must be one of: %s.", strings.Join(languages, ", "))
+}
+
+func (request AutocompleteRequest) Validate() *errors.AppError {
+	if request.Search == "" {
+		return errors.NewValidationError("Field \"search\" is required.")
+	}
+
+	if err := validateLanguage(request.Language); err != "" {
+		return errors.NewValidationError(err)
 	}
 
 	return nil
