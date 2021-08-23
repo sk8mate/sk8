@@ -12,6 +12,10 @@ func (e AppError) AsMessage() *AppError {
 }
 
 func NewNotFoundError(message string) *AppError {
+	if message == "" {
+		message = "Not found"
+	}
+
 	return &AppError{Message: message, Code: http.StatusNotFound}
 }
 
@@ -24,5 +28,9 @@ func NewUnexpectedError(message string) *AppError {
 }
 
 func NewValidationError(message string) *AppError {
+	if message == "" {
+		message = "Validation failed"
+	}
+
 	return &AppError{Message: message, Code: http.StatusUnprocessableEntity}
 }
