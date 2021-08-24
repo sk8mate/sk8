@@ -12,24 +12,25 @@ type AutocompleteRequest struct {
 	Language string `json:"language"`
 }
 
+var supportedLanguages = []string{"pl", "en"} // TODO: should be declared in some global scope when introducing i18n
+
 func validateLanguage(language string) string {
 	if language == "" {
-		return "Field \"language\" is required."
+		return `Field "language" is required.`
 	}
 
-	var languages = []string{"pl", "en"} // TODO: should be declared in some global scope when introducing i18n
-	for _, l := range languages {
-		if l == language {
+	for _, supportedLanguage := range supportedLanguages {
+		if language == supportedLanguage {
 			return ""
 		}
 	}
 
-	return fmt.Sprintf("Field \"language\" must be one of: %s.", strings.Join(languages, ", "))
+	return fmt.Sprintf(`Field "language" must be one of: %s.`, strings.Join(supportedLanguages, ", "))
 }
 
 func (request AutocompleteRequest) Validate() *errs.AppError {
 	if request.Search == "" {
-		return errs.NewValidationError("Field \"search\" is required.")
+		return errs.NewValidationError(`Field "search" is required.`)
 	}
 
 	if err := validateLanguage(request.Language); err != "" {
