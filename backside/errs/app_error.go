@@ -34,3 +34,11 @@ func NewValidationError(message string) *AppError {
 
 	return &AppError{Message: message, Code: http.StatusUnprocessableEntity}
 }
+
+func NewBadRequestError(message string) *AppError {
+	if message == "" {
+		message = "Bad request"
+	}
+
+	return &AppError{Message: message, Code: http.StatusBadRequest}
+}

@@ -3,6 +3,7 @@ package places
 import (
 	"encoding/json"
 	"net/http"
+	"sk8.town/backside/errs"
 
 	"sk8.town/backside/places/dto"
 )
@@ -13,16 +14,17 @@ type Handler struct {
 
 func (handler Handler) GetPlacesAutocomplete(writer http.ResponseWriter, request *http.Request) {
 	var placesRequest dto.AutocompleteRequest
-	err := json.NewDecoder(request.Body).Decode(&placesRequest)
-	if err != nil {
-		writeResponse(writer, http.StatusBadRequest, err.Error())
+	if err := json.NewDecoder(request.Body).Decode(&placesRequest); err != nil {
+		appError := errs.NewBadRequestError("")
+		writeResponse(writer, appError.Code, appError.AsMessage())
+		return
+	}
+
+	response, appError := handler.Service.GetPlaces(placesRequest)
+	if appError != nil {
+		writeResponse(writer, appError.Code, appError.AsMessage())
 	} else {
-		response, appError := handler.Service.GetPlaces(placesRequest)
-		if appError != nil {
-			writeResponse(writer, appError.Code, appError.AsMessage())
-		} else {
-			writeResponse(writer, http.StatusOK, response)
-		}
+		writeResponse(writer, http.StatusOK, response)
 	}
 }
 
