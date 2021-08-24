@@ -16,7 +16,7 @@ func Test_given_empty_search_param_should_return_error(t *testing.T) {
 
 	appError := request.Validate()
 
-	assert.Equal(t, appError.Code, http.StatusUnprocessableEntity)
+	assert.Equal(t, http.StatusUnprocessableEntity, appError.Code)
 	assert.Regexp(t, regexp.MustCompile("\"search\" is required"), appError.Message)
 }
 
@@ -28,7 +28,7 @@ func Test_given_empty_language_param_should_return_error(t *testing.T) {
 
 	appError := request.Validate()
 
-	assert.Equal(t, appError.Code, http.StatusUnprocessableEntity)
+	assert.Equal(t, http.StatusUnprocessableEntity, appError.Code)
 	assert.Regexp(t, regexp.MustCompile("\"language\" is required"), appError.Message)
 }
 
@@ -40,7 +40,7 @@ func Test_given_invalid_language_should_return_error(t *testing.T) {
 
 	appError := request.Validate()
 
-	assert.Equal(t, appError.Code, http.StatusUnprocessableEntity)
+	assert.Equal(t, http.StatusUnprocessableEntity, appError.Code)
 	assert.Regexp(t, regexp.MustCompile("must be one of: pl, en"), appError.Message)
 }
 

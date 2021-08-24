@@ -39,7 +39,7 @@ func Test_should_propagate_an_error_from_places_repository(t *testing.T) {
 
 	_, appError := service.GetPlaces(request)
 
-	assert.Equal(t, appError, expectedError)
+	assert.Equal(t, expectedError, appError)
 }
 
 func Test_should_return_places_response_when_places_retrieved_successfully(t *testing.T) {
@@ -51,13 +51,33 @@ func Test_should_return_places_response_when_places_retrieved_successfully(t *te
 	defer ctrl.Finish()
 	mockRepo := mocks.NewMockRepository(ctrl)
 	service := NewService(mockRepo)
-	places := domain.GetPlacesResponse{}
+	places := domain.GetPlacesResponse{
+		Results: []domain.Result{
+			{
+				Type: "Geography",
+				Position: domain.Position{
+					Lat: 1,
+					Lon: 2,
+				},
+				Address: domain.Address{
+					FreeformAddress: "Free form address",
+				},
+			},
+		},
+	}
 	mockRepo.EXPECT().GetPlaces(request.Search, request.Language).Return(&places, nil)
 
 	actualPlaces, appError := service.GetPlaces(request)
 
-	assert.NotNil(t, actualPlaces)
+	var expectedPlace = dto.AutocompleteEntryResponse{
+		Coordinates: struct {
+			Lat  float64 `json:"lat"`
+			Long float64 `json:"long"`
+		}{1, 2},
+		Name:    "Free form address",
+		Address: "",
+	}
+	assert.Equal(t, 1, len(actualPlaces))
+	assert.Equal(t, expectedPlace, actualPlaces[0])
 	assert.Nil(t, appError)
 }
-
-// //TODO: add test with filled places (not able to initialize that complex struct for now)
