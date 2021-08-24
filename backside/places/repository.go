@@ -16,7 +16,7 @@ type PlacesRepository interface {
 }
 
 type Repository struct {
-	apiKey string
+	tomtomApiKey string
 }
 
 func (repo Repository) ParseLanguage(language string) (string, *errors.AppError) {
@@ -37,7 +37,7 @@ func (repo Repository) GetPlaces(search string, language string) (*domain.GetPla
 		return nil, languageErr
 	}
 
-	url := fmt.Sprintf("https://api.tomtom.com/search/2/search/%s.json?key=%s&typeahead=true&language=%s", search, repo.apiKey, language)
+	url := fmt.Sprintf("https://api.tomtom.com/search/2/search/%s.json?key=%s&typeahead=true&language=%s", search, repo.tomtomApiKey, language)
 	response, err := http.Get(url)
 
 	if err != nil {
@@ -55,6 +55,6 @@ func (repo Repository) GetPlaces(search string, language string) (*domain.GetPla
 	return &places, nil
 }
 
-func NewRepository() Repository {
-	return Repository{config.TomtomApiKey}
+func NewRepository(tomtomApiKey string) Repository {
+	return Repository{tomtomApiKey}
 }
