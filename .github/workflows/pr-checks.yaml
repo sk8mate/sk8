@@ -41,3 +41,34 @@ jobs:
         with:
           version: latest
           working-directory: backside
+
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            backside:
+              - 'backside/**'
+            frontside:
+              - 'frontside/**'
+
+      - name: Checkout
+        if: ${{ contains(steps.changes.outputs.*, 'true') }}
+        uses: actions/checkout@v2
+
+      # Backside
+      - uses: actions/setup-go@v2
+        if: steps.changes.outputs.backside == 'true'
+        working-directory: ./backside
+
+      - name: Download modules
+        if: steps.changes.outputs.backside == 'true'
+        working-directory: ./backside
+        run: go mod download
+
+      - name: Go test
+        if: steps.changes.outputs.backside == 'true'
+        working-directory: ./backside
+        run: go test ./...

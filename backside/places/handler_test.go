@@ -4,10 +4,11 @@ import (
 	"bytes"
 	"net/http"
 	"net/http/httptest"
-	"sk8.town/backside/errs"
-	"sk8.town/backside/places/dto"
 	"strings"
 	"testing"
+
+	"sk8.town/backside/errs"
+	"sk8.town/backside/places/dto"
 
 	"github.com/golang/mock/gomock"
 	"github.com/gorilla/mux"
