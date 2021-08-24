@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"net/http"
 	"net/http/httptest"
+	"sk8.town/backside/places/dto"
 	"strings"
 	"testing"
 
@@ -11,20 +12,17 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/stretchr/testify/assert"
 
-	"sk8.town/backside/places/domain"
 	"sk8.town/backside/places/mocks"
 )
 
 var router *mux.Router
 var handler Handler
-var service DefaultService
-var repositoryMock *mocks.MockPlacesRepository
+var serviceMock *mocks.MockService
 
 func setup(t *testing.T) func() {
 	ctrl := gomock.NewController(t)
-	repositoryMock = mocks.NewMockPlacesRepository(ctrl)
-	service = NewService(repositoryMock)
-	handler = Handler{service}
+	serviceMock = mocks.NewMockService(ctrl)
+	handler = Handler{serviceMock}
 	router = mux.NewRouter()
 	return func() {
 		router = nil
@@ -35,36 +33,29 @@ func setup(t *testing.T) func() {
 func Test_given_correct_request_should_return_places_with_status_200(t *testing.T) {
 	teardown := setup(t)
 	defer teardown()
-
-	mockedResponse := domain.GetPlacesResponse{
-		Results: []domain.Result{
-			{
-				Type: "Geography",
-				Position: domain.Position{
-					Lat: 1,
-					Lon: 2,
-				},
-				Address: domain.Address{
-					FreeformAddress: "Free form address",
-				},
-			},
-			{
-				Type: "POI",
-				Position: domain.Position{
-					Lat: 3,
-					Lon: 4,
-				},
-				Address: domain.Address{
-					FreeformAddress: "Free form address",
-				},
-				Poi: domain.Poi{
-					Name: "Poi",
-				},
-			},
+	dummyPlacesAutocompleteRequest := dto.AutocompleteRequest{
+		Search:   "xxx",
+		Language: "pl",
+	}
+	dummyPlaces := []dto.AutocompleteEntryResponse{
+		{
+			Coordinates: struct {
+				Lat  float64 `json:"lat"`
+				Long float64 `json:"long"`
+			}{5, 6},
+			Name:    "name1",
+			Address: "address1",
+		},
+		{
+			Coordinates: struct {
+				Lat  float64 `json:"lat"`
+				Long float64 `json:"long"`
+			}{10, 20},
+			Name:    "name2",
+			Address: "address2",
 		},
 	}
-
-	repositoryMock.EXPECT().GetPlaces("xxx", "pl").Return(&mockedResponse, nil)
+	serviceMock.EXPECT().GetPlaces(dummyPlacesAutocompleteRequest).Return(dummyPlaces, nil)
 	router.HandleFunc("/places/autocomplete", handler.GetPlacesAutocomplete)
 	var jsonStr = []byte(`{"search":"xxx", "language":"pl"}`)
 	request, _ := http.NewRequest(http.MethodGet, "/places/autocomplete", bytes.NewBuffer(jsonStr))
@@ -74,8 +65,8 @@ func Test_given_correct_request_should_return_places_with_status_200(t *testing.
 
 	assert.Equal(t, recorder.Code, http.StatusOK)
 
-	expectedResponse := `[{"coordinates":{"lat":1,"long":2},"name":"Free form address","address":""},{"coordinates":{"lat":3,"long":4},"name":"Poi","address":"Free form address"}]`
-	assert.Equal(t, strings.TrimSpace(recorder.Body.String()), expectedResponse)
+	expectedResponse := `[{"coordinates":{"lat":5,"long":6},"name":"name1","address":"address1"},{"coordinates":{"lat":10,"long":20},"name":"name2","address":"address2"}]`
+	assert.Equal(t, expectedResponse, strings.TrimSpace(recorder.Body.String()))
 }
 
 func Test_given_incorrect_request_should_return_400(t *testing.T) {
@@ -87,5 +78,5 @@ func Test_given_incorrect_request_should_return_400(t *testing.T) {
 	recorder := httptest.NewRecorder()
 	router.ServeHTTP(recorder, request)
 
-	assert.Equal(t, recorder.Code, http.StatusBadRequest)
+	assert.Equal(t, http.StatusBadRequest, recorder.Code)
 }
