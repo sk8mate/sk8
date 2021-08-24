@@ -61,7 +61,6 @@ jobs:
       # Backside
       - uses: actions/setup-go@v2
         if: steps.changes.outputs.backside == 'true'
-        working-directory: ./backside
 
       - name: Download modules
         if: steps.changes.outputs.backside == 'true'
