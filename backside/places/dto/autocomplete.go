@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"sk8.town/backside/errors"
+	"sk8.town/backside/errs"
 )
 
 type AutocompleteRequest struct {
@@ -27,13 +27,13 @@ func validateLanguage(language string) string {
 	return fmt.Sprintf("Field \"language\" must be one of: %s.", strings.Join(languages, ", "))
 }
 
-func (request AutocompleteRequest) Validate() *errors.AppError {
+func (request AutocompleteRequest) Validate() *errs.AppError {
 	if request.Search == "" {
-		return errors.NewValidationError("Field \"search\" is required.")
+		return errs.NewValidationError("Field \"search\" is required.")
 	}
 
 	if err := validateLanguage(request.Language); err != "" {
-		return errors.NewValidationError(err)
+		return errs.NewValidationError(err)
 	}
 
 	return nil

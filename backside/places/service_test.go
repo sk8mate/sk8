@@ -7,7 +7,7 @@ import (
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
 
-	"sk8.town/backside/errors"
+	"sk8.town/backside/errs"
 	"sk8.town/backside/places/domain"
 	"sk8.town/backside/places/dto"
 	"sk8.town/backside/places/mocks"
@@ -32,9 +32,9 @@ func Test_should_propagate_an_error_from_places_repository(t *testing.T) {
 	}
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
-	mockRepo := mocks.NewMockPlacesRepository(ctrl)
+	mockRepo := mocks.NewMockRepository(ctrl)
 	service := NewService(mockRepo)
-	expectedError := errors.NewNotFoundError("not found error")
+	expectedError := errs.NewNotFoundError("not found error")
 	mockRepo.EXPECT().GetPlaces(request.Search, request.Language).Return(nil, expectedError)
 
 	_, appError := service.GetPlaces(request)
@@ -49,7 +49,7 @@ func Test_should_return_places_response_when_places_retrieved_successfully(t *te
 	}
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
-	mockRepo := mocks.NewMockPlacesRepository(ctrl)
+	mockRepo := mocks.NewMockRepository(ctrl)
 	service := NewService(mockRepo)
 	places := domain.GetPlacesResponse{}
 	mockRepo.EXPECT().GetPlaces(request.Search, request.Language).Return(&places, nil)
