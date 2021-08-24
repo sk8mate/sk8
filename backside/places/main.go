@@ -7,6 +7,8 @@ import (
 )
 
 func Make(router *mux.Router) {
+	config := getConfig()
+
 	repository := NewRepository(config.TomtomApiKey)
 	handler := Handler{NewService(repository)}
 

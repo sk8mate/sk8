@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/joho/godotenv"
 	"github.com/kelseyhightower/envconfig"
 
 	"sk8.town/backside/places"
@@ -28,6 +29,11 @@ func getConfig() Config {
 }
 
 func main() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
 	config := getConfig()
 	router := mux.NewRouter()
 

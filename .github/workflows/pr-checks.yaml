@@ -67,6 +67,11 @@ jobs:
         working-directory: ./backside
         run: go mod download
 
+      - name: Use .env.test file
+        if: steps.changes.outputs.backside == 'true'
+        working-directory: ./backside
+        run: cp .env.test .env
+
       - name: Go test
         if: steps.changes.outputs.backside == 'true'
         working-directory: ./backside
