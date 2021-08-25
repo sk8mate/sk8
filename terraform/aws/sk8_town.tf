@@ -9,11 +9,20 @@ resource "aws_s3_bucket" "sk8_town" {
 [
   {
     "RoutingRuleCondition": {
-      "KeyPrefixEquals": "/"
+      "KeyPrefixEquals": "backside/"
     },
     "Redirect": {
       "HostName": "github.com",
-      "ReplaceKeyWith": "sk8mate/sk8/"
+      "ReplaceKeyPrefixWith": "sk8mate/sk8/tree/main/"
+    }
+  },
+  {
+    "RoutingRuleCondition": {
+      "KeyPrefixEquals": ""
+    },
+    "Redirect": {
+      "HostName": "github.com",
+      "ReplaceKeyPrefixWith": "sk8mate/sk8/"
     }
   }
 ]
