@@ -16,9 +16,10 @@ jobs:
               - 'frontside/**'
 
       - name: Checkout
-        if: steps.changes.outputs.frontside == 'true'
+        if: ${{ contains(steps.changes.outputs.*, 'true') }}
         uses: actions/checkout@v2
 
+      # Frontside
       - name: Setup flutter environment
         if: steps.changes.outputs.frontside == 'true'
         uses: subosito/flutter-action@v1
@@ -32,3 +33,46 @@ jobs:
         if: steps.changes.outputs.frontside == 'true'
         working-directory: ./frontside
         run: flutter format --set-exit-if-changed .
+
+      # Backside
+      - name: Lint (golangci-lint)
+        if: steps.changes.outputs.backside == 'true'
+        uses: golangci/golangci-lint-action@v2
+        with:
+          version: latest
+          working-directory: backside
+
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            backside:
+              - 'backside/**'
+            frontside:
+              - 'frontside/**'
+
+      - name: Checkout
+        if: ${{ contains(steps.changes.outputs.*, 'true') }}
+        uses: actions/checkout@v2
+
+      # Backside
+      - uses: actions/setup-go@v2
+        if: steps.changes.outputs.backside == 'true'
+
+      - name: Download modules
+        if: steps.changes.outputs.backside == 'true'
+        working-directory: ./backside
+        run: go mod download
+
+      - name: Use .env.testing file
+        if: steps.changes.outputs.backside == 'true'
+        working-directory: ./backside
+        run: cp .env.testing .env
+
+      - name: Go test
+        if: steps.changes.outputs.backside == 'true'
+        working-directory: ./backside
+        run: go test ./...
