@@ -89,8 +89,7 @@ resource "aws_cloudfront_distribution" "web_sk8_town" {
 
   restrictions {
     geo_restriction {
-      restriction_type = "whitelist"
-      locations        = ["PL"]
+      restriction_type = "none"
     }
   }
 
