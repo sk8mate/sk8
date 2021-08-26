@@ -5,28 +5,6 @@ resource "aws_s3_bucket" "sk8_town" {
 
   website {
     index_document = "index.html"
-    routing_rules = <<JSON
-[
-  {
-    "RoutingRuleCondition": {
-      "KeyPrefixEquals": "backside/"
-    },
-    "Redirect": {
-      "HostName": "github.com",
-      "ReplaceKeyPrefixWith": "sk8mate/sk8/tree/main/"
-    }
-  },
-  {
-    "RoutingRuleCondition": {
-      "KeyPrefixEquals": ""
-    },
-    "Redirect": {
-      "HostName": "github.com",
-      "ReplaceKeyPrefixWith": "sk8mate/sk8/"
-    }
-  }
-]
-JSON
   }
 }
 
@@ -125,6 +103,11 @@ resource "aws_cloudfront_distribution" "sk8_town" {
     min_ttl                = 0
     default_ttl            = 3600
     max_ttl                = 86400
+
+    lambda_function_association {
+      event_type   = "origin-request"
+      lambda_arn   = aws_lambda_function.sk8_town_edge.qualified_arn
+    }
   }
 
   price_class = "PriceClass_100"
@@ -139,4 +122,44 @@ resource "aws_cloudfront_distribution" "sk8_town" {
     acm_certificate_arn = aws_acm_certificate.sk8_town.arn
     ssl_support_method = "sni-only"
   }
+}
+
+# Lambda Edge Redirects
+resource "aws_iam_role" "sk8_town_edge" {
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": [
+            "lambda.amazonaws.com",
+            "edgelambda.amazonaws.com"
+        ]
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
+
+}
+
+data "archive_file" "sk8_town_edge" {
+  type        = "zip"
+  source_file = "sk8_town_edge.js"
+  output_path = "sk8_town_edge.zip"
+}
+
+resource "aws_lambda_function" "sk8_town_edge" {
+  provider      = aws.us_east_1
+  role          = aws_iam_role.sk8_town_edge.arn
+  filename      = data.archive_file.sk8_town_edge.output_path
+  function_name = "sk8_town_redirects"
+  source_code_hash = filebase64sha256(data.archive_file.sk8_town_edge.output_path)
+  runtime = "nodejs14.x"
+  publish = true
+  handler = "sk8_town_edge.handler"
 }
