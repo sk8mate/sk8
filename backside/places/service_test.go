@@ -19,7 +19,7 @@ func Test_should_return_an_error_when_request_is_not_valid(t *testing.T) {
 		Language: "",
 	}
 	service := NewService(nil)
-	_, appError := service.GetPlaces(request)
+	_, appError := service.GetPlaces(&request)
 
 	assert.Regexp(t, regexp.MustCompile("\"search\" is required"), appError.Message)
 
@@ -37,7 +37,7 @@ func Test_should_propagate_an_error_from_places_repository(t *testing.T) {
 	expectedError := errs.NewNotFoundError("not found error")
 	mockRepo.EXPECT().GetPlaces(request.Search, request.Language).Return(nil, expectedError)
 
-	_, appError := service.GetPlaces(request)
+	_, appError := service.GetPlaces(&request)
 
 	assert.Equal(t, expectedError, appError)
 }
@@ -67,13 +67,13 @@ func Test_should_return_places_response_when_places_retrieved_successfully(t *te
 	}
 	mockRepo.EXPECT().GetPlaces(request.Search, request.Language).Return(&places, nil)
 
-	actualPlaces, appError := service.GetPlaces(request)
+	actualPlaces, appError := service.GetPlaces(&request)
 
-	var expectedPlace = dto.AutocompleteEntryResponse{
-		Coordinates: struct {
-			Lat  float64 `json:"lat"`
-			Long float64 `json:"long"`
-		}{1, 2},
+	var expectedPlace = &dto.AutocompleteEntryResponse{
+		Coordinates: &dto.Coordinates{
+			Lat:  1,
+			Long: 2,
+		},
 		Name:    "Free form address",
 		Address: "",
 	}

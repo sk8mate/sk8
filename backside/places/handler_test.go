@@ -39,25 +39,26 @@ func Test_given_correct_request_should_return_places_with_status_200(t *testing.
 		Search:   "xxx",
 		Language: "pl",
 	}
-	dummyPlaces := []dto.AutocompleteEntryResponse{
+
+	dummyPlaces := []*dto.AutocompleteEntryResponse{
 		{
-			Coordinates: struct {
-				Lat  float64 `json:"lat"`
-				Long float64 `json:"long"`
-			}{5, 6},
+			Coordinates: &dto.Coordinates{
+				Lat:  5,
+				Long: 6,
+			},
 			Name:    "name1",
 			Address: "address1",
 		},
 		{
-			Coordinates: struct {
-				Lat  float64 `json:"lat"`
-				Long float64 `json:"long"`
-			}{10, 20},
+			Coordinates: &dto.Coordinates{
+				Lat:  10,
+				Long: 20,
+			},
 			Name:    "name2",
 			Address: "address2",
 		},
 	}
-	serviceMock.EXPECT().GetPlaces(dummyPlacesAutocompleteRequest).Return(dummyPlaces, nil)
+	serviceMock.EXPECT().GetPlaces(&dummyPlacesAutocompleteRequest).Return(dummyPlaces, nil)
 	router.HandleFunc("/places/autocomplete", handler.GetPlacesAutocomplete)
 	var jsonStr = []byte(`{"search":"xxx", "language":"pl"}`)
 	request, _ := http.NewRequest(http.MethodGet, "/places/autocomplete", bytes.NewBuffer(jsonStr))
@@ -92,7 +93,7 @@ func Test_given_service_error_should_return_service_error(t *testing.T) {
 		Search:   "xxx",
 		Language: "pl",
 	}
-	serviceMock.EXPECT().GetPlaces(dummyPlacesAutocompleteRequest).Return(nil, errs.NewNotFoundError(""))
+	serviceMock.EXPECT().GetPlaces(&dummyPlacesAutocompleteRequest).Return(nil, errs.NewNotFoundError(""))
 	router.HandleFunc("/places/autocomplete", handler.GetPlacesAutocomplete)
 	var jsonStr = []byte(`{"search":"xxx", "language":"pl"}`)
 	request, _ := http.NewRequest(http.MethodGet, "/places/autocomplete", bytes.NewBuffer(jsonStr))

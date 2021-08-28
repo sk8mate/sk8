@@ -7,14 +7,14 @@ import (
 
 //go:generate mockgen --build_flags=--mod=mod -destination=./mocks/service.go -package=mocks sk8.town/backside/places Service
 type Service interface {
-	GetPlaces(dto.AutocompleteRequest) ([]dto.AutocompleteEntryResponse, *errs.AppError)
+	GetPlaces(*dto.AutocompleteRequest) ([]*dto.AutocompleteEntryResponse, *errs.AppError)
 }
 
 type DefaultService struct {
 	repository Repository
 }
 
-func (s DefaultService) GetPlaces(request dto.AutocompleteRequest) ([]dto.AutocompleteEntryResponse, *errs.AppError) {
+func (s DefaultService) GetPlaces(request *dto.AutocompleteRequest) ([]*dto.AutocompleteEntryResponse, *errs.AppError) {
 	if err := request.Validate(); err != nil {
 		return nil, err
 	}

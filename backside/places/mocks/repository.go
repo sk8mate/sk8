@@ -8,7 +8,7 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	errors "sk8.town/backside/errs"
+	errs "sk8.town/backside/errs"
 	domain "sk8.town/backside/places/domain"
 )
 
@@ -36,11 +36,11 @@ func (m *MockRepository) EXPECT() *MockRepositoryMockRecorder {
 }
 
 // GetPlaces mocks base method.
-func (m *MockRepository) GetPlaces(arg0, arg1 string) (*domain.GetPlacesResponse, *errors.AppError) {
+func (m *MockRepository) GetPlaces(arg0, arg1 string) (*domain.GetPlacesResponse, *errs.AppError) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetPlaces", arg0, arg1)
 	ret0, _ := ret[0].(*domain.GetPlacesResponse)
-	ret1, _ := ret[1].(*errors.AppError)
+	ret1, _ := ret[1].(*errs.AppError)
 	return ret0, ret1
 }
 

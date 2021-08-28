@@ -6,8 +6,8 @@ package main;
 
 message AutocompleteEntryResponse {
     Coordinates coordinates = 1;
-    string search = 2;
-    string language = 3;
+    string name = 2;
+    string address = 3;
 }
 
 message Coordinates {
