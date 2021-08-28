@@ -8,7 +8,7 @@ import (
 
 type LanguageParser struct{}
 
-func (s LanguageParser) ParseLanguage(language string) (string, *errs.AppError) {
+func (p LanguageParser) ParseLanguage(language string) (string, *errs.AppError) {
 	switch language {
 	case "pl":
 		return "pl-PL", nil
