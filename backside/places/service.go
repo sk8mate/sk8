@@ -11,7 +11,8 @@ type Service interface {
 }
 
 type DefaultService struct {
-	repository Repository
+	locationService LocationService
+	languageParser LanguageParser
 }
 
 func (s DefaultService) GetPlaces(request *dto.AutocompleteRequest) ([]*dto.AutocompleteEntryResponse, *errs.AppError) {
@@ -19,14 +20,21 @@ func (s DefaultService) GetPlaces(request *dto.AutocompleteRequest) ([]*dto.Auto
 		return nil, err
 	}
 
-	places, err := s.repository.GetPlaces(request.Search, request.Language)
-	if err != nil {
-		return nil, err
+	language, languageErr := s.languageParser.ParseLanguage(request.Language)
+	if languageErr != nil {
+		return nil, languageErr
+	}
+
+	places, locationServiceErr := s.locationService.Search(request.Search, language)
+	if locationServiceErr != nil {
+		return nil, locationServiceErr
 	}
 
 	return places.ToDto(), nil
 }
 
-func NewService(repository Repository) DefaultService {
-	return DefaultService{repository}
+func NewService(locationService LocationService) DefaultService {
+	return DefaultService{
+		locationService: locationService,
+	}
 }
