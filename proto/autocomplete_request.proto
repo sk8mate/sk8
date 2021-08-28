@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+option go_package = "./backside/places/dto";
+
+package main;
+
+message AutocompleteRequest {
+    string search = 1;
+    string language = 2;
+}

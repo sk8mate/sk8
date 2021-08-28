@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option go_package = "./backside/places/dto";
+
+package main;
+
+message AutocompleteEntryResponse {
+    Coordinates coordinates = 1;
+    string search = 2;
+    string language = 3;
+}
+
+message Coordinates {
+    double lat = 1;
+    double long = 2;
+}
