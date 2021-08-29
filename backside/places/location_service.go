@@ -9,7 +9,7 @@ import (
 	"sk8.town/backside/places/domain"
 )
 
-//go:generate mockgen --build_flags=--mod=mod -destination=./mocks/locationService.go -package=mocks sk8.town/backside/places LocationService
+//go:generate mockgen --build_flags=--mod=mod -destination=./mocks/location_service.go -package=mocks sk8.town/backside/places LocationService
 type LocationService interface {
 	Search(search, language string) (*domain.GetPlacesResponse, *errs.AppError)
 }
