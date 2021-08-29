@@ -2,6 +2,7 @@ package places
 
 import (
 	"regexp"
+	"sk8.town/backside/places/mocks"
 	"testing"
 
 	"github.com/golang/mock/gomock"
@@ -10,7 +11,6 @@ import (
 	"sk8.town/backside/errs"
 	"sk8.town/backside/places/domain"
 	"sk8.town/backside/places/dto"
-	"sk8.town/backside/places/mocks"
 )
 
 func Test_should_return_an_error_when_request_is_not_valid(t *testing.T) {
@@ -19,25 +19,24 @@ func Test_should_return_an_error_when_request_is_not_valid(t *testing.T) {
 		Language: "",
 	}
 	service := NewService(nil)
-	_, appError := service.GetPlaces(request)
+	_, appError := service.GetPlaces(&request)
 
 	assert.Regexp(t, regexp.MustCompile("\"search\" is required"), appError.Message)
-
 }
 
-func Test_should_propagate_an_error_from_places_repository(t *testing.T) {
+func Test_should_propagate_an_error_from_http_service(t *testing.T) {
 	request := dto.AutocompleteRequest{
 		Search:   "warsz",
 		Language: "pl",
 	}
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
-	mockRepo := mocks.NewMockRepository(ctrl)
-	service := NewService(mockRepo)
+	mockLocationService := mocks.NewMockLocationService(ctrl)
+	service := NewService(mockLocationService)
 	expectedError := errs.NewNotFoundError("not found error")
-	mockRepo.EXPECT().GetPlaces(request.Search, request.Language).Return(nil, expectedError)
+	mockLocationService.EXPECT().Search("warsz", "pl-PL").Return(nil, expectedError)
 
-	_, appError := service.GetPlaces(request)
+	_, appError := service.GetPlaces(&request)
 
 	assert.Equal(t, expectedError, appError)
 }
@@ -49,8 +48,8 @@ func Test_should_return_places_response_when_places_retrieved_successfully(t *te
 	}
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
-	mockRepo := mocks.NewMockRepository(ctrl)
-	service := NewService(mockRepo)
+	mockLocationService := mocks.NewMockLocationService(ctrl)
+	service := NewService(mockLocationService)
 	places := domain.GetPlacesResponse{
 		Results: []domain.Result{
 			{
@@ -65,15 +64,15 @@ func Test_should_return_places_response_when_places_retrieved_successfully(t *te
 			},
 		},
 	}
-	mockRepo.EXPECT().GetPlaces(request.Search, request.Language).Return(&places, nil)
+	mockLocationService.EXPECT().Search("search", "pl-PL").Return(&places, nil)
 
-	actualPlaces, appError := service.GetPlaces(request)
+	actualPlaces, appError := service.GetPlaces(&request)
 
-	var expectedPlace = dto.AutocompleteEntryResponse{
-		Coordinates: struct {
-			Lat  float64 `json:"lat"`
-			Long float64 `json:"long"`
-		}{1, 2},
+	var expectedPlace = &dto.AutocompleteEntryResponse{
+		Coordinates: &dto.Coordinates{
+			Lat:  1,
+			Long: 2,
+		},
 		Name:    "Free form address",
 		Address: "",
 	}

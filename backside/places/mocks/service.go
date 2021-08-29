@@ -8,7 +8,7 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	errors "sk8.town/backside/errs"
+	errs "sk8.town/backside/errs"
 	dto "sk8.town/backside/places/dto"
 )
 
@@ -36,11 +36,11 @@ func (m *MockService) EXPECT() *MockServiceMockRecorder {
 }
 
 // GetPlaces mocks base method.
-func (m *MockService) GetPlaces(arg0 dto.AutocompleteRequest) ([]dto.AutocompleteEntryResponse, *errors.AppError) {
+func (m *MockService) GetPlaces(arg0 *dto.AutocompleteRequest) ([]*dto.AutocompleteEntryResponse, *errs.AppError) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetPlaces", arg0)
-	ret0, _ := ret[0].([]dto.AutocompleteEntryResponse)
-	ret1, _ := ret[1].(*errors.AppError)
+	ret0, _ := ret[0].([]*dto.AutocompleteEntryResponse)
+	ret1, _ := ret[1].(*errs.AppError)
 	return ret0, ret1
 }
 

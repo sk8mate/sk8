@@ -20,7 +20,7 @@ func (handler Handler) GetPlacesAutocomplete(writer http.ResponseWriter, request
 		return
 	}
 
-	response, appError := handler.Service.GetPlaces(placesRequest)
+	response, appError := handler.Service.GetPlaces(&placesRequest)
 	if appError != nil {
 		writeResponse(writer, appError.Code, appError.AsMessage())
 	} else {
