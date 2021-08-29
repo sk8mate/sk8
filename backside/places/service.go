@@ -20,7 +20,7 @@ func (s DefaultService) GetPlaces(request *dto.AutocompleteRequest) ([]*dto.Auto
 		return nil, err
 	}
 
-	language, languageErr := s.languageParser.ParseLanguage(request.Language)
+	language, languageErr := s.languageParser.Parse(request.Language)
 	if languageErr != nil {
 		return nil, languageErr
 	}
