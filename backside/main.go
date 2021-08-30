@@ -13,8 +13,8 @@ import (
 )
 
 type Config struct {
-	Address string `default:"localhost"`
-	Port    int    `default:"8080"`
+	Address string
+	Port    int `default:"8080"`
 }
 
 func getConfig() Config {
