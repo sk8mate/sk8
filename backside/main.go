@@ -22,7 +22,7 @@ func getConfig() Config {
 	err := envconfig.Process("sk8", &config)
 
 	if err != nil {
-		log.Fatal(err.Error())
+		log.Println(err.Error())
 	}
 
 	return config
@@ -31,7 +31,7 @@ func getConfig() Config {
 func main() {
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		log.Println("Failed to load .env file")
 	}
 
 	config := getConfig()
