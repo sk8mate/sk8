@@ -16,16 +16,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Generate deployment package
+      - name: Archive backside for deployment
         run: git archive -v -o backside.zip --format=zip HEAD .
 
-      - name: Deploy to EB
+      - name: Deploy to AWS Elastic Beanstalk
         uses: einaregilsson/beanstalk-deploy@v18
         with:
           aws_access_key: ${{ secrets.CI_ACCESS_KEY_ID }}
           aws_secret_key: ${{ secrets.CI_SECRET_ACCESS_KEY }}
           application_name: api-sk8-town
           environment_name: api-sk8-town
-          version_label: 1234
+          version_label: dev
           region: eu-west-1
           deployment_package: backside/backside.zip
