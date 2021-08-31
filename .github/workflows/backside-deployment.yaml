@@ -28,4 +28,4 @@ jobs:
           environment_name: api-sk8-town
           version_label: 1234
           region: eu-west-1
-          deployment_package: backside.zip
+          deployment_package: backside/backside.zip
