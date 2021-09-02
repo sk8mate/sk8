@@ -26,6 +26,6 @@ jobs:
           aws_secret_key: ${{ secrets.CI_SECRET_ACCESS_KEY }}
           application_name: api-sk8-town
           environment_name: api-sk8-town
-          version_label: ${GITHUB_SHA::6}
+          version_label: ${{ github.sha }}
           region: eu-west-1
           deployment_package: backside/backside.zip
