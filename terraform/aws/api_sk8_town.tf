@@ -24,6 +24,25 @@ resource "aws_elastic_beanstalk_environment" "api_sk8_town" {
       name = "EnvironmentType"
       value = "SingleInstance"
   }
+
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name = "DOMAIN_LINK"
+    value = "api.sk8.town"
+  }
+
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name = "PORT"
+    value = "8080"
+  }
+
+  # Set manually
+  # setting {
+  #   namespace = "aws:elasticbeanstalk:application:environment"
+  #   name = "EMAIL_LINK"
+  #   value = ""
+  # }
 }
 
 

@@ -7,4 +7,4 @@ services:
     environment:
       - SK8_PLACES_TOMTOM_API_KEY=fake
     ports:
-      - "80:8080"
+      - "8080:8080"
