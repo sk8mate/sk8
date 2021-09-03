@@ -28,7 +28,7 @@ resource "aws_elastic_beanstalk_environment" "api_sk8_town" {
   setting {
     namespace = "aws:elasticbeanstalk:application:environment"
     name = "DOMAIN_LINK"
-    value = "api.sk8.town"
+    value = aws_route53_zone.api_sk8_town.name
   }
 
   setting {
@@ -41,6 +41,13 @@ resource "aws_elastic_beanstalk_environment" "api_sk8_town" {
   # setting {
   #   namespace = "aws:elasticbeanstalk:application:environment"
   #   name = "EMAIL_LINK"
+  #   value = ""
+  # }
+
+  /* SET MANUALLY THROUGH THE CONSOLE */
+  # setting {
+  #   namespace = "aws:elasticbeanstalk:application:environment"
+  #   name = "SK8_PLACES_TOMTOM_API_KEY"
   #   value = ""
   # }
 }

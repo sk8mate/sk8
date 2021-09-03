@@ -5,6 +5,6 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
-      - SK8_PLACES_TOMTOM_API_KEY=fake
+      - SK8_PLACES_TOMTOM_API_KEY=$SK8_PLACES_TOMTOM_API_KEY
     ports:
       - "8080:8080"
