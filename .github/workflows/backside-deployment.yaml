@@ -1,0 +1,31 @@
+name: backside-deployment
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/**"
+      - "backside/**" # run only when backside is affected
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backside
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Archive backside for deployment
+        run: git archive -v -o backside.zip --format=zip HEAD .
+
+      - name: Deploy to AWS Elastic Beanstalk
+        uses: einaregilsson/beanstalk-deploy@v18
+        with:
+          aws_access_key: ${{ secrets.CI_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.CI_SECRET_ACCESS_KEY }}
+          application_name: api-sk8-town
+          environment_name: api-sk8-town
+          version_label: ${{ github.sha }}
+          region: eu-west-1
+          deployment_package: backside/backside.zip
