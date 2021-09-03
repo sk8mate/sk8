@@ -37,7 +37,7 @@ resource "aws_elastic_beanstalk_environment" "api_sk8_town" {
     value = "8080"
   }
 
-  # Set manually
+  /* SET MANUALLY THROUGH THE CONSOLE */
   # setting {
   #   namespace = "aws:elasticbeanstalk:application:environment"
   #   name = "EMAIL_LINK"
