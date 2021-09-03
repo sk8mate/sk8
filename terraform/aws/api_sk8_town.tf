@@ -31,12 +31,6 @@ resource "aws_elastic_beanstalk_environment" "api_sk8_town" {
     value = aws_route53_zone.api_sk8_town.name
   }
 
-  setting {
-    namespace = "aws:elasticbeanstalk:application:environment"
-    name = "PORT"
-    value = "8080"
-  }
-
   /* SET MANUALLY THROUGH THE CONSOLE */
   # setting {
   #   namespace = "aws:elasticbeanstalk:application:environment"
