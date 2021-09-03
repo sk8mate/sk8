@@ -2,7 +2,7 @@ name: backside-deployment
 on:
   push:
     branches:
-      - 41-dockerize
+      - main
     paths:
       - ".github/workflows/**"
       - "backside/**" # run only when backside is affected
