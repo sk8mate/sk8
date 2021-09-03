@@ -5,7 +5,7 @@ resource "aws_elastic_beanstalk_application" "api_sk8_town" {
 resource "aws_elastic_beanstalk_environment" "api_sk8_town" {
   name                = "api-sk8-town"
   application         = aws_elastic_beanstalk_application.api_sk8_town.name
-  solution_stack_name = "64bit Amazon Linux 2 v3.4.4 running Docker"
+  solution_stack_name = "64bit Amazon Linux 2 v3.4.5 running Docker"
 
   setting {
     namespace = "aws:autoscaling:launchconfiguration"
