@@ -1,0 +1,11 @@
+# Development
+
+services:
+  backside:
+    extends:
+      file: docker-compose.yml
+      service: backside
+    build:
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./:/home/app
