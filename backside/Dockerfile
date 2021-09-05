@@ -1,3 +1,5 @@
+# Production
+
 FROM golang:alpine3.14
 
 WORKDIR /home/app

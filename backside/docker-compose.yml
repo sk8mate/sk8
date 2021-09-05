@@ -1,3 +1,5 @@
+# Production
+
 version: "3.9"
 services:
   backside:
@@ -5,6 +7,8 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
+      - SK8_ADDRESS=$SK8_ADDRESS
+      - SK8_PORT=$SK8_PORT
       - SK8_PLACES_TOMTOM_API_KEY=$SK8_PLACES_TOMTOM_API_KEY
     ports:
       - "8080:8080"
