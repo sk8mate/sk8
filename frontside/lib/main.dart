@@ -16,8 +16,6 @@ class Sk8 extends StatelessWidget {
       theme: defaultTheme,
       routeInformationParser: BeamerParser(),
       routerDelegate: BeamerRouter.routerDelegate,
-      //https://pub.dev/documentation/beamer/latest/beamer/BeamerBackButtonDispatcher-class.html
-      //Why not stay in default button behavior?
       backButtonDispatcher: BeamerBackButtonDispatcher(delegate: BeamerRouter.routerDelegate),
     );
   }
