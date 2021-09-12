@@ -14,7 +14,7 @@ import (
 
 type Config struct {
 	Address string
-	Port    int `default:"8080"`
+	Port    string `default:"8080"`
 }
 
 func getConfig() Config {
@@ -39,6 +39,6 @@ func main() {
 
 	places.Make(router)
 
-	fmt.Printf("Starting server on %s:%d", config.Address, config.Port)
-	log.Fatal(http.ListenAndServe(fmt.Sprintf("%s:%d", config.Address, config.Port), router))
+	fmt.Printf("Starting server on %s:%s", config.Address, config.Port)
+	log.Fatal(http.ListenAndServe(fmt.Sprintf("%s:%s", config.Address, config.Port), router))
 }
