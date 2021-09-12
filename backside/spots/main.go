@@ -13,7 +13,7 @@ func Make(router *mux.Router) {
 	handler := Handler{NewService(locationService)}
 
 	router.
-		HandleFunc("/places/autocomplete", handler.GetPlacesAutocomplete).
-		Methods(http.MethodGet).
-		Name("GetPlacesAutocomplete")
+		HandleFunc("/spots", handler.GetPlacesAutocomplete).
+		Methods(http.MethodPost).
+		Name("AddNewSpot")
 }
