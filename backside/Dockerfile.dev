@@ -4,12 +4,9 @@ FROM golang:alpine3.14
 
 WORKDIR /home/app
 
-# Main
-ARG SK8_ADDRESS
-ARG SK8_PORT
+RUN go get github.com/githubnemo/CompileDaemon
 
-# Places
-ARG SK8_PLACES_TOMTOM_API_KEY
-
-# TODO: Implement hot reload
-ENTRYPOINT go run main.go
+ENTRYPOINT CompileDaemon \
+    --build="go build -o backside" \
+    --command="./backside" \
+    --exclude=".git"

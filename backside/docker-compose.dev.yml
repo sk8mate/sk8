@@ -2,10 +2,14 @@
 
 services:
   backside:
-    extends:
-      file: docker-compose.yml
-      service: backside
     build:
+      context: .
       dockerfile: Dockerfile.dev
+    environment:
+      - SK8_ADDRESS=$SK8_ADDRESS
+      - SK8_PORT=$SK8_PORT
+      - SK8_PLACES_TOMTOM_API_KEY=$SK8_PLACES_TOMTOM_API_KEY
+    ports:
+      - "$SK8_PORT:$SK8_PORT"
     volumes:
       - ./:/home/app

@@ -7,7 +7,6 @@ Backend (microservices) for sk8 app. Written in Go.
 ## Local development (docker)
 ### Requirements
 - [Docker](https://docs.docker.com/engine/install/)
-- [Docker Compose](https://docs.docker.com/compose/install/)
 
 ### Set environment variables
 To have fully functional development setup, you must complete following steps:
@@ -21,11 +20,11 @@ cp .env.example .env
 2. Update `.env` with your keys
 - TomTom
   - register free account on [https://developer.tomtom.com/user/register](https://developer.tomtom.com/user/register)
-  - replace `<your_tomtom_api>` with your key in `.env` file
+  - replace `<your_tomtom_api_key>` with your key
 
 ### Run
 ```
-docker-compose -f docker-compose.dev.yml up -d
+docker compose -f docker-compose.dev.yml up -d --build
 ```
 
-> *NOTE:* Hot reload is not available yet.
+Backside should be available at [http://localhost:8080](http://localhost:8080). The app will reload on every file change.

@@ -4,16 +4,8 @@ FROM golang:alpine3.14
 
 WORKDIR /home/app
 
-# Main
-ARG SK8_ADDRESS
-ARG SK8_PORT
-
-# Places
-ARG SK8_PLACES_TOMTOM_API_KEY
-
 COPY . .
 
-RUN go mod download
 RUN go build -o backside
 
 ENTRYPOINT ./backside
