@@ -1,6 +1,7 @@
 package domain
 
 type Spot struct {
+	Id          string      `db:"id"`
 	Name        string      `db:"name"`
 	Address     string      `db:"address"`
 	Coordinates Coordinates `db:"coordinates"`
