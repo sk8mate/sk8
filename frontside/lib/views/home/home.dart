@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 // import 'package:beamer/beamer.dart';
+import 'package:frontside/parts/navbar.dart';
 
 class Home extends StatelessWidget {
   static const String route = "/";
@@ -20,37 +21,7 @@ class Home extends StatelessWidget {
           fit: BoxFit.none,
         ),
       ),
-      bottomNavigationBar: CustomNavBar(),
-    );
-  }
-}
-
-class CustomNavBar extends StatefulWidget {
-  const CustomNavBar({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  _CustomNavBarState createState() => _CustomNavBarState();
-}
-
-class _CustomNavBarState extends State<CustomNavBar> {
-  int _seletedItem = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      items: [
-        BottomNavigationBarItem(icon: Icon(Icons.map_outlined), label: 'Spoty'),
-        BottomNavigationBarItem(icon: Icon(Icons.add_circle_outline), label: "Dodaj nowy"),
-        BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: "Profil")
-      ],
-      currentIndex: _seletedItem,
-      onTap: (index) {
-        setState(() {
-          _seletedItem = index;
-        });
-      },
+      bottomNavigationBar: NavBar(),
     );
   }
 }
