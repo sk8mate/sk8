@@ -24,11 +24,11 @@ func Test_given_get_places_response_with_geography_type_should_set_name_as_free_
 
 	actualDtoResponse := domainResponse.ToDto()
 
-	var expectedDtoResponse = dto.AutocompleteEntryResponse{
-		Coordinates: struct {
-			Lat  float64 `json:"lat"`
-			Long float64 `json:"long"`
-		}{20, 30},
+	var expectedDtoResponse = &dto.AutocompleteEntryResponse{
+		Coordinates: &dto.Coordinates{
+			Lat:  20,
+			Long: 30,
+		},
 		Name:    "Free form address",
 		Address: "",
 	}
@@ -57,11 +57,11 @@ func Test_given_get_places_response_with_poi_type_should_set_name_as_poi_name_an
 
 	actualDtoResponse := domainResponse.ToDto()
 
-	var expectedDtoResponse = dto.AutocompleteEntryResponse{
-		Coordinates: struct {
-			Lat  float64 `json:"lat"`
-			Long float64 `json:"long"`
-		}{3, 4},
+	var expectedDtoResponse = &dto.AutocompleteEntryResponse{
+		Coordinates: &dto.Coordinates{
+			Lat:  3,
+			Long: 4,
+		},
 		Name:    "Poi name",
 		Address: "Free form address",
 	}
