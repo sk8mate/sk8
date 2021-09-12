@@ -41,9 +41,9 @@ class _CustomNavBarState extends State<CustomNavBar> {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       items: [
-        BottomNavigationBarItem(icon: Icon(Icons.map_outlined), title: Text("Spoty")),
-        BottomNavigationBarItem(icon: Icon(Icons.add_circle_outline), title: Text("Dodaj nowy")),
-        BottomNavigationBarItem(icon: Icon(Icons.person_outline), title: Text("Profil"))
+        BottomNavigationBarItem(icon: Icon(Icons.map_outlined), label: 'Spoty'),
+        BottomNavigationBarItem(icon: Icon(Icons.add_circle_outline), label: "Dodaj nowy"),
+        BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: "Profil")
       ],
       currentIndex: _seletedItem,
       onTap: (index) {
