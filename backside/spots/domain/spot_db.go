@@ -8,3 +8,16 @@ import (
 type SpotRepository interface {
 	Add(Spot) (*Spot, *errs.AppError)
 }
+
+type SpotDb struct {
+	client *sqlx.DB
+}
+
+func (repo SpotDb) Add(spot Spot) (*Spot, *errs.AppError) {
+
+}
+
+func NewSpotDb() SpotDb {
+	return SpotDb{}
+}
+
