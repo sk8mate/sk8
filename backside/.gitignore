@@ -26,5 +26,6 @@
 .idea
 .env
 backside
+postgres-data/
 
 # End of https://www.toptal.com/developers/gitignore/api/go
