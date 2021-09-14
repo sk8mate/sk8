@@ -2,29 +2,19 @@ package places
 
 import (
 	"github.com/gorilla/mux"
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
-	"log"
+	"net/http"
+	"sk8.town/backside/spots/domain"
 )
 
-type UserModel struct{
-	Id int `gorm:"primary_key"`
-	Name string
-	Address string
-}
-
-func main(){
-
-}
-
 func Make(router *mux.Router) {
-	//config := getConfig()
+	config := getConfig()
 
-	//locationService := NewLocationService(config.TomtomApiKey)
-	//handler := Handler{NewService(locationService)}
+	spotsDb := domain.NewSpotDb()
+	spotsService :=
+	handler := Handler{NewService(locationService)}
 
-	//router.
-	//	HandleFunc("/spots", handler.GetPlacesAutocomplete).
-	//	Methods(http.MethodPost).
-	//	Name("AddNewSpot")
+	router.
+		HandleFunc("/spots", handler.GetPlacesAutocomplete).
+		Methods(http.MethodPost).
+		Name("AddNewSpot")
 }

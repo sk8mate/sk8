@@ -2,8 +2,6 @@ package main
 
 import (
 	"fmt"
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
 	"log"
 	"net/http"
 
@@ -37,17 +35,11 @@ func main() {
 		log.Println("Failed to load .env file")
 	}
 
-	dsn := "host=localhost user=root password=root dbname=spotsdb port=5432 sslmode=disable TimeZone=Asia/Shanghai"
-	_, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
-	if err != nil {
-		log.Panic(err)
-	}
-	log.Println("Connection Established")
-
 	config := getConfig()
 	router := mux.NewRouter()
 
 	places.Make(router)
+	spots.Make(router)
 
 	handler := cors.Default().Handler(router)
 

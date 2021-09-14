@@ -1,6 +1,9 @@
 package domain
 
 import (
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
+	"log"
 	"sk8.town/backside/errs"
 )
 
@@ -10,14 +13,20 @@ type SpotRepository interface {
 }
 
 type SpotDb struct {
-	client *sqlx.DB
+	client *gorm.DB
 }
 
 func (repo SpotDb) Add(spot Spot) (*Spot, *errs.AppError) {
-
+	return nil, nil
 }
 
 func NewSpotDb() SpotDb {
-	return SpotDb{}
+	dsn := "host=localhost user=root password=root dbname=spotsdb port=5432 sslmode=disable TimeZone=Asia/Shanghai"
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	if err != nil {
+		log.Panic(err)
+	}
+	log.Println("Connection Established")
+	return SpotDb{db}
 }
 
