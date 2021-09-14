@@ -1,9 +1,12 @@
 package domain
 
-import "sk8.town/backside/spots/dto"
+import (
+	"sk8.town/backside/spots/dto"
+	"strconv"
+)
 
 type Spot struct {
-	Id          string      `gorm:"primary_key"`
+	Id          int `gorm:"primary_key;AUTO_INCREMENT"`
 	Name        string
 	Address     string
 	Coordinates Coordinates `gorm:"embedded"`
@@ -17,6 +20,6 @@ type Coordinates struct {
 	Long float64 `gorm:"long"`
 }
 
-func (s Spot) ToResponseDto() dto.SpotResponse{
-	return dto.SpotResponse{Id: s.Id}
+func (s Spot) ToResponseDto() dto.SpotResponse {
+	return dto.SpotResponse{Id: strconv.Itoa(s.Id)}
 }

@@ -36,7 +36,7 @@ func (m *MockSpotRepository) EXPECT() *MockSpotRepositoryMockRecorder {
 }
 
 // Add mocks base method.
-func (m *MockSpotRepository) Add(arg0 domain.Spot) (*domain.Spot, *errs.AppError) {
+func (m *MockSpotRepository) Add(arg0 *domain.Spot) (*domain.Spot, *errs.AppError) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Add", arg0)
 	ret0, _ := ret[0].(*domain.Spot)

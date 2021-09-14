@@ -2,6 +2,7 @@ package spots
 
 import (
 	"sk8.town/backside/spots/mocks"
+	"strconv"
 	"testing"
 
 	"github.com/golang/mock/gomock"
@@ -25,7 +26,6 @@ func Test_should_propagate_an_error_from_db(t *testing.T) {
 		Verified:    true,
 	}
 	spotToAdd := domain.Spot{
-		Id:          "",
 		Name:        "Dworzec Glowny Krakow",
 		Address:     "Pawia 5",
 		Coordinates: domain.Coordinates{
@@ -41,7 +41,7 @@ func Test_should_propagate_an_error_from_db(t *testing.T) {
 	mockDb := mocks.NewMockSpotRepository(ctrl)
 	service := NewSpotService(mockDb)
 	expectedError := errs.NewNotFoundError("not found error")
-	mockDb.EXPECT().Add(spotToAdd).Return(nil, expectedError)
+	mockDb.EXPECT().Add(&spotToAdd).Return(nil, expectedError)
 
 	_, appError := service.Add(&request)
 
@@ -61,7 +61,6 @@ func Test_should_return_spots_response_when_spot_added_successfully(t *testing.T
 		Verified:    true,
 	}
 	spotToAdd := domain.Spot{
-		Id:          "",
 		Name:        "Dworzec Glowny Krakow",
 		Address:     "Pawia 5",
 		Coordinates: domain.Coordinates{
@@ -73,7 +72,7 @@ func Test_should_return_spots_response_when_spot_added_successfully(t *testing.T
 		Verified:    true,
 	}
 	createdSpot := domain.Spot{
-		Id:          "id",
+		Id:          5,
 		Name:        "Dworzec Glowny Krakow",
 		Address:     "Pawia 5",
 		Coordinates: domain.Coordinates{
@@ -88,10 +87,10 @@ func Test_should_return_spots_response_when_spot_added_successfully(t *testing.T
 	defer ctrl.Finish()
 	mockDb := mocks.NewMockSpotRepository(ctrl)
 	service := NewSpotService(mockDb)
-	mockDb.EXPECT().Add(spotToAdd).Return(&createdSpot, nil)
+	mockDb.EXPECT().Add(&spotToAdd).Return(&createdSpot, nil)
 
 	spotResponse, appError := service.Add(&request)
 
 	assert.Nil(t, appError)
-	assert.Equal(t, createdSpot.Id, spotResponse.Id)
+	assert.Equal(t, strconv.Itoa(createdSpot.Id), spotResponse.Id)
 }

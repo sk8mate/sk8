@@ -9,15 +9,17 @@ import (
 
 //go:generate mockgen --build_flags=--mod=mod -destination=../mocks/spot_repository.go -package=mocks sk8.town/backside/spots/domain SpotRepository
 type SpotRepository interface {
-	Add(Spot) (*Spot, *errs.AppError)
+	Add(*Spot) (*Spot, *errs.AppError)
 }
 
 type SpotDb struct {
 	client *gorm.DB
 }
 
-func (repo SpotDb) Add(spot Spot) (*Spot, *errs.AppError) {
-	return nil, nil
+func (db SpotDb) Add(spot *Spot) (*Spot, *errs.AppError) {
+	db.client.Create(spot)
+	db.client.Find(&spot)
+	return spot, nil
 }
 
 func NewSpotDb() SpotDb {

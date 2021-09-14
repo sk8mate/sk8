@@ -17,7 +17,6 @@ type DefaultSpotService struct {
 
 func (s DefaultSpotService) Add(request *dto.SpotRequest) (*dto.SpotResponse, *errs.AppError) {
 	spotFromRequest := domain.Spot{
-		Id:          "",
 		Name:        request.Name,
 		Address:     request.Address,
 		Coordinates: domain.Coordinates{Lat: request.Coordinates.Lat, Long: request.Coordinates.Long},
@@ -26,7 +25,7 @@ func (s DefaultSpotService) Add(request *dto.SpotRequest) (*dto.SpotResponse, *e
 		Verified:    request.Verified,
 	}
 
-	createdSpot, err := s.spotRepo.Add(spotFromRequest)
+	createdSpot, err := s.spotRepo.Add(&spotFromRequest)
 	if err != nil {
 		return nil, err
 	}
