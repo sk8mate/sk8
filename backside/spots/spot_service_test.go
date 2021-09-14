@@ -15,26 +15,26 @@ import (
 
 func Test_should_propagate_an_error_from_db(t *testing.T) {
 	request := dto.SpotRequest{
-		Name:        "Dworzec Glowny Krakow",
-		Address:     "Pawia 5",
+		Name:    "Dworzec Glowny Krakow",
+		Address: "Pawia 5",
 		Coordinates: &dto.SpotCoordinates{
 			Lat:  40,
 			Long: 60,
 		},
-		Lighting:    true,
-		Friendly:    true,
-		Verified:    true,
+		Lighting: true,
+		Friendly: true,
+		Verified: true,
 	}
 	spotToAdd := domain.Spot{
-		Name:        "Dworzec Glowny Krakow",
-		Address:     "Pawia 5",
+		Name:    "Dworzec Glowny Krakow",
+		Address: "Pawia 5",
 		Coordinates: domain.Coordinates{
 			Lat:  40,
 			Long: 60,
 		},
-		Lighting:    true,
-		Friendly:    true,
-		Verified:    true,
+		Lighting: true,
+		Friendly: true,
+		Verified: true,
 	}
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
@@ -50,38 +50,38 @@ func Test_should_propagate_an_error_from_db(t *testing.T) {
 
 func Test_should_return_spots_response_when_spot_added_successfully(t *testing.T) {
 	request := dto.SpotRequest{
-		Name:        "Dworzec Glowny Krakow",
-		Address:     "Pawia 5",
+		Name:    "Dworzec Glowny Krakow",
+		Address: "Pawia 5",
 		Coordinates: &dto.SpotCoordinates{
 			Lat:  40,
 			Long: 60,
 		},
-		Lighting:    true,
-		Friendly:    true,
-		Verified:    true,
+		Lighting: true,
+		Friendly: true,
+		Verified: true,
 	}
 	spotToAdd := domain.Spot{
-		Name:        "Dworzec Glowny Krakow",
-		Address:     "Pawia 5",
+		Name:    "Dworzec Glowny Krakow",
+		Address: "Pawia 5",
 		Coordinates: domain.Coordinates{
 			Lat:  40,
 			Long: 60,
 		},
-		Lighting:    true,
-		Friendly:    true,
-		Verified:    true,
+		Lighting: true,
+		Friendly: true,
+		Verified: true,
 	}
 	createdSpot := domain.Spot{
-		Id:          5,
-		Name:        "Dworzec Glowny Krakow",
-		Address:     "Pawia 5",
+		Id:      5,
+		Name:    "Dworzec Glowny Krakow",
+		Address: "Pawia 5",
 		Coordinates: domain.Coordinates{
 			Lat:  40,
 			Long: 60,
 		},
-		Lighting:    true,
-		Friendly:    true,
-		Verified:    true,
+		Lighting: true,
+		Friendly: true,
+		Verified: true,
 	}
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()

@@ -31,7 +31,7 @@ func NewSpotDb() SpotDb {
 	}
 	logger.Info("Connected to database spotsdb on localhost:5432")
 
-	if db.Migrator().HasTable(&Spot{}){
+	if db.Migrator().HasTable(&Spot{}) {
 		err := db.Migrator().DropTable(&Spot{})
 		if err != nil {
 			logger.Error(err.Error())
@@ -46,4 +46,3 @@ func NewSpotDb() SpotDb {
 
 	return SpotDb{db}
 }
-

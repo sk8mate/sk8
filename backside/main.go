@@ -11,6 +11,7 @@ import (
 	"github.com/rs/cors"
 
 	"sk8.town/backside/places"
+	"sk8.town/backside/spots"
 )
 
 type Config struct {

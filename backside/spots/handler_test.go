@@ -36,15 +36,15 @@ func Test_given_correct_request_should_return_spot_id_with_status_200(t *testing
 	teardown := setup(t)
 	defer teardown()
 	addSpotRequest := dto.SpotRequest{
-		Name:        "Dworzec Glowny Krakow",
-		Address:     "Pawia 5",
+		Name:    "Dworzec Glowny Krakow",
+		Address: "Pawia 5",
 		Coordinates: &dto.SpotCoordinates{
 			Lat:  40,
 			Long: 60,
 		},
-		Lighting:    true,
-		Friendly:    true,
-		Verified:    true,
+		Lighting: true,
+		Friendly: true,
+		Verified: true,
 	}
 	addedSpotResponse := dto.SpotResponse{
 		Id: "random id",
@@ -81,15 +81,15 @@ func Test_given_service_error_should_return_service_error(t *testing.T) {
 	teardown := setup(t)
 	defer teardown()
 	addSpotRequest := dto.SpotRequest{
-		Name:        "Dworzec Glowny Krakow",
-		Address:     "Pawia 5",
+		Name:    "Dworzec Glowny Krakow",
+		Address: "Pawia 5",
 		Coordinates: &dto.SpotCoordinates{
 			Lat:  40,
 			Long: 60,
 		},
-		Lighting:    true,
-		Friendly:    true,
-		Verified:    true,
+		Lighting: true,
+		Friendly: true,
+		Verified: true,
 	}
 	serviceMock.EXPECT().Add(&addSpotRequest).Return(nil, errs.NewNotFoundError(""))
 	router.HandleFunc("/spots", handler.AddSpot)

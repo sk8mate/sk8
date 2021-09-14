@@ -16,6 +16,10 @@ type DefaultSpotService struct {
 }
 
 func (s DefaultSpotService) Add(request *dto.SpotRequest) (*dto.SpotResponse, *errs.AppError) {
+	if validationError := request.Validate(); validationError != nil {
+		return nil, validationError
+	}
+
 	spotFromRequest := domain.Spot{
 		Name:        request.Name,
 		Address:     request.Address,
