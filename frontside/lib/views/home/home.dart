@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'package:beamer/beamer.dart';
 import 'package:frontside/parts/navbar.dart';
 
 class Home extends StatelessWidget {
