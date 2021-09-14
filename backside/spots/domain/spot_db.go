@@ -7,7 +7,7 @@ import (
 	"sk8.town/backside/logger"
 )
 
-//go:generate mockgen --build_flags=--mod=mod -destination=./mocks/spot_repository.go -package=mocks sk8.town/backside/spots SpotRepository
+//go:generate mockgen --build_flags=--mod=mod -destination=../mocks/spot_repository.go -package=mocks sk8.town/backside/spots/domain SpotRepository
 type SpotRepository interface {
 	Add(Spot) (*Spot, *errs.AppError)
 }

@@ -7,13 +7,13 @@ package main;
 message SpotRequest {
     string name = 1;
     string address = 2;
-    Coordinates coordinates = 3;
+    SpotCoordinates coordinates = 3;
     bool lighting = 4;
     bool friendly = 5;
     bool verified = 6;
 }
 
-message Coordinates {
+message SpotCoordinates {
     double lat = 1;
     double long = 2;
 }
