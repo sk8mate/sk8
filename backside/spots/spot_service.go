@@ -35,7 +35,7 @@ func (s DefaultSpotService) Add(request *dto.SpotRequest) (*dto.SpotResponse, *e
 	return &spotDtoResponse, nil
 }
 
-func NewService(db domain.SpotDb) DefaultSpotService {
+func NewSpotService(db domain.SpotDb) DefaultSpotService {
 	return DefaultSpotService{
 		spotDb: db,
 	}

@@ -10,8 +10,8 @@ func Make(router *mux.Router) {
 	config := getConfig()
 
 	spotsDb := domain.NewSpotDb()
-	spotsService :=
-	handler := Handler{NewService(locationService)}
+	spotsService := NewSpotService(spotsDb)
+	handler := Handler{spotsService}
 
 	router.
 		HandleFunc("/spots", handler.GetPlacesAutocomplete).

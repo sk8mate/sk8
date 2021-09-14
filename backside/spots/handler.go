@@ -5,22 +5,22 @@ import (
 	"net/http"
 	"sk8.town/backside/errs"
 
-	"sk8.town/backside/places/dto"
+	"sk8.town/backside/spots/dto"
 )
 
 type Handler struct {
-	Service Service
+	service SpotService
 }
 
-func (handler Handler) GetPlacesAutocomplete(writer http.ResponseWriter, request *http.Request) {
-	var placesRequest dto.AutocompleteRequest
-	if err := json.NewDecoder(request.Body).Decode(&placesRequest); err != nil {
+func (handler Handler) AddSpot(writer http.ResponseWriter, request *http.Request) {
+	var spotRequest dto.SpotRequest
+	if err := json.NewDecoder(request.Body).Decode(&spotRequest); err != nil {
 		appError := errs.NewBadRequestError("")
 		writeResponse(writer, appError.Code, appError.AsMessage())
 		return
 	}
 
-	response, appError := handler.Service.GetPlaces(&placesRequest)
+	response, appError := handler.service.Add(&spotRequest)
 	if appError != nil {
 		writeResponse(writer, appError.Code, appError.AsMessage())
 	} else {
