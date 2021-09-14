@@ -12,7 +12,7 @@ type SpotService interface {
 }
 
 type DefaultSpotService struct {
-	spotDb domain.SpotDb
+	spotRepo domain.SpotRepository
 }
 
 func (s DefaultSpotService) Add(request *dto.SpotRequest) (*dto.SpotResponse, *errs.AppError) {
@@ -26,7 +26,7 @@ func (s DefaultSpotService) Add(request *dto.SpotRequest) (*dto.SpotResponse, *e
 		Verified:    request.Verified,
 	}
 
-	createdSpot, err := s.spotDb.Add(spotFromRequest)
+	createdSpot, err := s.spotRepo.Add(spotFromRequest)
 	if err != nil {
 		return nil, err
 	}
@@ -35,8 +35,8 @@ func (s DefaultSpotService) Add(request *dto.SpotRequest) (*dto.SpotResponse, *e
 	return &spotDtoResponse, nil
 }
 
-func NewSpotService(db domain.SpotDb) DefaultSpotService {
+func NewSpotService(repo domain.SpotRepository) DefaultSpotService {
 	return DefaultSpotService{
-		spotDb: db,
+		spotRepo: repo,
 	}
 }
