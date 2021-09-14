@@ -16,7 +16,8 @@ class Sk8 extends StatelessWidget {
       theme: defaultTheme,
       routeInformationParser: BeamerParser(),
       routerDelegate: BeamerRouter.routerDelegate,
-      backButtonDispatcher: BeamerBackButtonDispatcher(delegate: BeamerRouter.routerDelegate),
+      backButtonDispatcher:
+          BeamerBackButtonDispatcher(delegate: BeamerRouter.routerDelegate),
     );
   }
 }

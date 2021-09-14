@@ -17,8 +17,10 @@ class _NavBarState extends State<NavBar> {
     return BottomNavigationBar(
       items: [
         BottomNavigationBarItem(icon: Icon(Icons.map_outlined), label: 'Spoty'),
-        BottomNavigationBarItem(icon: Icon(Icons.add_circle_outline), label: "Dodaj nowy"),
-        BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: "Profil")
+        BottomNavigationBarItem(
+            icon: Icon(Icons.add_circle_outline), label: "Dodaj nowy"),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.person_outline), label: "Profil")
       ],
       currentIndex: _seletedItem,
       onTap: (index) {
