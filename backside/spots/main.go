@@ -1,4 +1,4 @@
-package places
+package spots
 
 import (
 	"github.com/gorilla/mux"

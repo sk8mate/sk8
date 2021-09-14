@@ -1,4 +1,4 @@
-package places
+package spots
 
 import (
 	"bytes"
