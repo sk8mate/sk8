@@ -7,7 +7,11 @@ import (
 )
 
 type Config struct {
-	TomtomApiKey string `required:"true" split_words:"true"`
+	DbHost string `required:"true" split_words:"true"`
+	DbPort string `required:"true" split_words:"true"`
+	DbUser string `required:"true" split_words:"true"`
+	DbPassword string `required:"true" split_words:"true"`
+	DbName string `required:"true" split_words:"true"`
 }
 
 func getConfig() Config {

@@ -1,6 +1,7 @@
 package domain
 
 import (
+	"fmt"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"sk8.town/backside/errs"
@@ -22,14 +23,15 @@ func (db SpotDb) Add(spot *Spot) (*Spot, *errs.AppError) {
 	return spot, nil
 }
 
-func NewSpotDb() SpotDb {
-	dsn := "host=localhost user=root password=root dbname=spotsdb port=5432 sslmode=disable TimeZone=Asia/Shanghai"
+func NewSpotDb(host, port, dbName, user, password string) SpotDb {
+	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Shanghai",
+		host, user, password, dbName, port)
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		logger.Error(err.Error())
 		panic(err)
 	}
-	logger.Info("Connected to database spotsdb on localhost:5432")
+	logger.Info(fmt.Sprintf("Connected to database %s on %s:%s", dbName, host, port))
 
 	if db.Migrator().HasTable(&Spot{}) {
 		err := db.Migrator().DropTable(&Spot{})
