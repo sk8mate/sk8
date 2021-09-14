@@ -7,14 +7,14 @@ import (
 )
 
 func Make(router *mux.Router) {
-	config := getConfig()
+	//config := getConfig()
 
 	spotsDb := domain.NewSpotDb()
 	spotsService := NewSpotService(spotsDb)
 	handler := Handler{spotsService}
 
 	router.
-		HandleFunc("/spots", handler.GetPlacesAutocomplete).
+		HandleFunc("/spots", handler.AddSpot).
 		Methods(http.MethodPost).
 		Name("AddNewSpot")
 }
