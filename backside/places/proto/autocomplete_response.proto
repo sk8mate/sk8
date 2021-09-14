@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option go_package = "./dto";
+
+package main;
+
+message AutocompleteEntryResponse {
+    Coordinates coordinates = 1;
+    string name = 2;
+    string address = 3;
+}
+
+message Coordinates {
+    double lat = 1;
+    double long = 2;
+}
