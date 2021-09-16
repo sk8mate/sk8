@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:beamer/beamer.dart';
-import 'package:frontside/views/about/about.dart';
+import 'package:frontside/parts/navbar.dart';
 
 class Home extends StatelessWidget {
   static const String route = "/";
@@ -14,30 +13,14 @@ class Home extends StatelessWidget {
         title: Text("Home"),
         centerTitle: true,
       ),
-      body: Column(
-        children: <Widget>[
-          Container(
-              color: Colors.lightGreenAccent,
-              width: double.infinity,
-              padding: EdgeInsets.all(10),
-              child: Column(
-                children: <Widget>[
-                  SizedBox(height: 10),
-                  ElevatedButton.icon(
-                    icon: Icon(Icons.home, size: 32),
-                    onPressed: () {
-                      context.beamToNamed(About.route);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.black,
-                      onPrimary: Colors.lightGreenAccent,
-                    ),
-                    label: Text("About"),
-                  ),
-                ],
-              ))
-        ],
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        child: Image(
+          image: AssetImage('assets/example_screens/mapsicle-map.png'),
+          fit: BoxFit.none,
+        ),
       ),
+      bottomNavigationBar: NavBar(),
     );
   }
 }
