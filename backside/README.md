@@ -6,7 +6,8 @@ Backend (microservices) for sk8 app. Written in Go.
 
 ## Local development (docker)
 ### Requirements
-- [Docker](https://docs.docker.com/engine/install/)
+- [Docker Engine](https://docs.docker.com/engine/install/) - version 20.10.8 or later
+- [Docker Compose](https://docs.docker.com/compose/install/) - version 1.29.2 or later
 
 ### Set environment variables
 To have fully functional development setup, you must complete following steps:
@@ -24,7 +25,7 @@ cp .env.example .env
 
 ### Run
 ```
-docker compose -f docker-compose.dev.yml up -d --build
+docker-compose -f docker-compose.dev.yml up -d --build
 ```
 
 Backside should be available at [http://localhost:8080](http://localhost:8080). The app will reload on every file change.
