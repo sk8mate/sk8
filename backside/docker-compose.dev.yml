@@ -1,5 +1,6 @@
 # Development
 
+version: "3.9"
 services:
   backside:
     build:
