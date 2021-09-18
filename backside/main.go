@@ -8,6 +8,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
 	"github.com/kelseyhightower/envconfig"
+	"github.com/rs/cors"
 
 	"sk8.town/backside/places"
 )
@@ -39,6 +40,8 @@ func main() {
 
 	places.Make(router)
 
-	fmt.Printf("Starting server on %s:%s", config.Address, config.Port)
-	log.Fatal(http.ListenAndServe(fmt.Sprintf("%s:%s", config.Address, config.Port), router))
+	handler := cors.Default().Handler(router)
+
+	fmt.Println("Starting server on ", config.Address, ":", config.Port)
+	log.Fatal(http.ListenAndServe(fmt.Sprintf("%s:%s", config.Address, config.Port), handler))
 }
