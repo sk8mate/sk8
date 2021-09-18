@@ -8,6 +8,7 @@ require (
 	github.com/gorilla/schema v1.2.0
 	github.com/joho/godotenv v1.3.0
 	github.com/kelseyhightower/envconfig v1.4.0
+	github.com/rs/cors v1.8.0
 	github.com/stretchr/testify v1.7.0
 	go.uber.org/zap v1.19.0
 	google.golang.org/protobuf v1.27.1
