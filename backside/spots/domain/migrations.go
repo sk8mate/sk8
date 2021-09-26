@@ -32,8 +32,10 @@ func autoMigrate(db *gorm.DB) {
 // TODO: move to utils
 func getTableName(db *gorm.DB, Struct interface{}) string {
 	stmt := &gorm.Statement{DB: db}
-	stmt.Parse(Struct)
-	table := stmt.Schema.Table
-
-	return table
+	if err := stmt.Parse(Struct); err != nil {
+		logger.Error(err.Error())
+		return "ERROR"
+	} else {
+		return stmt.Schema.Table
+	}
 }
