@@ -6,17 +6,24 @@ services:
     image: postgres:latest
     restart: always
     environment:
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=root
-      - POSTGRES_DB=spots
-    ports:
-      - "5432:5432"
+      - POSTGRES_USER=$SK8_DB_USER
+      - POSTGRES_PASSWORD=$SK8_DB_PASSWORD
+      - POSTGRES_DB=$SK8_DB_NAME
+
   backside:
     build:
       context: .
       dockerfile: Dockerfile
+    restart: always
     environment:
       - SK8_PORT=8080
+
+      - SK8_DB_HOST=$SK8_DB_HOST
+      - SK8_DB_PORT=$SK8_DB_PORT
+      - SK8_DB_USER=$SK8_DB_USER
+      - SK8_DB_PASSWORD=$SK8_DB_PASSWORD
+      - SK8_DB_NAME=$SK8_DB_NAME
+
       - SK8_PLACES_TOMTOM_API_KEY=$SK8_PLACES_TOMTOM_API_KEY
     ports:
       - "8080:8080"
