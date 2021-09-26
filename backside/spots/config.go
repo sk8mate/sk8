@@ -17,7 +17,7 @@ type Config struct {
 func getConfig() Config {
 	var config Config
 
-	err := envconfig.Process("sk8_places", &config)
+	err := envconfig.Process("sk8_spots", &config)
 
 	if err != nil {
 		log.Fatal(err.Error())
