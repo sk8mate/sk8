@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	SPOTS_DB_NAME = "spotsDb"
+	SPOTS_DB_NAME = "spots"
 )
 
 func dropSpotsDbTables(host, port, user, password string) {
