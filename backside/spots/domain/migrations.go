@@ -7,7 +7,7 @@ import (
 	"sk8.town/backside/logger"
 )
 
-func DropTables(db *gorm.DB) {
+func dropTables(db *gorm.DB) {
 	if db.Migrator().HasTable(Spot{}) {
 		err := db.Migrator().DropTable(Spot{})
 		if err != nil {
@@ -19,7 +19,7 @@ func DropTables(db *gorm.DB) {
 	}
 }
 
-func AutoMigrate(db *gorm.DB) {
+func autoMigrate(db *gorm.DB) {
 	err := db.AutoMigrate(Spot{})
 	if err != nil {
 		logger.Error(err.Error())

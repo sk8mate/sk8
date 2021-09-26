@@ -36,9 +36,9 @@ func NewSpotDb(host, port, dbName, user, password string) SpotDb {
 	logger.Info(fmt.Sprintf("Connected to database %s on %s:%s", dbName, host, port))
 
 	if os.Getenv("SK8_DB_DROP_ALL_TABLES") == "true" {
-		DropTables(db)
+		dropTables(db)
 	}
-	AutoMigrate(db)
+	autoMigrate(db)
 
 	return SpotDb{db}
 }
