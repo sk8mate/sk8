@@ -14,7 +14,7 @@ type Config struct {
 	DbName string `required:"true" split_words:"true"`
 }
 
-func getConfig() Config {
+func GetConfig() Config {
 	var config Config
 
 	err := envconfig.Process("sk8_spots", &config)

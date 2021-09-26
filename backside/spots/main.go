@@ -7,7 +7,7 @@ import (
 )
 
 func Make(router *mux.Router) {
-	config := getConfig()
+	config := GetConfig()
 
 	spotsDb := domain.NewSpotDb(config.DbHost, config.DbPort, config.DbName, config.DbUser, config.DbPassword)
 	spotsService := NewSpotService(spotsDb)

@@ -8,6 +8,7 @@ services:
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=spotsDb
     ports:
       - "5432:5432"
   backside:
@@ -19,3 +20,5 @@ services:
       - SK8_PLACES_TOMTOM_API_KEY=$SK8_PLACES_TOMTOM_API_KEY
     ports:
       - "8080:8080"
+    depends_on:
+      - postgres
