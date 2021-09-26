@@ -2,6 +2,8 @@ package domain
 
 import (
 	"fmt"
+	"os"
+
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"sk8.town/backside/errs"
@@ -33,18 +35,10 @@ func NewSpotDb(host, port, dbName, user, password string) SpotDb {
 	}
 	logger.Info(fmt.Sprintf("Connected to database %s on %s:%s", dbName, host, port))
 
-	if db.Migrator().HasTable(&Spot{}) {
-		err := db.Migrator().DropTable(&Spot{})
-		if err != nil {
-			logger.Error(err.Error())
-			panic(err)
-		}
+	if os.Getenv("SK8_DB_DROP_ALL_TABLES") == "true" {
+		DropTables(db)
 	}
-	err = db.Debug().AutoMigrate(&Spot{})
-	if err != nil {
-		logger.Error(err.Error())
-		panic(err)
-	}
+	AutoMigrate(db)
 
 	return SpotDb{db}
 }

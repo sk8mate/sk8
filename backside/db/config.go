@@ -1,4 +1,4 @@
-package spots
+package db
 
 import (
 	"log"
@@ -17,7 +17,7 @@ type Config struct {
 func GetConfig() Config {
 	var config Config
 
-	err := envconfig.Process("sk8_spots", &config)
+	err := envconfig.Process("sk8", &config)
 
 	if err != nil {
 		log.Fatal(err.Error())

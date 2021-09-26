@@ -10,6 +10,7 @@ import (
 	"github.com/kelseyhightower/envconfig"
 	"github.com/rs/cors"
 
+	"sk8.town/backside/db"
 	"sk8.town/backside/places"
 	"sk8.town/backside/spots"
 )
@@ -37,10 +38,11 @@ func main() {
 	}
 
 	config := getConfig()
+	dbConfig := db.GetConfig()
 	router := mux.NewRouter()
 
 	places.Make(router)
-	spots.Make(router)
+	spots.Make(router, dbConfig)
 
 	handler := cors.Default().Handler(router)
 
