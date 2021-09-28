@@ -9,8 +9,8 @@ import (
 func Make(router *mux.Router) {
 	config := getConfig()
 
-	repository := NewRepository(config.TomtomApiKey)
-	handler := Handler{NewService(repository)}
+	locationService := NewLocationService(config.TomtomApiKey)
+	handler := Handler{NewService(locationService)}
 
 	router.
 		HandleFunc("/places/autocomplete", handler.GetPlacesAutocomplete).

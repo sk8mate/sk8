@@ -24,5 +24,7 @@
 /Godeps/
 
 .idea
+.env
+backside
 
 # End of https://www.toptal.com/developers/gitignore/api/go

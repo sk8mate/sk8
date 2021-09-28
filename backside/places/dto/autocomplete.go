@@ -7,11 +7,6 @@ import (
 	"sk8.town/backside/errs"
 )
 
-type AutocompleteRequest struct {
-	Search   string `json:"search"`
-	Language string `json:"language"`
-}
-
 var supportedLanguages = []string{"pl", "en"} // TODO: should be declared in some global scope when introducing i18n
 
 func validateLanguage(language string) string {
@@ -28,23 +23,14 @@ func validateLanguage(language string) string {
 	return fmt.Sprintf(`Field "language" must be one of: %s.`, strings.Join(supportedLanguages, ", "))
 }
 
-func (request AutocompleteRequest) Validate() *errs.AppError {
-	if request.Search == "" {
+func (x *AutocompleteRequest) Validate() *errs.AppError {
+	if x.Search == "" {
 		return errs.NewValidationError(`Field "search" is required.`)
 	}
 
-	if err := validateLanguage(request.Language); err != "" {
+	if err := validateLanguage(x.Language); err != "" {
 		return errs.NewValidationError(err)
 	}
 
 	return nil
-}
-
-type AutocompleteEntryResponse struct {
-	Coordinates struct {
-		Lat  float64 `json:"lat"`
-		Long float64 `json:"long"`
-	} `json:"coordinates"`
-	Name    string `json:"name"`
-	Address string `json:"address"`
 }

@@ -1,7 +1,6 @@
 package places
 
 import (
-	"bytes"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -39,28 +38,28 @@ func Test_given_correct_request_should_return_places_with_status_200(t *testing.
 		Search:   "xxx",
 		Language: "pl",
 	}
-	dummyPlaces := []dto.AutocompleteEntryResponse{
+
+	dummyPlaces := []*dto.AutocompleteEntryResponse{
 		{
-			Coordinates: struct {
-				Lat  float64 `json:"lat"`
-				Long float64 `json:"long"`
-			}{5, 6},
+			Coordinates: &dto.Coordinates{
+				Lat:  5,
+				Long: 6,
+			},
 			Name:    "name1",
 			Address: "address1",
 		},
 		{
-			Coordinates: struct {
-				Lat  float64 `json:"lat"`
-				Long float64 `json:"long"`
-			}{10, 20},
+			Coordinates: &dto.Coordinates{
+				Lat:  10,
+				Long: 20,
+			},
 			Name:    "name2",
 			Address: "address2",
 		},
 	}
-	serviceMock.EXPECT().GetPlaces(dummyPlacesAutocompleteRequest).Return(dummyPlaces, nil)
+	serviceMock.EXPECT().GetPlaces(&dummyPlacesAutocompleteRequest).Return(dummyPlaces, nil)
 	router.HandleFunc("/places/autocomplete", handler.GetPlacesAutocomplete)
-	var jsonStr = []byte(`{"search":"xxx", "language":"pl"}`)
-	request, _ := http.NewRequest(http.MethodGet, "/places/autocomplete", bytes.NewBuffer(jsonStr))
+	request, _ := http.NewRequest(http.MethodGet, "/places/autocomplete?search=xxx&language=pl", nil)
 	recorder := httptest.NewRecorder()
 
 	router.ServeHTTP(recorder, request)
@@ -74,8 +73,7 @@ func Test_given_bad_request_should_return_400(t *testing.T) {
 	teardown := setup(t)
 	defer teardown()
 	router.HandleFunc("/places/autocomplete", handler.GetPlacesAutocomplete)
-	var jsonStr = []byte(``)
-	request, _ := http.NewRequest(http.MethodGet, "/places/autocomplete", bytes.NewBuffer(jsonStr))
+	request, _ := http.NewRequest(http.MethodGet, "/places/autocomplete?random_param=xxx", nil)
 	recorder := httptest.NewRecorder()
 
 	router.ServeHTTP(recorder, request)
@@ -92,10 +90,9 @@ func Test_given_service_error_should_return_service_error(t *testing.T) {
 		Search:   "xxx",
 		Language: "pl",
 	}
-	serviceMock.EXPECT().GetPlaces(dummyPlacesAutocompleteRequest).Return(nil, errs.NewNotFoundError(""))
+	serviceMock.EXPECT().GetPlaces(&dummyPlacesAutocompleteRequest).Return(nil, errs.NewNotFoundError(""))
 	router.HandleFunc("/places/autocomplete", handler.GetPlacesAutocomplete)
-	var jsonStr = []byte(`{"search":"xxx", "language":"pl"}`)
-	request, _ := http.NewRequest(http.MethodGet, "/places/autocomplete", bytes.NewBuffer(jsonStr))
+	request, _ := http.NewRequest(http.MethodGet, "/places/autocomplete?search=xxx&language=pl", nil)
 	recorder := httptest.NewRecorder()
 
 	router.ServeHTTP(recorder, request)
