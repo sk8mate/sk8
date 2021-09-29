@@ -60,16 +60,18 @@ class _Login extends State<Login> {
           Column(
             children: [
               LoginWith(
-                icon: Icon(
-                  Icons.blur_circular,
-                  size: 30,
+                icon: Image(
+                  image: AssetImage('assets/login/logo-google-G.png'),
+                  fit: BoxFit.contain,
+                  width: 18,
                 ),
                 title: "LOGIN WITH GOOGLE",
               ),
               LoginWith(
-                icon: Icon(
-                  Icons.blur_circular,
-                  size: 30,
+                icon: Image(
+                  image: AssetImage('assets/login/logo-apple-black-100.png'),
+                  fit: BoxFit.contain,
+                  width: 18,
                 ),
                 title: "LOGIN WITH APPLE",
               ),
@@ -96,13 +98,7 @@ class LoginWith extends StatelessWidget {
       child: Container(
           child: Padding(
         padding: const EdgeInsets.all(14),
-        child: Row(children: [
-          icon,
-          SizedBox(
-            width: 10,
-          ),
-          Text(title)
-        ]),
+        child: Row(children: [icon, SizedBox(width: 10), Text(title)]),
       )),
     );
   }
