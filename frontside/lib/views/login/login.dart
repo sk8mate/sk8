@@ -44,13 +44,13 @@ class _Login extends State<Login> {
                       Expanded(
                         child: SizedBox(),
                       ),
-                      OutlinedButton(
-                        onPressed: () => {},
-                        child: Text("NEXT"),
-                        style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                                Theme.of(context).colorScheme.surface)),
-                      ),
+                      ElevatedButton(
+                          onPressed: () => {},
+                          child: Text("NEXT"),
+                          style: ElevatedButton.styleFrom(
+                              primary: Theme.of(context).colorScheme.surface,
+                              onPrimary:
+                                  Theme.of(context).colorScheme.secondary)),
                     ],
                   )
                 ],
