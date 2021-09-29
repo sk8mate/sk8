@@ -59,19 +59,17 @@ class _Login extends State<Login> {
           )),
           Column(
             children: [
-              LoginWith(
+              _LoginWithButton(
                 icon: Image(
                   image: AssetImage('assets/login/logo-google-G.png'),
                   fit: BoxFit.contain,
-                  width: 18,
                 ),
                 title: "LOGIN WITH GOOGLE",
               ),
-              LoginWith(
+              _LoginWithButton(
                 icon: Image(
                   image: AssetImage('assets/login/logo-apple-black-100.png'),
                   fit: BoxFit.contain,
-                  width: 18,
                 ),
                 title: "LOGIN WITH APPLE",
               ),
@@ -81,8 +79,8 @@ class _Login extends State<Login> {
   }
 }
 
-class LoginWith extends StatelessWidget {
-  const LoginWith({
+class _LoginWithButton extends StatelessWidget {
+  const _LoginWithButton({
     Key? key,
     required this.icon,
     required this.title,
@@ -97,8 +95,14 @@ class LoginWith extends StatelessWidget {
       onTap: () => {},
       child: Container(
           child: Padding(
-        padding: const EdgeInsets.all(14),
-        child: Row(children: [icon, SizedBox(width: 10), Text(title)]),
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        child: Row(children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 14),
+            child: SizedBox(width: 26, child: icon),
+          ),
+          Text(title)
+        ]),
       )),
     );
   }
