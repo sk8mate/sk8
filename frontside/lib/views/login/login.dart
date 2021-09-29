@@ -95,13 +95,13 @@ class _LoginWithButton extends StatelessWidget {
       onTap: () => {},
       child: Container(
           child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 16),
+        padding: const EdgeInsets.symmetric(vertical: 18),
         child: Row(children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 14),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             child: SizedBox(width: 26, child: icon),
           ),
-          Text(title)
+          Text(title, style: TextStyle(fontWeight: FontWeight.bold))
         ]),
       )),
     );
