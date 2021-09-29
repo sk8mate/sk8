@@ -91,16 +91,19 @@ class LoginWith extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Padding(
-      padding: const EdgeInsets.all(14),
-      child: Row(children: [
-        icon,
-        SizedBox(
-          width: 10,
-        ),
-        Text(title)
-      ]),
-    ));
+    return InkWell(
+      onTap: () => {},
+      child: Container(
+          child: Padding(
+        padding: const EdgeInsets.all(14),
+        child: Row(children: [
+          icon,
+          SizedBox(
+            width: 10,
+          ),
+          Text(title)
+        ]),
+      )),
+    );
   }
 }
