@@ -31,4 +31,30 @@ make dev
 Backside should be available at [http://localhost:8080](http://localhost:8080). The app will reload on every file change.
 
 ### Available scripts
-
+```
++------------------------------------+
+|              /                 |   |
+|             /                  |   |
+|            /                   |   |
+|           |                    |   |
+|           |          .'        |   |
+|           |        .'  |       |   |
+|           \      .'     \      |   |
+|            |     |       \     |   |
+|            |    /         ;    |   |
+|            |   |          |   /    |
+|            |   |          |   |    |
+|            |   |          \   |    |
+|            |   :           |  |    |
+|            /    \          |  |    |
+| _         /     .>         |   \   |
+| "88b.__  |____.'           \   |   |
+|   Y88888888888Oooooo._      \__| _ |
+|       (_)    'Y888888888888888888P'|
+|                         (_)  sk8   |
++------------------------------------+
+Available scripts:
+        make dev        start development server
+        make dev:clean  start development server with clean db
+        make test       run tests
+```
