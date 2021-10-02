@@ -25,7 +25,10 @@ cp .env.example .env
 
 ### Run
 ```
-docker-compose -f docker-compose.dev.yml up -d --build
+make dev
 ```
 
 Backside should be available at [http://localhost:8080](http://localhost:8080). The app will reload on every file change.
+
+### Available scripts
+

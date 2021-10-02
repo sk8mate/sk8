@@ -1,13 +1,13 @@
 package places
 
 import (
-	"encoding/json"
 	"net/http"
 
 	"github.com/gorilla/schema"
 
 	"sk8.town/backside/errs"
 	"sk8.town/backside/places/dto"
+	"sk8.town/backside/utils"
 )
 
 var decoder = schema.NewDecoder()
@@ -21,23 +21,14 @@ func (handler Handler) GetPlacesAutocomplete(writer http.ResponseWriter, request
 
 	if err := decoder.Decode(&placesRequest, request.URL.Query()); err != nil {
 		appError := errs.NewBadRequestError("")
-		writeResponse(writer, appError.Code, appError.AsMessage())
+		utils.WriteResponse(writer, appError.Code, appError.AsMessage())
 		return
 	}
 
 	response, appError := handler.Service.GetPlaces(&placesRequest)
 	if appError != nil {
-		writeResponse(writer, appError.Code, appError.AsMessage())
+		utils.WriteResponse(writer, appError.Code, appError.AsMessage())
 	} else {
-		writeResponse(writer, http.StatusOK, response)
-	}
-}
-
-func writeResponse(writer http.ResponseWriter, code int, data interface{}) {
-	writer.Header().Add("Content-Type", "application/json")
-	writer.WriteHeader(code)
-	err := json.NewEncoder(writer).Encode(data)
-	if err != nil {
-		panic(err)
+		utils.WriteResponse(writer, http.StatusOK, response)
 	}
 }

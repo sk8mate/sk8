@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+
 	"sk8.town/backside/errs"
 	"sk8.town/backside/logger"
 	"sk8.town/backside/places/domain"
@@ -17,7 +18,7 @@ type LocationService interface {
 const baseUrl = "https://api.tomtom.com"
 
 type TomTomLocationService struct {
-	tomtomApiKey   string
+	tomtomApiKey string
 }
 
 func (s TomTomLocationService) createUrl(search, language string) string {
