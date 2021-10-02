@@ -20,26 +20,26 @@ var Env = struct {
 	Production:  "production",
 }
 
+func resolveEnv(e string) string {
+	switch e {
+	case Env.Development, "":
+		return Env.Development
+	case Env.Test:
+		return Env.Test
+	case Env.Production:
+		return Env.Production
+	default:
+		panic("Invalid SK8_ENV value.")
+	}
+}
+
 var env string
 
 var onceEnv sync.Once
 
 func GetEnv() string {
 	onceEnv.Do(func() {
-		e := os.Getenv("SK8_ENV")
-		if e == "" {
-			e = Env.Development
-		}
-		switch e {
-		case Env.Development:
-			env = Env.Development
-		case Env.Test:
-			env = Env.Test
-		case Env.Production:
-			env = Env.Production
-		default:
-			panic("Invalid SK8_ENV value.")
-		}
+		env = resolveEnv(os.Getenv("SK8_ENV"))
 	})
 
 	return env

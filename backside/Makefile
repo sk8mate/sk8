@@ -31,4 +31,5 @@ dev\:clean:
 	SK8_DB_DROP_ALL_TABLES=true docker-compose -f docker-compose.dev.yml up --build
 
 test:
+	export $$(grep -v \'^#\' .env.test | xargs)
 	go test ./...
