@@ -23,6 +23,7 @@ usage:
 	@echo Available scripts:
 	@echo "	make dev	start development server"
 	@echo "	make dev:clean	start development server with clean db"
+	@echo "	make test	run tests"
 
 dev:
 	docker-compose -f docker-compose.dev.yml up --build
