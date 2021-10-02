@@ -103,24 +103,6 @@ resource "aws_ssm_parameter" "db_name" {
   }
 }
 
-# SK8_DB_HOST=postgres
-# SK8_DB_PORT=5432
-# SK8_DB_USER=root
-# SK8_DB_PASSWORD=root
-# SK8_DB_NAME=sk8
-
-# SK8_PLACES_TOMTOM_API_KEY=<your_tomtom_api_key>
-
-# resource "aws_ssm_parameter" "db_host" {
-#   name        = "/production/db/host"
-#   type        = "SecureString"
-#   value       = ""
-
-#   lifecycle {
-#     ignore_changes = [value]
-#   }
-# }
-
 resource "aws_elastic_beanstalk_application" "api_sk8_town" {
   name        = "api-sk8-town"
 }
