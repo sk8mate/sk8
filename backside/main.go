@@ -6,46 +6,22 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/joho/godotenv"
-	"github.com/kelseyhightower/envconfig"
 	"github.com/rs/cors"
 
-	"sk8.town/backside/db"
+	"sk8.town/backside/config"
 	"sk8.town/backside/places"
 	"sk8.town/backside/spots"
 )
 
-type Config struct {
-	Address string
-	Port    string `default:"8080"`
-}
-
-func getConfig() Config {
-	var config Config
-	err := envconfig.Process("sk8", &config)
-
-	if err != nil {
-		log.Println(err.Error())
-	}
-
-	return config
-}
-
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Println("Failed to load .env file")
-	}
-
-	config := getConfig()
-	dbConfig := db.GetConfig()
+	cfg := config.Get()
+	env := config.GetEnv()
 	router := mux.NewRouter()
 
 	places.Make(router)
-	spots.Make(router, dbConfig)
+	spots.Make(router)
 
 	handler := cors.Default().Handler(router)
-
-	fmt.Println("Starting server on ", config.Address, ":", config.Port)
-	log.Fatal(http.ListenAndServe(fmt.Sprintf("%s:%s", config.Address, config.Port), handler))
+	fmt.Printf("Starting server on %s:%s in %s mode.\n", cfg.Address, cfg.Port, env)
+	log.Fatal(http.ListenAndServe(fmt.Sprintf("%s:%s", cfg.Address, cfg.Port), handler))
 }
