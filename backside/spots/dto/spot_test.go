@@ -1,14 +1,15 @@
 package dto
 
 import (
-	"github.com/stretchr/testify/assert"
 	"net/http"
 	"regexp"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func Test_given_spot_without_coordinates_should_return_error(t *testing.T) {
-	request := SpotRequest{
+	request := SpotsAddRequest{
 		Name:        "Dworzec Glowny Krakow",
 		Address:     "Pawia 5",
 		Coordinates: nil,
@@ -24,10 +25,10 @@ func Test_given_spot_without_coordinates_should_return_error(t *testing.T) {
 }
 
 func Test_given_valid_spot_should_return_success(t *testing.T) {
-	request := SpotRequest{
+	request := SpotsAddRequest{
 		Name:    "Dworzec Glowny Krakow",
 		Address: "Pawia 5",
-		Coordinates: &SpotCoordinates{
+		Coordinates: &Coordinates{
 			Lat:  40,
 			Long: 60,
 		},

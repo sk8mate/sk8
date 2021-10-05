@@ -1,9 +1,10 @@
 package domain
 
 import (
+	"testing"
+
 	"github.com/stretchr/testify/assert"
 	"sk8.town/backside/places/dto"
-	"testing"
 )
 
 func Test_given_get_places_response_with_geography_type_should_set_name_as_free_form_address_and_empty_address(t *testing.T) {
@@ -24,7 +25,7 @@ func Test_given_get_places_response_with_geography_type_should_set_name_as_free_
 
 	actualDtoResponse := domainResponse.ToDto()
 
-	var expectedDtoResponse = &dto.AutocompleteEntryResponse{
+	var expectedDtoResponse = &dto.AutocompleteEntry{
 		Coordinates: &dto.Coordinates{
 			Lat:  20,
 			Long: 30,
@@ -57,7 +58,7 @@ func Test_given_get_places_response_with_poi_type_should_set_name_as_poi_name_an
 
 	actualDtoResponse := domainResponse.ToDto()
 
-	var expectedDtoResponse = &dto.AutocompleteEntryResponse{
+	var expectedDtoResponse = &dto.AutocompleteEntry{
 		Coordinates: &dto.Coordinates{
 			Lat:  3,
 			Long: 4,

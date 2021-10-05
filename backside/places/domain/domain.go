@@ -28,8 +28,8 @@ type GetPlacesResponse struct {
 	Results []Result `json:"results"`
 }
 
-func (places GetPlacesResponse) ToDto() []*dto.AutocompleteEntryResponse {
-	responseEntries := make([]*dto.AutocompleteEntryResponse, 0)
+func (places GetPlacesResponse) ToDto() []*dto.AutocompleteEntry {
+	responseEntries := make([]*dto.AutocompleteEntry, 0)
 
 	for _, place := range places.Results {
 		coordinates := dto.Coordinates{
@@ -38,17 +38,17 @@ func (places GetPlacesResponse) ToDto() []*dto.AutocompleteEntryResponse {
 		}
 
 		if place.Type == "Geography" {
-			entry := dto.AutocompleteEntryResponse{
+			entry := dto.AutocompleteEntry{
 				Coordinates: &coordinates,
-				Name:    place.Address.FreeformAddress,
-				Address: "",
+				Name:        place.Address.FreeformAddress,
+				Address:     "",
 			}
 			responseEntries = append(responseEntries, &entry)
 		} else if place.Type == "POI" {
-			entry := dto.AutocompleteEntryResponse{
+			entry := dto.AutocompleteEntry{
 				Coordinates: &coordinates,
-				Name:    place.Poi.Name,
-				Address: place.Address.FreeformAddress,
+				Name:        place.Poi.Name,
+				Address:     place.Address.FreeformAddress,
 			}
 			responseEntries = append(responseEntries, &entry)
 		}

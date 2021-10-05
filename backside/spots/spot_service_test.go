@@ -1,9 +1,10 @@
 package spots
 
 import (
-	"sk8.town/backside/spots/mocks"
 	"strconv"
 	"testing"
+
+	"sk8.town/backside/spots/mocks"
 
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
@@ -14,10 +15,10 @@ import (
 )
 
 func Test_should_propagate_an_error_from_db(t *testing.T) {
-	request := dto.SpotRequest{
+	request := dto.SpotsAddRequest{
 		Name:    "Dworzec Glowny Krakow",
 		Address: "Pawia 5",
-		Coordinates: &dto.SpotCoordinates{
+		Coordinates: &dto.Coordinates{
 			Lat:  40,
 			Long: 60,
 		},
@@ -49,10 +50,10 @@ func Test_should_propagate_an_error_from_db(t *testing.T) {
 }
 
 func Test_should_return_spots_response_when_spot_added_successfully(t *testing.T) {
-	request := dto.SpotRequest{
+	request := dto.SpotsAddRequest{
 		Name:    "Dworzec Glowny Krakow",
 		Address: "Pawia 5",
-		Coordinates: &dto.SpotCoordinates{
+		Coordinates: &dto.Coordinates{
 			Lat:  40,
 			Long: 60,
 		},
@@ -89,8 +90,8 @@ func Test_should_return_spots_response_when_spot_added_successfully(t *testing.T
 	service := NewSpotService(mockDb)
 	mockDb.EXPECT().Add(&spotToAdd).Return(&createdSpot, nil)
 
-	spotResponse, appError := service.Add(&request)
+	SpotsAddData, appError := service.Add(&request)
 
 	assert.Nil(t, appError)
-	assert.Equal(t, strconv.Itoa(createdSpot.Id), spotResponse.Id)
+	assert.Equal(t, strconv.Itoa(createdSpot.Id), SpotsAddData.Id)
 }

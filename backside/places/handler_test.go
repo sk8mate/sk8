@@ -39,7 +39,7 @@ func Test_given_correct_request_should_return_places_with_status_200(t *testing.
 		Language: "pl",
 	}
 
-	dummyPlaces := []*dto.AutocompleteEntryResponse{
+	dummyPlaces := []*dto.AutocompleteEntry{
 		{
 			Coordinates: &dto.Coordinates{
 				Lat:  5,
@@ -65,7 +65,7 @@ func Test_given_correct_request_should_return_places_with_status_200(t *testing.
 	router.ServeHTTP(recorder, request)
 
 	assert.Equal(t, http.StatusOK, recorder.Code)
-	expectedResponse := `[{"coordinates":{"lat":5,"long":6},"name":"name1","address":"address1"},{"coordinates":{"lat":10,"long":20},"name":"name2","address":"address2"}]`
+	expectedResponse := `{"status":"success","data":[{"coordinates":{"lat":5,"long":6},"name":"name1","address":"address1"},{"coordinates":{"lat":10,"long":20},"name":"name2","address":"address2"}]}`
 	assert.Equal(t, expectedResponse, strings.TrimSpace(recorder.Body.String()))
 }
 
@@ -79,7 +79,7 @@ func Test_given_bad_request_should_return_400(t *testing.T) {
 	router.ServeHTTP(recorder, request)
 
 	assert.Equal(t, http.StatusBadRequest, recorder.Code)
-	expectedResponse := `{"message":"Bad request"}`
+	expectedResponse := `{"status":"error","message":"Bad request"}`
 	assert.Equal(t, expectedResponse, strings.TrimSpace(recorder.Body.String()))
 }
 
@@ -98,6 +98,6 @@ func Test_given_service_error_should_return_service_error(t *testing.T) {
 	router.ServeHTTP(recorder, request)
 
 	assert.Equal(t, http.StatusNotFound, recorder.Code)
-	expectedResponse := `{"message":"Not found"}`
+	expectedResponse := `{"status":"error","message":"Not found"}`
 	assert.Equal(t, expectedResponse, strings.TrimSpace(recorder.Body.String()))
 }

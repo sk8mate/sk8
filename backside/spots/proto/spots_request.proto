@@ -4,16 +4,16 @@ option go_package = "./dto";
 
 package main;
 
-message SpotRequest {
+message SpotsAddRequest {
     string name = 1;
     string address = 2;
-    SpotCoordinates coordinates = 3;
+    Coordinates coordinates = 3;
     bool lighting = 4;
     bool friendly = 5;
     bool verified = 6;
 }
 
-message SpotCoordinates {
+message Coordinates {
     double lat = 1;
     double long = 2;
 }

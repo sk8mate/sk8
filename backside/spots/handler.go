@@ -3,6 +3,7 @@ package spots
 import (
 	"encoding/json"
 	"net/http"
+
 	"sk8.town/backside/errs"
 
 	"sk8.town/backside/spots/dto"
@@ -14,17 +15,20 @@ type Handler struct {
 }
 
 func (handler Handler) AddSpot(writer http.ResponseWriter, request *http.Request) {
-	var spotRequest dto.SpotRequest
-	if err := json.NewDecoder(request.Body).Decode(&spotRequest); err != nil {
-		appError := errs.NewBadRequestError("")
-		utils.WriteResponse(writer, appError.Code, appError.AsMessage())
+	var spotsRequest dto.SpotsAddRequest
+	if err := json.NewDecoder(request.Body).Decode(&spotsRequest); err != nil {
+		utils.WriteError(writer, errs.NewBadRequestError(""))
 		return
 	}
 
-	response, appError := handler.service.Add(&spotRequest)
+	spot, appError := handler.service.Add(&spotsRequest)
 	if appError != nil {
-		utils.WriteResponse(writer, appError.Code, appError.AsMessage())
+		utils.WriteError(writer, appError)
 	} else {
-		utils.WriteResponse(writer, http.StatusOK, response)
+		response := &dto.SpotsAddResponse{
+			Status: "success",
+			Data:   spot,
+		}
+		utils.WriteJSON(writer, http.StatusOK, response)
 	}
 }

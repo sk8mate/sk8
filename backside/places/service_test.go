@@ -2,8 +2,9 @@ package places
 
 import (
 	"regexp"
-	"sk8.town/backside/places/mocks"
 	"testing"
+
+	"sk8.town/backside/places/mocks"
 
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
@@ -68,7 +69,7 @@ func Test_should_return_places_response_when_places_retrieved_successfully(t *te
 
 	actualPlaces, appError := service.GetPlaces(&request)
 
-	var expectedPlace = &dto.AutocompleteEntryResponse{
+	var expectedPlace = &dto.AutocompleteEntry{
 		Coordinates: &dto.Coordinates{
 			Lat:  1,
 			Long: 2,

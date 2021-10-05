@@ -36,10 +36,10 @@ func (m *MockSpotService) EXPECT() *MockSpotServiceMockRecorder {
 }
 
 // Add mocks base method.
-func (m *MockSpotService) Add(arg0 *dto.SpotRequest) (*dto.SpotResponse, *errs.AppError) {
+func (m *MockSpotService) Add(arg0 *dto.SpotsAddRequest) (*dto.SpotsAddData, *errs.AppError) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Add", arg0)
-	ret0, _ := ret[0].(*dto.SpotResponse)
+	ret0, _ := ret[0].(*dto.SpotsAddData)
 	ret1, _ := ret[1].(*errs.AppError)
 	return ret0, ret1
 }
