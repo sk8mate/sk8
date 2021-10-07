@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontside/parts/navbar.dart';
+import 'package:sk8/parts/navbar.dart';
 
 class Home extends StatelessWidget {
   static const String route = "/home"; //default "/"

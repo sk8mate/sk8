@@ -1,7 +1,7 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
-import 'package:frontside/beamer_router.dart';
-import 'package:frontside/theme.dart';
+import 'package:sk8/beamer_router.dart';
+import 'package:sk8/theme.dart';
 
 void main() {
   Beamer.setPathUrlStrategy();
