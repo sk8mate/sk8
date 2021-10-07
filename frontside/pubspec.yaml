@@ -31,6 +31,12 @@ dev_dependencies:
 # The following section is specific to Flutter.
 flutter:
 
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  remove_alpha_ios: true
+  image_path: "assets/launcher_icon/sk8-material.png"
+
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
