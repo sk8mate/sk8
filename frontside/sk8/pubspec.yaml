@@ -26,14 +26,14 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: ^0.9.0  # https://pub.dev/packages/flutter_launcher_icons
+  flutter_launcher_icons:
 
+# Google Play icon design specifications: https://developer.android.com/distribute/google-play/resources/icon-design-specifications
 flutter_icons:
-  android: "launcher_icon"
+  image_path: "assets/launcher_icon/sk8-material.png" 
+  android: true 
   ios: true
   remove_alpha_ios: true
-  image_path: "assets/launcher_icon/sk8-material.png"
-  adaptive_icon_background: "#A0C8C8"
 
 # The following section is specific to Flutter.
 flutter:
