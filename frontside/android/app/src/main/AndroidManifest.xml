@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.frontside">
+    package="com.sk8.mate">
    <application
-        android:label="frontside"
+        android:label="sk8"
         android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
