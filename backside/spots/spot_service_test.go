@@ -305,3 +305,30 @@ func Test_update_request_should_return_updated_spot_response_when_spot_updated_s
 	assert.Nil(t, appError)
 	assert.Equal(t, expectedSpotsDtoData, *spotUpdatedData)
 }
+
+func Test_delete_request_should_propagate_an_error_from_db(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+	mockDb := mocks.NewMockSpotRepository(ctrl)
+	service := NewSpotService(mockDb)
+	expectedError := errs.NewNotFoundError("not found error")
+	id := 4
+	mockDb.EXPECT().Delete(id).Return(expectedError)
+
+	appError := service.Delete(id)
+
+	assert.Equal(t, expectedError, appError)
+}
+
+func Test_delete_request_should_return_no_error_when_spot_deleted_successfully(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+	mockDb := mocks.NewMockSpotRepository(ctrl)
+	service := NewSpotService(mockDb)
+	id := 4
+	mockDb.EXPECT().Delete(id).Return(nil)
+
+	appError := service.Delete(id)
+
+	assert.Nil(t, appError)
+}
