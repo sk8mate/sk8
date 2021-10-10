@@ -9,6 +9,10 @@ import (
 //go:generate mockgen --build_flags=--mod=mod -destination=./mocks/spot_service.go -package=mocks sk8.town/backside/spots SpotService
 type SpotService interface {
 	Add(*dto.SpotsAddRequest) (*dto.SpotsAddData, *errs.AppError)
+	Get(int) (*dto.SpotsGetData, *errs.AppError)
+	GetAll() ([]*dto.SpotsGetData, *errs.AppError)
+	Update(int, *dto.SpotsUpdateRequest) (*dto.SpotsUpdateData, *errs.AppError)
+	Delete(int) *errs.AppError
 }
 
 type DefaultSpotService struct {
