@@ -268,3 +268,33 @@ func Test_update_spot_given_service_error_should_return_service_error(t *testing
 	expectedResponse := `{"status":"error","message":"Not found"}`
 	assert.Equal(t, expectedResponse, strings.TrimSpace(recorder.Body.String()))
 }
+
+func Test_delete_spot_given_correct_request_should_return_status_200(t *testing.T) {
+	teardown := setup(t)
+	defer teardown()
+	id := 5
+	serviceMock.EXPECT().Delete(id).Return(nil)
+	router.HandleFunc("/spots/{id:[0-9]+}", handler.DeleteSpot)
+	request, _ := http.NewRequest(http.MethodDelete, "/spots/5", nil)
+	recorder := httptest.NewRecorder()
+
+	router.ServeHTTP(recorder, request)
+
+	assert.Equal(t, http.StatusOK, recorder.Code)
+}
+
+func Test_delete_spot_given_service_error_should_return_service_error(t *testing.T) {
+	teardown := setup(t)
+	defer teardown()
+	id := 5
+	serviceMock.EXPECT().Delete(id).Return(errs.NewNotFoundError(""))
+	router.HandleFunc("/spots/{id:[0-9]+}", handler.DeleteSpot)
+	request, _ := http.NewRequest(http.MethodDelete, "/spots/5", nil)
+	recorder := httptest.NewRecorder()
+
+	router.ServeHTTP(recorder, request)
+
+	assert.Equal(t, http.StatusNotFound, recorder.Code)
+	expectedResponse := `{"status":"error","message":"Not found"}`
+	assert.Equal(t, expectedResponse, strings.TrimSpace(recorder.Body.String()))
+}
