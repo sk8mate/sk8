@@ -36,3 +36,9 @@ func WriteJSON(writer http.ResponseWriter, code int, data interface{}) {
 		panic(err)
 	}
 }
+
+func WriteStatus(writer http.ResponseWriter, code int) {
+	writer.Header().Add("Content-Type", "application/json")
+	writer.WriteHeader(code)
+}
+

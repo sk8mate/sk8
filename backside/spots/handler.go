@@ -3,6 +3,7 @@ package spots
 import (
 	"encoding/json"
 	"net/http"
+	"strconv"
 
 	"sk8.town/backside/errs"
 
@@ -34,13 +35,62 @@ func (handler Handler) AddSpot(writer http.ResponseWriter, request *http.Request
 }
 
 func (handler Handler) GetSpot(writer http.ResponseWriter, request *http.Request) {
+	idParam := request.URL.Query().Get("id")
+	id, _ := strconv.Atoi(idParam)
+	spot, appError := handler.service.Get(id)
+	if appError != nil {
+		utils.WriteError(writer, appError)
+	} else {
+		response := &dto.SpotsGetResponse{
+			Status: "success",
+			Data:   spot,
+		}
+		utils.WriteJSON(writer, http.StatusOK, response)
+	}
 }
 
 func (handler Handler) GetSpots(writer http.ResponseWriter, request *http.Request) {
+	spots, appError := handler.service.GetAll()
+	if appError != nil {
+		utils.WriteError(writer, appError)
+	} else {
+		response := &dto.SpotsGetAllResponse{
+			Status: "success",
+			Data:   spots,
+		}
+		utils.WriteJSON(writer, http.StatusOK, response)
+	}
 }
 
 func (handler Handler) UpdateSpot(writer http.ResponseWriter, request *http.Request) {
+	var spotsRequest dto.SpotsUpdateRequest
+	if err := json.NewDecoder(request.Body).Decode(&spotsRequest); err != nil {
+		utils.WriteError(writer, errs.NewBadRequestError(""))
+		return
+	}
+
+	idParam := request.URL.Query().Get("id")
+	id, _ := strconv.Atoi(idParam)
+
+	spot, appError := handler.service.Update(id, &spotsRequest)
+	if appError != nil {
+		utils.WriteError(writer, appError)
+	} else {
+		response := &dto.SpotsUpdateResponse{
+			Status: "success",
+			Data:   spot,
+		}
+		utils.WriteJSON(writer, http.StatusOK, response)
+	}
 }
 
 func (handler Handler) DeleteSpot(writer http.ResponseWriter, request *http.Request) {
+	idParam := request.URL.Query().Get("id")
+	id, _ := strconv.Atoi(idParam)
+	appError := handler.service.Delete(id)
+	if appError != nil {
+		utils.WriteError(writer, appError)
+	} else {
+		utils.WriteStatus(writer, http.StatusOK)
+	}
 }
