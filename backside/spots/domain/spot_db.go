@@ -24,7 +24,10 @@ type SpotDb struct {
 }
 
 func (db SpotDb) Add(spot *Spot) (*Spot, *errs.AppError) {
-	db.client.Create(spot)
+	err := db.client.Create(spot).Error
+	if err != nil {
+		return nil, errs.NewUnexpectedError(err.Error())
+	}
 	db.client.Find(&spot)
 	return spot, nil
 }
@@ -34,7 +37,12 @@ func (db SpotDb) Get(int) (*Spot, *errs.AppError) {
 }
 
 func (db SpotDb) GetAll() ([]*Spot, *errs.AppError) {
-	return nil, nil
+	var spots []*Spot
+	err := db.client.Model(&Spot{}).Find(&spots).Error
+	if err != nil {
+		return nil, errs.NewUnexpectedError(err.Error())
+	}
+	return spots, nil
 }
 
 func (db SpotDb) Update(int, *Spot) (*Spot, *errs.AppError) {
