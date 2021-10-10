@@ -29,6 +29,22 @@ func (db SpotDb) Add(spot *Spot) (*Spot, *errs.AppError) {
 	return spot, nil
 }
 
+func (db SpotDb) Get(int) (*Spot, *errs.AppError) {
+	return nil, nil
+}
+
+func (db SpotDb) GetAll() ([]*Spot, *errs.AppError) {
+	return nil, nil
+}
+
+func (db SpotDb) Update(int, *Spot) (*Spot, *errs.AppError) {
+	return nil, nil
+}
+
+func (db SpotDb) Delete(int) (int, *errs.AppError) {
+	return 0, nil
+}
+
 func NewSpotDb(host, port, dbName, user, password string) SpotDb {
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Europe/Warsaw",
 		host, user, password, dbName, port)
