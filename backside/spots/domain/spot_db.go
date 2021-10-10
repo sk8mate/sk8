@@ -32,8 +32,13 @@ func (db SpotDb) Add(spot *Spot) (*Spot, *errs.AppError) {
 	return spot, nil
 }
 
-func (db SpotDb) Get(int) (*Spot, *errs.AppError) {
-	return nil, nil
+func (db SpotDb) Get(id int) (*Spot, *errs.AppError) {
+	var spot Spot
+	err := db.client.Model(&Spot{}).Where("id = ?", id).Take(&spot).Error
+	if err != nil {
+		return nil, errs.NewUnexpectedError(err.Error())
+	}
+	return &spot, nil
 }
 
 func (db SpotDb) GetAll() ([]*Spot, *errs.AppError) {
