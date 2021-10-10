@@ -42,6 +42,22 @@ func (s DefaultSpotService) Add(request *dto.SpotsAddRequest) (*dto.SpotsAddData
 	return &spotDtoResponse, nil
 }
 
+func (s DefaultSpotService) Get(id int) (*dto.SpotsGetData, *errs.AppError) {
+	return nil, nil
+}
+
+func (s DefaultSpotService) GetAll() ([]*dto.SpotsGetData, *errs.AppError) {
+	return nil, nil
+}
+
+func (s DefaultSpotService) Delete(id int) *errs.AppError {
+	return nil
+}
+
+func (s DefaultSpotService) Update(id int, request *dto.SpotsUpdateRequest) (*dto.SpotsUpdateData, *errs.AppError) {
+	return nil, nil
+}
+
 func NewSpotService(repo domain.SpotRepository) DefaultSpotService {
 	return DefaultSpotService{
 		spotRepo: repo,
