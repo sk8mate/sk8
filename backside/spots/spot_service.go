@@ -76,10 +76,13 @@ func (s DefaultSpotService) Update(id int, request *dto.SpotsUpdateRequest) (*dt
 	spotFromRequest := domain.Spot{
 		Name:        request.Name,
 		Address:     request.Address,
-		Coordinates: domain.Coordinates{Lat: request.Coordinates.Lat, Long: request.Coordinates.Long},
 		Lighting:    request.Lighting,
 		Friendly:    request.Friendly,
 		Verified:    request.Verified,
+	}
+	if request.Coordinates!= nil{
+		spotFromRequest.Coordinates.Lat = request.Coordinates.Lat
+		spotFromRequest.Coordinates.Long = request.Coordinates.Long
 	}
 
 	updatedSpot, err := s.spotRepo.Update(id, &spotFromRequest)
