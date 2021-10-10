@@ -147,3 +147,57 @@ func Test_get_spot_given_service_error_should_return_service_error(t *testing.T)
 	expectedResponse := `{"status":"error","message":"Not found"}`
 	assert.Equal(t, expectedResponse, strings.TrimSpace(recorder.Body.String()))
 }
+
+func Test_get_spots_given_correct_request_should_return_spots_with_status_200(t *testing.T) {
+	teardown := setup(t)
+	defer teardown()
+	spotsGetAllData := []*dto.SpotsGetData{
+		{Id: "5",
+			Name:    "Dom",
+			Address: "Grzegorzecka 79f Krakow",
+			Coordinates: &dto.ResponseCoordinates{
+				Lat:  40,
+				Long: 60,
+			},
+			Lighting: true,
+			Friendly: true,
+			Verified: true,
+		},
+		{Id: "6",
+			Name:    "Sasiad",
+			Address: "Grzegorzecka 79e Krakow",
+			Coordinates: &dto.ResponseCoordinates{
+				Lat:  40,
+				Long: 60,
+			},
+			Lighting: false,
+			Friendly: false,
+			Verified: false,
+		},
+	}
+	serviceMock.EXPECT().GetAll().Return(spotsGetAllData, nil)
+	router.HandleFunc("/spots", handler.GetSpots)
+	request, _ := http.NewRequest(http.MethodGet, "/spots", nil)
+	recorder := httptest.NewRecorder()
+
+	router.ServeHTTP(recorder, request)
+
+	assert.Equal(t, http.StatusOK, recorder.Code)
+	expectedResponse := `{"status":"success","data":[{"id":"5","name":"Dom","address":"Grzegorzecka 79f Krakow","coordinates":{"lat":40,"long":60},"lighting":true,"friendly":true,"verified":true},{"id":"6","name":"Sasiad","address":"Grzegorzecka 79e Krakow","coordinates":{"lat":40,"long":60}}]}`
+	assert.Equal(t, expectedResponse, strings.TrimSpace(recorder.Body.String()))
+}
+
+func Test_get_spots_given_service_error_should_return_service_error(t *testing.T) {
+	teardown := setup(t)
+	defer teardown()
+	serviceMock.EXPECT().GetAll().Return(nil, errs.NewNotFoundError(""))
+	router.HandleFunc("/spots", handler.GetSpots)
+	request, _ := http.NewRequest(http.MethodPost, "/spots", nil)
+	recorder := httptest.NewRecorder()
+
+	router.ServeHTTP(recorder, request)
+
+	assert.Equal(t, http.StatusNotFound, recorder.Code)
+	expectedResponse := `{"status":"error","message":"Not found"}`
+	assert.Equal(t, expectedResponse, strings.TrimSpace(recorder.Body.String()))
+}
