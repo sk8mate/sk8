@@ -13,6 +13,10 @@ import (
 //go:generate mockgen --build_flags=--mod=mod -destination=../mocks/spot_repository.go -package=mocks sk8.town/backside/spots/domain SpotRepository
 type SpotRepository interface {
 	Add(*Spot) (*Spot, *errs.AppError)
+	Get(int) (*Spot, *errs.AppError)
+	GetAll() ([]*Spot, *errs.AppError)
+	Update(int, *Spot) (*Spot, *errs.AppError)
+	Delete(int) (int, *errs.AppError)
 }
 
 type SpotDb struct {
