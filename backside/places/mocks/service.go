@@ -36,10 +36,10 @@ func (m *MockService) EXPECT() *MockServiceMockRecorder {
 }
 
 // GetPlaces mocks base method.
-func (m *MockService) GetPlaces(arg0 *dto.AutocompleteRequest) ([]*dto.AutocompleteEntryResponse, *errs.AppError) {
+func (m *MockService) GetPlaces(arg0 *dto.AutocompleteRequest) ([]*dto.AutocompleteEntry, *errs.AppError) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetPlaces", arg0)
-	ret0, _ := ret[0].([]*dto.AutocompleteEntryResponse)
+	ret0, _ := ret[0].([]*dto.AutocompleteEntry)
 	ret1, _ := ret[1].(*errs.AppError)
 	return ret0, ret1
 }

@@ -4,7 +4,7 @@ option go_package = "./dto";
 
 package main;
 
-message AutocompleteEntryResponse {
+message AutocompleteEntry {
     Coordinates coordinates = 1;
     string name = 2;
     string address = 3;
@@ -13,4 +13,9 @@ message AutocompleteEntryResponse {
 message Coordinates {
     double lat = 1;
     double long = 2;
+}
+
+message AutocompleteResponse {
+    string status = 1;
+    repeated AutocompleteEntry data = 2;
 }

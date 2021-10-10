@@ -1,9 +1,0 @@
-syntax = "proto3";
-
-option go_package = "./dto";
-
-package main;
-
-message SpotResponse {
-  string id = 1;
-}

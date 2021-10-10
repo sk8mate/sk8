@@ -20,15 +20,18 @@ func (handler Handler) GetPlacesAutocomplete(writer http.ResponseWriter, request
 	var placesRequest dto.AutocompleteRequest
 
 	if err := decoder.Decode(&placesRequest, request.URL.Query()); err != nil {
-		appError := errs.NewBadRequestError("")
-		utils.WriteResponse(writer, appError.Code, appError.AsMessage())
+		utils.WriteError(writer, errs.NewBadRequestError(""))
 		return
 	}
 
-	response, appError := handler.Service.GetPlaces(&placesRequest)
+	places, appError := handler.Service.GetPlaces(&placesRequest)
 	if appError != nil {
-		utils.WriteResponse(writer, appError.Code, appError.AsMessage())
+		utils.WriteError(writer, appError)
 	} else {
-		utils.WriteResponse(writer, http.StatusOK, response)
+		response := &dto.AutocompleteResponse{
+			Status: "success",
+			Data:   places,
+		}
+		utils.WriteJSON(writer, http.StatusOK, response)
 	}
 }

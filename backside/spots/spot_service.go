@@ -8,14 +8,14 @@ import (
 
 //go:generate mockgen --build_flags=--mod=mod -destination=./mocks/spot_service.go -package=mocks sk8.town/backside/spots SpotService
 type SpotService interface {
-	Add(*dto.SpotRequest) (*dto.SpotResponse, *errs.AppError)
+	Add(*dto.SpotsAddRequest) (*dto.SpotsAddData, *errs.AppError)
 }
 
 type DefaultSpotService struct {
 	spotRepo domain.SpotRepository
 }
 
-func (s DefaultSpotService) Add(request *dto.SpotRequest) (*dto.SpotResponse, *errs.AppError) {
+func (s DefaultSpotService) Add(request *dto.SpotsAddRequest) (*dto.SpotsAddData, *errs.AppError) {
 	if validationError := request.Validate(); validationError != nil {
 		return nil, validationError
 	}

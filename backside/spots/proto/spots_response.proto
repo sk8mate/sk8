@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+option go_package = "./dto";
+
+package main;
+
+message SpotsAddData {
+  string id = 1;
+}
+
+message SpotsAddResponse {
+  string status = 1;
+  SpotsAddData data = 2;
+}
