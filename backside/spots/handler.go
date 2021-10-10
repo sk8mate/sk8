@@ -2,6 +2,7 @@ package spots
 
 import (
 	"encoding/json"
+	"github.com/gorilla/mux"
 	"net/http"
 	"strconv"
 
@@ -35,8 +36,15 @@ func (handler Handler) AddSpot(writer http.ResponseWriter, request *http.Request
 }
 
 func (handler Handler) GetSpot(writer http.ResponseWriter, request *http.Request) {
-	idParam := request.URL.Query().Get("id")
-	id, _ := strconv.Atoi(idParam)
+	vars := mux.Vars(request)
+	idAsString := vars["id"]
+	id, err := strconv.Atoi(idAsString)
+	if err != nil {
+		appError := errs.NewBadRequestError("")
+		utils.WriteError(writer, appError)
+		return
+	}
+
 	spot, appError := handler.service.Get(id)
 	if appError != nil {
 		utils.WriteError(writer, appError)
@@ -69,8 +77,14 @@ func (handler Handler) UpdateSpot(writer http.ResponseWriter, request *http.Requ
 		return
 	}
 
-	idParam := request.URL.Query().Get("id")
-	id, _ := strconv.Atoi(idParam)
+	vars := mux.Vars(request)
+	idAsString := vars["id"]
+	id, err := strconv.Atoi(idAsString)
+	if err != nil {
+		appError := errs.NewBadRequestError("")
+		utils.WriteError(writer, appError)
+		return
+	}
 
 	spot, appError := handler.service.Update(id, &spotsRequest)
 	if appError != nil {
@@ -85,8 +99,15 @@ func (handler Handler) UpdateSpot(writer http.ResponseWriter, request *http.Requ
 }
 
 func (handler Handler) DeleteSpot(writer http.ResponseWriter, request *http.Request) {
-	idParam := request.URL.Query().Get("id")
-	id, _ := strconv.Atoi(idParam)
+	vars := mux.Vars(request)
+	idAsString := vars["id"]
+	id, err := strconv.Atoi(idAsString)
+	if err != nil {
+		appError := errs.NewBadRequestError("")
+		utils.WriteError(writer, appError)
+		return
+	}
+
 	appError := handler.service.Delete(id)
 	if appError != nil {
 		utils.WriteError(writer, appError)
