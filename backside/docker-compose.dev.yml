@@ -9,6 +9,8 @@ services:
       - POSTGRES_USER=$SK8_DB_USER
       - POSTGRES_PASSWORD=$SK8_DB_PASSWORD
       - POSTGRES_DB=$SK8_DB_NAME
+    ports:
+      - "5432:5432"
   backside:
     build:
       context: .
