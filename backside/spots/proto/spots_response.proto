@@ -4,11 +4,50 @@ option go_package = "./dto";
 
 package main;
 
+message SpotsAddResponse {
+  string status = 1;
+  SpotsAddData data = 2;
+}
 message SpotsAddData {
   string id = 1;
 }
 
-message SpotsAddResponse {
+message SpotsUpdateResponse {
   string status = 1;
-  SpotsAddData data = 2;
+  SpotsUpdateData data = 2;
+}
+
+message SpotsUpdateData{
+  string id = 1;
+  string name = 2;
+  string address = 3;
+  ResponseCoordinates coordinates = 4;
+  bool lighting = 5;
+  bool friendly = 6;
+  bool verified = 7;
+}
+
+message ResponseCoordinates {
+  double lat = 1;
+  double long = 2;
+}
+
+message SpotsGetResponse {
+  string status = 1;
+  SpotsGetData data = 2;
+}
+
+message SpotsGetData{
+  string id = 1;
+  string name = 2;
+  string address = 3;
+  ResponseCoordinates coordinates = 4;
+  bool lighting = 5;
+  bool friendly = 6;
+  bool verified = 7;
+}
+
+message SpotsGetAllResponse {
+  string status = 1;
+  repeated SpotsGetData data = 2;
 }
