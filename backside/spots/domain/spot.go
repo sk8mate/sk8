@@ -21,8 +21,38 @@ type Coordinates struct {
 	Long float64 `gorm:"long"`
 }
 
-func (s Spot) ToResponseDto() dto.SpotsAddData {
+func (s Spot) ToAddSpotResponseDto() dto.SpotsAddData {
 	return dto.SpotsAddData{Id: strconv.Itoa(s.Id)}
+}
+
+func (s Spot) ToGetSpotResponseDto() dto.SpotsGetData {
+	return dto.SpotsGetData{
+		Id:      strconv.Itoa(s.Id),
+		Name:    s.Name,
+		Address: s.Address,
+		Coordinates: &dto.ResponseCoordinates{
+			Lat:  s.Coordinates.Lat,
+			Long: s.Coordinates.Long,
+		},
+		Lighting: s.Lighting,
+		Friendly: s.Friendly,
+		Verified: s.Verified,
+	}
+}
+
+func (s Spot) ToUpdateSpotResponseDto() dto.SpotsUpdateData {
+	return dto.SpotsUpdateData{
+		Id:      strconv.Itoa(s.Id),
+		Name:    s.Name,
+		Address: s.Address,
+		Coordinates: &dto.ResponseCoordinates{
+			Lat:  s.Coordinates.Lat,
+			Long: s.Coordinates.Long,
+		},
+		Lighting: s.Lighting,
+		Friendly: s.Friendly,
+		Verified: s.Verified,
+	}
 }
 
 func (s Spot) toMap() map[string]interface{} {

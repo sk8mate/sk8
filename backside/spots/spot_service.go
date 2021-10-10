@@ -38,24 +38,57 @@ func (s DefaultSpotService) Add(request *dto.SpotsAddRequest) (*dto.SpotsAddData
 		return nil, err
 	}
 
-	spotDtoResponse := createdSpot.ToResponseDto()
+	spotDtoResponse := createdSpot.ToAddSpotResponseDto()
 	return &spotDtoResponse, nil
 }
 
 func (s DefaultSpotService) Get(id int) (*dto.SpotsGetData, *errs.AppError) {
-	return nil, nil
+	spot, err := s.spotRepo.Get(id)
+	if err != nil {
+		return nil, err
+	}
+
+	spotDtoResponse := spot.ToGetSpotResponseDto()
+	return &spotDtoResponse, nil
 }
 
 func (s DefaultSpotService) GetAll() ([]*dto.SpotsGetData, *errs.AppError) {
-	return nil, nil
+	spots, err := s.spotRepo.GetAll()
+	if err != nil {
+		return nil, err
+	}
+
+	var spotsDtoData []*dto.SpotsGetData
+
+	for _, spot := range spots {
+		spotDto := spot.ToGetSpotResponseDto()
+		spotsDtoData = append(spotsDtoData, &spotDto)
+	}
+
+	return spotsDtoData, nil
 }
 
 func (s DefaultSpotService) Delete(id int) *errs.AppError {
-	return nil
+	return s.spotRepo.Delete(id)
 }
 
 func (s DefaultSpotService) Update(id int, request *dto.SpotsUpdateRequest) (*dto.SpotsUpdateData, *errs.AppError) {
-	return nil, nil
+	spotFromRequest := domain.Spot{
+		Name:        request.Name,
+		Address:     request.Address,
+		Coordinates: domain.Coordinates{Lat: request.Coordinates.Lat, Long: request.Coordinates.Long},
+		Lighting:    request.Lighting,
+		Friendly:    request.Friendly,
+		Verified:    request.Verified,
+	}
+
+	updatedSpot, err := s.spotRepo.Update(id, &spotFromRequest)
+	if err != nil {
+		return nil, err
+	}
+
+	spotDtoResponse := updatedSpot.ToUpdateSpotResponseDto()
+	return &spotDtoResponse, nil
 }
 
 func NewSpotService(repo domain.SpotRepository) DefaultSpotService {
