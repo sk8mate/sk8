@@ -2,10 +2,9 @@ package domain
 
 import (
 	"fmt"
-	"os"
-
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"os"
 	"sk8.town/backside/errs"
 	"sk8.town/backside/logger"
 )
@@ -50,14 +49,18 @@ func (db SpotDb) GetAll() ([]*Spot, *errs.AppError) {
 	return spots, nil
 }
 
-func (db SpotDb) Update(int, *Spot) (*Spot, *errs.AppError) {
-	return nil, nil
+func (db SpotDb) Update(id int, spotToUpdateWith *Spot) (*Spot, *errs.AppError) {
+	err := db.client.Model(&Spot{}).Where("id = ?", id).Take(&Spot{}).UpdateColumns(spotToUpdateWith.toMap()).Error
+	if err != nil {
+		return nil, errs.NewUnexpectedError(err.Error())
+	}
+	return db.Get(id)
 }
 
 func (db SpotDb) Delete(id int) *errs.AppError {
-	tx := db.client.Model(&Spot{}).Where("id = ?", id).Delete(&Spot{})
-	if tx.Error != nil {
-		return errs.NewUnexpectedError(tx.Error.Error())
+	err := db.client.Model(&Spot{}).Where("id = ?", id).Delete(&Spot{}).Error
+	if err != nil {
+		return errs.NewUnexpectedError(err.Error())
 	}
 	return nil
 }
