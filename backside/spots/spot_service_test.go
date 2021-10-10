@@ -147,3 +147,81 @@ func Test_get_request_should_return_spot_response_when_spot_retrieved_successful
 	assert.Nil(t, appError)
 	assert.Equal(t, expectedSpotDtoData, *spotsGetData)
 }
+
+func Test_get_all_request_should_propagate_an_error_from_db(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+	mockDb := mocks.NewMockSpotRepository(ctrl)
+	service := NewSpotService(mockDb)
+	expectedError := errs.NewNotFoundError("not found error")
+	mockDb.EXPECT().GetAll().Return(nil, expectedError)
+
+	_, appError := service.GetAll()
+
+	assert.Equal(t, expectedError, appError)
+}
+
+func Test_get_all_request_should_return_spots_response_when_spots_retrieved_successfully(t *testing.T) {
+	spots := []*domain.Spot{
+		{
+			Id: 1,
+			Name:    "Dworzec Glowny Krakow",
+			Address: "Pawia 5",
+			Coordinates: domain.Coordinates{
+				Lat:  40,
+				Long: 60,
+			},
+			Lighting: true,
+			Friendly: true,
+			Verified: true,
+		},
+		{
+			Id: 2,
+			Name:    "Brama Zuraw",
+			Address: "Szeroka 67/68, 22-100 Gdansk",
+			Coordinates: domain.Coordinates{
+				Lat:  54.35,
+				Long: 18.66,
+			},
+			Lighting: true,
+			Friendly: false,
+			Verified: true,
+		},
+	}
+	expectedSpotsDtoData := []*dto.SpotsGetData{
+		{
+			Id: "1",
+			Name:    "Dworzec Glowny Krakow",
+			Address: "Pawia 5",
+			Coordinates: &dto.ResponseCoordinates{
+				Lat:  40,
+				Long: 60,
+			},
+			Lighting: true,
+			Friendly: true,
+			Verified: true,
+		},
+		{
+			Id: "2",
+			Name:    "Brama Zuraw",
+			Address: "Szeroka 67/68, 22-100 Gdansk",
+			Coordinates: &dto.ResponseCoordinates{
+				Lat:  54.35,
+				Long: 18.66,
+			},
+			Lighting: true,
+			Friendly: false,
+			Verified: true,
+		},
+	}
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+	mockDb := mocks.NewMockSpotRepository(ctrl)
+	service := NewSpotService(mockDb)
+	mockDb.EXPECT().GetAll().Return(spots, nil)
+
+	spotsGetAllData, appError := service.GetAll()
+
+	assert.Nil(t, appError)
+	assert.Equal(t, expectedSpotsDtoData, spotsGetAllData)
+}
