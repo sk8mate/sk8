@@ -20,4 +20,20 @@ func Make(router *mux.Router) {
 		HandleFunc("/spots", handler.AddSpot).
 		Methods(http.MethodPost).
 		Name("AddNewSpot")
+	router.
+		HandleFunc("/spots/{spot_id:[0-9]+}", handler.GetSpot).
+		Methods(http.MethodGet).
+		Name("GetSpotById")
+	router.
+		HandleFunc("/spots", handler.GetSpots).
+		Methods(http.MethodGet).
+		Name("GetAllSpots")
+	router.
+		HandleFunc("/spots/{spot_id:[0-9]+}", handler.UpdateSpot).
+		Methods(http.MethodPut).
+		Name("UpdateSpot")
+	router.
+		HandleFunc("/spots/{spot_id:[0-9]+}", handler.DeleteSpot).
+		Methods(http.MethodDelete).
+		Name("DeleteSpot")
 }

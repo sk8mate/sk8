@@ -32,3 +32,15 @@ func (handler Handler) AddSpot(writer http.ResponseWriter, request *http.Request
 		utils.WriteJSON(writer, http.StatusOK, response)
 	}
 }
+
+func (handler Handler) GetSpot(writer http.ResponseWriter, request *http.Request) {
+}
+
+func (handler Handler) GetSpots(writer http.ResponseWriter, request *http.Request) {
+}
+
+func (handler Handler) UpdateSpot(writer http.ResponseWriter, request *http.Request) {
+}
+
+func (handler Handler) DeleteSpot(writer http.ResponseWriter, request *http.Request) {
+}
