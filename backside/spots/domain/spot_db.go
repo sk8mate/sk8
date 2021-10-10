@@ -16,7 +16,7 @@ type SpotRepository interface {
 	Get(int) (*Spot, *errs.AppError)
 	GetAll() ([]*Spot, *errs.AppError)
 	Update(int, *Spot) (*Spot, *errs.AppError)
-	Delete(int) (int, *errs.AppError)
+	Delete(int) *errs.AppError
 }
 
 type SpotDb struct {
@@ -54,8 +54,12 @@ func (db SpotDb) Update(int, *Spot) (*Spot, *errs.AppError) {
 	return nil, nil
 }
 
-func (db SpotDb) Delete(int) (int, *errs.AppError) {
-	return 0, nil
+func (db SpotDb) Delete(id int) *errs.AppError {
+	tx := db.client.Model(&Spot{}).Where("id = ?", id).Delete(&Spot{})
+	if tx.Error != nil {
+		return errs.NewUnexpectedError(tx.Error.Error())
+	}
+	return nil
 }
 
 func NewSpotDb(host, port, dbName, user, password string) SpotDb {

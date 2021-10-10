@@ -50,12 +50,11 @@ func (mr *MockSpotRepositoryMockRecorder) Add(arg0 interface{}) *gomock.Call {
 }
 
 // Delete mocks base method
-func (m *MockSpotRepository) Delete(arg0 int) (int, *errs.AppError) {
+func (m *MockSpotRepository) Delete(arg0 int) *errs.AppError {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Delete", arg0)
-	ret0, _ := ret[0].(int)
-	ret1, _ := ret[1].(*errs.AppError)
-	return ret0, ret1
+	ret0, _ := ret[0].(*errs.AppError)
+	return ret0
 }
 
 // Delete indicates an expected call of Delete
