@@ -1,43 +1,90 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 import 'package:frontside/parts/navbar.dart';
 import 'package:frontside/views/home/autocomplete_response.pb.dart';
-import 'package:frontside/views/home/autocomplete_request.pb.dart';
+// import 'package:frontside/views/home/autocomplete_request.pb.dart';
 
-class PlacesSearchDelegate extends SearchDelegate<String> {
+// class Debouncer<T> {
+//   Debouncer(this.duration, this.onValue);
+//   final Duration duration;
+//   void Function(T value) onValue;
+//   late T _value;
+//   late Timer? _timer;
+//   T get value => _value;
+//   set value(T val) {
+//     _value = val;
+//     _timer?.cancel();
+//     _timer = Timer(duration, () => onValue(_value));
+//   }
+// }
+
+// final _completer = Completer<AutocompleteResponse?>();
+
+// var _debouncer = Debouncer<String>(Duration(milliseconds: 500), (value) {
+//   _completer.complete(_getSuggestions(query));
+// });
+
+class PlacesSearchDelegate extends SearchDelegate<AutocompleteEntry?> {
   @override
   Widget buildLeading(BuildContext context) {
     return IconButton(
       icon: Icon(Icons.arrow_back),
       onPressed: () {
-        close(context, '');
+        close(context, null);
       },
     );
   }
 
-  Future<List<AutocompleteEntryResponse>> _getSuggestions() {}
+  Future<AutocompleteResponse?> _getSuggestions(String value) async {
+    if (value.isEmpty) {
+      return null;
+    }
+
+    // TODO: Use AutocompleteRequest (proto)
+    // TODO: Debounce a request
+    // TODO: Use env variables for API endpoint
+    // var request = AutocompleteRequest(language: "pl", search: "Warszawa").toProto3Json();
+    final uri = Uri.http('localhost:8080', '/places/autocomplete', {
+      "language": "pl",
+      "search": value,
+    });
+    var response = await http.get(uri);
+
+    return AutocompleteResponse.create()
+      ..mergeFromProto3Json(jsonDecode(utf8.decode(response.bodyBytes)));
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    return FutureBuilder(
+        builder: (BuildContext context,
+            AsyncSnapshot<AutocompleteResponse?> response) {
+          var suggestions = response.data?.data ?? [];
+
+          return ListView.builder(
+            itemBuilder: (context, index) {
+              var suggestion = suggestions[index];
+
+              return ListTile(
+                title: Text(suggestion.name),
+                onTap: () {
+                  close(context, suggestion);
+                },
+              );
+            },
+            itemCount: suggestions.length,
+          );
+        },
+        future: _getSuggestions(query));
+  }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return FutureBuilder(
-      builder: (BuildContext context,
-          AsyncSnapshot<List<AutocompleteEntryResponse>> response) {
-        if (!response.hasData) {
-          return Text('No results');
-        }
-        return ListView.builder(
-          itemBuilder: (context, index) => ListTile(
-            title: Text(response.data![index]),
-            onTap: () {
-              close(context, response.data![index]);
-            },
-          ),
-          itemCount: suggestions.data!.length,
-        );
-      },
-      future: _getSuggestions(),
-    );
+    return buildResults(context);
   }
 
   @override
@@ -57,8 +104,10 @@ class Home extends StatelessWidget {
           padding: EdgeInsets.all(16),
           child: TextField(
             readOnly: true,
-            onTap: () {
-              showSearch(context: context, delegate: PlacesSearchDelegate());
+            onTap: () async {
+              var result = await showSearch(
+                  context: context, delegate: PlacesSearchDelegate());
+              print("result: ${result}");
             },
             decoration: InputDecoration(
                 border: OutlineInputBorder(
