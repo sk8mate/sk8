@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:frontside/views/home/autocomplete_request.pb.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:flutter/material.dart';
 import 'package:frontside/parts/navbar.dart';
@@ -44,14 +46,16 @@ class PlacesSearchDelegate extends SearchDelegate<AutocompleteEntry?> {
       return null;
     }
 
-    // TODO: Use AutocompleteRequest (proto)
     // TODO: Debounce a request
-    // TODO: Use env variables for API endpoint
-    // var request = AutocompleteRequest(language: "pl", search: "Warszawa").toProto3Json();
-    final uri = Uri.http('localhost:8080', '/places/autocomplete', {
-      "language": "pl",
-      "search": value,
-    });
+    // TODO: Parametrize a language
+    // TODO: Error handling
+    var request = AutocompleteRequest(language: "pl", search: value);
+    final queryParameters = {
+      "language": request.language,
+      "search": request.search
+    };
+    final uri = Uri.parse(
+        '${dotenv.env['SK8_BACKSIDE_URL']}/places/autocomplete?${Uri(queryParameters: queryParameters).query}');
     var response = await http.get(uri);
 
     return AutocompleteResponse.create()
@@ -71,6 +75,7 @@ class PlacesSearchDelegate extends SearchDelegate<AutocompleteEntry?> {
 
               return ListTile(
                 title: Text(suggestion.name),
+                subtitle: Text(suggestion.address),
                 onTap: () {
                   close(context, suggestion);
                 },
