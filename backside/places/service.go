@@ -17,7 +17,7 @@ type DefaultService struct {
 
 func (s DefaultService) GetPlaces(request *dto.AutocompleteRequest) ([]*dto.AutocompleteEntry, *errs.AppError) {
 	if err := request.Validate(); err != nil {
-		return nil, err
+		return nil, errs.NewValidationError(err.Error())
 	}
 
 	language, languageErr := s.languageParser.Parse(request.Language)
