@@ -28,7 +28,7 @@ func Test_given_valid_spot_should_return_success(t *testing.T) {
 	request := SpotsAddRequest{
 		Name:    "Dworzec Glowny Krakow",
 		Address: "Pawia 5",
-		Coordinates: &Coordinates{
+		Coordinates: &RequestCoordinates{
 			Lat:  40,
 			Long: 60,
 		},
