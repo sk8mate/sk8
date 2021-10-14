@@ -3,6 +3,7 @@ syntax = "proto3";
 option go_package = "./dto";
 
 package main;
+
 import "validate/validate.proto";
 
 message SpotsAddRequest {
