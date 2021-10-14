@@ -14,11 +14,33 @@ import (
 	"sk8.town/backside/spots/dto"
 )
 
+func Test_given_invalid_request_should_return_unprocessable_entity(t *testing.T) {
+	request := dto.SpotsAddRequest{
+		Address: "Pawia 5",
+		Coordinates: &dto.SpotsAddRequest_Coordinates{
+			Lat:  40,
+			Long: 60,
+		},
+		Lighting: true,
+		Friendly: true,
+		Verified: true,
+	}
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+	mockDb := mocks.NewMockSpotRepository(ctrl)
+	service := NewSpotService(mockDb)
+	expectedError := errs.NewValidationError("invalid SpotsAddRequest.Name: value length must be at least 1 runes")
+
+	_, appError := service.Add(&request)
+
+	assert.Equal(t, expectedError, appError)
+}
+
 func Test_add_request_should_propagate_an_error_from_db(t *testing.T) {
 	request := dto.SpotsAddRequest{
 		Name:    "Dworzec Glowny Krakow",
 		Address: "Pawia 5",
-		Coordinates: &dto.RequestCoordinates{
+		Coordinates: &dto.SpotsAddRequest_Coordinates{
 			Lat:  40,
 			Long: 60,
 		},
@@ -53,7 +75,7 @@ func Test_add_request_should_return_spots_response_when_spot_added_successfully(
 	request := dto.SpotsAddRequest{
 		Name:    "Dworzec Glowny Krakow",
 		Address: "Pawia 5",
-		Coordinates: &dto.RequestCoordinates{
+		Coordinates: &dto.SpotsAddRequest_Coordinates{
 			Lat:  40,
 			Long: 60,
 		},
