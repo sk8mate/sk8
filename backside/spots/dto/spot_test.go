@@ -65,7 +65,7 @@ func Test_given_valid_spot_should_return_success(t *testing.T) {
 		Verified: true,
 	}
 
-	appError := request.Validate()
+	err := request.Validate()
 
-	assert.Nil(t, appError)
+	assert.Nil(t, err)
 }

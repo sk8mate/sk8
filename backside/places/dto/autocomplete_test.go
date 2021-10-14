@@ -1,8 +1,6 @@
 package dto
 
 import (
-	"net/http"
-	"regexp"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -14,10 +12,9 @@ func Test_given_empty_search_param_should_return_error(t *testing.T) {
 		Language: "pl",
 	}
 
-	appError := request.Validate()
+	err := request.Validate()
 
-	assert.Equal(t, http.StatusUnprocessableEntity, appError.Code)
-	assert.Regexp(t, regexp.MustCompile(`"search" is required`), appError.Message)
+	assert.Equal(t, "invalid AutocompleteRequest.Search: value length must be at least 1 runes", err.Error())
 }
 
 func Test_given_empty_language_param_should_return_error(t *testing.T) {
@@ -26,10 +23,9 @@ func Test_given_empty_language_param_should_return_error(t *testing.T) {
 		Language: "",
 	}
 
-	appError := request.Validate()
+	err := request.Validate()
 
-	assert.Equal(t, http.StatusUnprocessableEntity, appError.Code)
-	assert.Regexp(t, regexp.MustCompile(`"language" is required`), appError.Message)
+	assert.Equal(t, "invalid AutocompleteRequest.Language: value must be in list [pl en]", err.Error())
 }
 
 func Test_given_invalid_language_should_return_error(t *testing.T) {
@@ -38,10 +34,9 @@ func Test_given_invalid_language_should_return_error(t *testing.T) {
 		Language: "fr",
 	}
 
-	appError := request.Validate()
+	err := request.Validate()
 
-	assert.Equal(t, http.StatusUnprocessableEntity, appError.Code)
-	assert.Regexp(t, regexp.MustCompile("must be one of: pl, en"), appError.Message)
+	assert.Regexp(t, "", err.Error())
 }
 
 func Test_given_valid_params_should_return_success(t *testing.T) {
@@ -50,9 +45,9 @@ func Test_given_valid_params_should_return_success(t *testing.T) {
 		Language: "pl",
 	}
 
-	appError := request.Validate()
+	err := request.Validate()
 
-	assert.Nil(t, appError)
+	assert.Nil(t, err)
 }
 
 func Test_given_valid_params_should_return_success_2(t *testing.T) {
@@ -61,7 +56,7 @@ func Test_given_valid_params_should_return_success_2(t *testing.T) {
 		Language: "en",
 	}
 
-	appError := request.Validate()
+	err := request.Validate()
 
-	assert.Nil(t, appError)
+	assert.Nil(t, err)
 }
