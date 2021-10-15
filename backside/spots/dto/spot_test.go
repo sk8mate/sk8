@@ -52,6 +52,25 @@ func Test_given_add_spot_request_without_coordinates_should_return_error(t *test
 	assert.Equal(t, "invalid SpotsAddRequest.Coordinates: value is required", err.Error())
 }
 
+func Test_given_add_spot_request_with_invalid_coordinates_should_return_error(t *testing.T) {
+	request := &SpotsAddRequest{
+		Name:        "Dworzec Glowny Krakow",
+		Address:     "Pawia 5",
+		Coordinates: &SpotsAddRequest_Coordinates{
+			Lat:  700,
+			Long: 100,
+		},
+		Lighting:    true,
+		Friendly:    true,
+		Verified:    true,
+	}
+
+	err := request.Validate()
+
+	assert.NotNil(t, err)
+	assert.Equal(t, "invalid SpotsAddRequest.Coordinates: embedded message failed validation | caused by: invalid SpotsAddRequest_Coordinates.Lat: value must be inside range [-90, 90]", err.Error())
+}
+
 func Test_given_valid_add_spot_request_should_return_success(t *testing.T) {
 	request := SpotsAddRequest{
 		Name:    "Dworzec Glowny Krakow",
