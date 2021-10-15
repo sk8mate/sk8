@@ -33,7 +33,7 @@ func (db SpotDb) Add(spot *Spot) (*Spot, *errs.AppError) {
 
 func (db SpotDb) Get(id int) (*Spot, *errs.AppError) {
 	var spot Spot
-	err := db.client.Model(&Spot{}).Where("id = ?", id).Take(&spot).Error
+	err := db.client.Where("id = ?", id).Take(&spot).Error
 	if err != nil {
 		return nil, errs.NewUnexpectedError(err.Error())
 	}
@@ -42,7 +42,7 @@ func (db SpotDb) Get(id int) (*Spot, *errs.AppError) {
 
 func (db SpotDb) GetAll() ([]*Spot, *errs.AppError) {
 	var spots []*Spot
-	err := db.client.Model(&Spot{}).Find(&spots).Error
+	err := db.client.Find(&spots).Error
 	if err != nil {
 		return nil, errs.NewUnexpectedError(err.Error())
 	}
@@ -50,7 +50,7 @@ func (db SpotDb) GetAll() ([]*Spot, *errs.AppError) {
 }
 
 func (db SpotDb) Update(id int, spotToUpdateWith *Spot) (*Spot, *errs.AppError) {
-	err := db.client.Model(&Spot{}).Where("id = ?", id).Take(&Spot{}).UpdateColumns(spotToUpdateWith.toMap()).Error
+	err := db.client.Where("id = ?", id).Take(&Spot{}).UpdateColumns(spotToUpdateWith).Error
 	if err != nil {
 		return nil, errs.NewUnexpectedError(err.Error())
 	}
@@ -58,7 +58,7 @@ func (db SpotDb) Update(id int, spotToUpdateWith *Spot) (*Spot, *errs.AppError) 
 }
 
 func (db SpotDb) Delete(id int) *errs.AppError {
-	err := db.client.Model(&Spot{}).Where("id = ?", id).Delete(&Spot{}).Error
+	err := db.client.Where("id = ?", id).Delete(&Spot{}).Error
 	if err != nil {
 		return errs.NewUnexpectedError(err.Error())
 	}

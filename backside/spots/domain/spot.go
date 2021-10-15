@@ -54,15 +54,3 @@ func (s Spot) ToUpdateSpotResponseDto() dto.SpotsUpdateData {
 		Verified: s.Verified,
 	}
 }
-
-func (s Spot) toMap() map[string]interface{} {
-	return map[string]interface{}{
-		"name":     s.Name,
-		"address":  s.Address,
-		"lat":      s.Coordinates.Lat,
-		"long":     s.Coordinates.Long,
-		"lighting": s.Lighting,
-		"friendly": s.Friendly,
-		"verified": s.Verified,
-	}
-}
