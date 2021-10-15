@@ -14,8 +14,8 @@ require (
 )
 
 require (
-	github.com/golang/protobuf v1.5.0
 	github.com/envoyproxy/protoc-gen-validate v0.6.1
+	github.com/golang/protobuf v1.5.2
 	gorm.io/driver/postgres v1.1.1
 	gorm.io/gorm v1.21.15
 )

@@ -21,7 +21,7 @@ type DefaultSpotService struct {
 
 func (s DefaultSpotService) Add(request *dto.SpotsAddRequest) (*dto.SpotsAddData, *errs.AppError) {
 	if validationError := request.Validate(); validationError != nil {
-		return nil, validationError
+		return nil, errs.NewValidationError(validationError.Error())
 	}
 
 	spotFromRequest := domain.Spot{
@@ -73,14 +73,18 @@ func (s DefaultSpotService) Delete(id int) *errs.AppError {
 }
 
 func (s DefaultSpotService) Update(id int, request *dto.SpotsUpdateRequest) (*dto.SpotsUpdateData, *errs.AppError) {
-	spotFromRequest := domain.Spot{
-		Name:        request.Name,
-		Address:     request.Address,
-		Lighting:    request.Lighting,
-		Friendly:    request.Friendly,
-		Verified:    request.Verified,
+	if validationError := request.Validate(); validationError != nil {
+		return nil, errs.NewValidationError(validationError.Error())
 	}
-	if request.Coordinates!= nil{
+
+	spotFromRequest := domain.Spot{
+		Name:     request.Name,
+		Address:  request.Address,
+		Lighting: request.Lighting,
+		Friendly: request.Friendly,
+		Verified: request.Verified,
+	}
+	if request.Coordinates != nil {
 		spotFromRequest.Coordinates.Lat = request.Coordinates.Lat
 		spotFromRequest.Coordinates.Long = request.Coordinates.Long
 	}
