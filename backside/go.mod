@@ -14,6 +14,7 @@ require (
 )
 
 require (
+	github.com/golang/protobuf v1.5.0
 	gorm.io/driver/postgres v1.1.1
 	gorm.io/gorm v1.21.15
 )

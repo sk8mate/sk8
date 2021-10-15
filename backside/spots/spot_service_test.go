@@ -14,11 +14,11 @@ import (
 	"sk8.town/backside/spots/dto"
 )
 
-func Test_should_propagate_an_error_from_db(t *testing.T) {
+func Test_add_request_should_propagate_an_error_from_db(t *testing.T) {
 	request := dto.SpotsAddRequest{
 		Name:    "Dworzec Glowny Krakow",
 		Address: "Pawia 5",
-		Coordinates: &dto.Coordinates{
+		Coordinates: &dto.RequestCoordinates{
 			Lat:  40,
 			Long: 60,
 		},
@@ -49,11 +49,11 @@ func Test_should_propagate_an_error_from_db(t *testing.T) {
 	assert.Equal(t, expectedError, appError)
 }
 
-func Test_should_return_spots_response_when_spot_added_successfully(t *testing.T) {
+func Test_add_request_should_return_spots_response_when_spot_added_successfully(t *testing.T) {
 	request := dto.SpotsAddRequest{
 		Name:    "Dworzec Glowny Krakow",
 		Address: "Pawia 5",
-		Coordinates: &dto.Coordinates{
+		Coordinates: &dto.RequestCoordinates{
 			Lat:  40,
 			Long: 60,
 		},
@@ -90,8 +90,245 @@ func Test_should_return_spots_response_when_spot_added_successfully(t *testing.T
 	service := NewSpotService(mockDb)
 	mockDb.EXPECT().Add(&spotToAdd).Return(&createdSpot, nil)
 
-	SpotsAddData, appError := service.Add(&request)
+	spotsAddData, appError := service.Add(&request)
 
 	assert.Nil(t, appError)
-	assert.Equal(t, strconv.Itoa(createdSpot.Id), SpotsAddData.Id)
+	assert.Equal(t, strconv.Itoa(createdSpot.Id), spotsAddData.Id)
+}
+
+func Test_get_request_should_propagate_an_error_from_db(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+	mockDb := mocks.NewMockSpotRepository(ctrl)
+	service := NewSpotService(mockDb)
+	expectedError := errs.NewNotFoundError("not found error")
+	id := 4
+	mockDb.EXPECT().Get(id).Return(nil, expectedError)
+
+	_, appError := service.Get(id)
+
+	assert.Equal(t, expectedError, appError)
+}
+
+func Test_get_request_should_return_spot_response_when_spot_retrieved_successfully(t *testing.T) {
+	spot := domain.Spot{
+		Id:      4,
+		Name:    "Dworzec Glowny Krakow",
+		Address: "Pawia 5",
+		Coordinates: domain.Coordinates{
+			Lat:  40,
+			Long: 60,
+		},
+		Lighting: true,
+		Friendly: true,
+		Verified: true,
+	}
+	expectedSpotDtoData := dto.SpotsGetData{
+		Id:      "4",
+		Name:    "Dworzec Glowny Krakow",
+		Address: "Pawia 5",
+		Coordinates: &dto.ResponseCoordinates{
+			Lat:  40,
+			Long: 60,
+		},
+		Lighting: true,
+		Friendly: true,
+		Verified: true,
+	}
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+	mockDb := mocks.NewMockSpotRepository(ctrl)
+	service := NewSpotService(mockDb)
+	id := 4
+	mockDb.EXPECT().Get(id).Return(&spot, nil)
+
+	spotsGetData, appError := service.Get(id)
+
+	assert.Nil(t, appError)
+	assert.Equal(t, expectedSpotDtoData, *spotsGetData)
+}
+
+func Test_get_all_request_should_propagate_an_error_from_db(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+	mockDb := mocks.NewMockSpotRepository(ctrl)
+	service := NewSpotService(mockDb)
+	expectedError := errs.NewNotFoundError("not found error")
+	mockDb.EXPECT().GetAll().Return(nil, expectedError)
+
+	_, appError := service.GetAll()
+
+	assert.Equal(t, expectedError, appError)
+}
+
+func Test_get_all_request_should_return_spots_response_when_spots_retrieved_successfully(t *testing.T) {
+	spots := []*domain.Spot{
+		{
+			Id:      1,
+			Name:    "Dworzec Glowny Krakow",
+			Address: "Pawia 5",
+			Coordinates: domain.Coordinates{
+				Lat:  40,
+				Long: 60,
+			},
+			Lighting: true,
+			Friendly: true,
+			Verified: true,
+		},
+		{
+			Id:      2,
+			Name:    "Brama Zuraw",
+			Address: "Szeroka 67/68, 22-100 Gdansk",
+			Coordinates: domain.Coordinates{
+				Lat:  54.35,
+				Long: 18.66,
+			},
+			Lighting: true,
+			Friendly: false,
+			Verified: true,
+		},
+	}
+	expectedSpotsDtoData := []*dto.SpotsGetData{
+		{
+			Id:      "1",
+			Name:    "Dworzec Glowny Krakow",
+			Address: "Pawia 5",
+			Coordinates: &dto.ResponseCoordinates{
+				Lat:  40,
+				Long: 60,
+			},
+			Lighting: true,
+			Friendly: true,
+			Verified: true,
+		},
+		{
+			Id:      "2",
+			Name:    "Brama Zuraw",
+			Address: "Szeroka 67/68, 22-100 Gdansk",
+			Coordinates: &dto.ResponseCoordinates{
+				Lat:  54.35,
+				Long: 18.66,
+			},
+			Lighting: true,
+			Friendly: false,
+			Verified: true,
+		},
+	}
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+	mockDb := mocks.NewMockSpotRepository(ctrl)
+	service := NewSpotService(mockDb)
+	mockDb.EXPECT().GetAll().Return(spots, nil)
+
+	spotsGetAllData, appError := service.GetAll()
+
+	assert.Nil(t, appError)
+	assert.Equal(t, expectedSpotsDtoData, spotsGetAllData)
+}
+
+func Test_update_request_should_propagate_an_error_from_db(t *testing.T) {
+	spot := domain.Spot{
+		Name:    "Dworzec Glowny Krakow",
+		Address: "Pawia 5",
+		Coordinates: domain.Coordinates{
+			Lat:  40,
+			Long: 60,
+		},
+		Lighting: true,
+		Friendly: true,
+		Verified: true,
+	}
+	request := dto.SpotsUpdateRequest{
+		Name:    "Dworzec Glowny Krakow",
+		Address: "Pawia 5",
+		Coordinates: &dto.RequestCoordinates{
+			Lat:  40,
+			Long: 60,
+		},
+		Lighting: true,
+		Friendly: true,
+		Verified: true,
+	}
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+	mockDb := mocks.NewMockSpotRepository(ctrl)
+	service := NewSpotService(mockDb)
+	expectedError := errs.NewNotFoundError("not found error")
+	id := 4
+	mockDb.EXPECT().Update(id, &spot).Return(nil, expectedError)
+
+	_, appError := service.Update(id, &request)
+
+	assert.Equal(t, expectedError, appError)
+}
+
+func Test_update_request_should_return_updated_spot_response_when_spot_updated_successfully(t *testing.T) {
+	spot := domain.Spot{
+		Name: "Rynek Krakow",
+	}
+	updatedSpot := domain.Spot{
+		Id:      10,
+		Name:    "Rynek Krakow",
+		Address: "Pawia 5",
+		Coordinates: domain.Coordinates{
+			Lat:  40,
+			Long: 60,
+		},
+		Lighting: true,
+		Friendly: true,
+		Verified: true,
+	}
+	request := dto.SpotsUpdateRequest{
+		Name: "Rynek Krakow",
+	}
+	expectedSpotsDtoData := dto.SpotsUpdateData{
+		Id:      "10",
+		Name:    "Rynek Krakow",
+		Address: "Pawia 5",
+		Coordinates: &dto.ResponseCoordinates{
+			Lat:  40,
+			Long: 60,
+		},
+		Lighting: true,
+		Friendly: true,
+		Verified: true,
+	}
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+	mockDb := mocks.NewMockSpotRepository(ctrl)
+	service := NewSpotService(mockDb)
+	id := 4
+	mockDb.EXPECT().Update(id, &spot).Return(&updatedSpot, nil)
+
+	spotUpdatedData, appError := service.Update(id, &request)
+
+	assert.Nil(t, appError)
+	assert.Equal(t, expectedSpotsDtoData, *spotUpdatedData)
+}
+
+func Test_delete_request_should_propagate_an_error_from_db(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+	mockDb := mocks.NewMockSpotRepository(ctrl)
+	service := NewSpotService(mockDb)
+	expectedError := errs.NewNotFoundError("not found error")
+	id := 4
+	mockDb.EXPECT().Delete(id).Return(expectedError)
+
+	appError := service.Delete(id)
+
+	assert.Equal(t, expectedError, appError)
+}
+
+func Test_delete_request_should_return_no_error_when_spot_deleted_successfully(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+	mockDb := mocks.NewMockSpotRepository(ctrl)
+	service := NewSpotService(mockDb)
+	id := 4
+	mockDb.EXPECT().Delete(id).Return(nil)
+
+	appError := service.Delete(id)
+
+	assert.Nil(t, appError)
 }
