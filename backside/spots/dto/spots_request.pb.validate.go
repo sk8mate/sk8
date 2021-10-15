@@ -135,6 +135,93 @@ var _ interface {
 	ErrorName() string
 } = SpotsAddRequestValidationError{}
 
+// Validate checks the field values on SpotsUpdateRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, an error is returned.
+func (m *SpotsUpdateRequest) Validate() error {
+	if m == nil {
+		return nil
+	}
+
+	// no validation rules for Name
+
+	// no validation rules for Address
+
+	if v, ok := interface{}(m.GetCoordinates()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return SpotsUpdateRequestValidationError{
+				field:  "Coordinates",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for Lighting
+
+	// no validation rules for Friendly
+
+	// no validation rules for Verified
+
+	return nil
+}
+
+// SpotsUpdateRequestValidationError is the validation error returned by
+// SpotsUpdateRequest.Validate if the designated constraints aren't met.
+type SpotsUpdateRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e SpotsUpdateRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e SpotsUpdateRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e SpotsUpdateRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e SpotsUpdateRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e SpotsUpdateRequestValidationError) ErrorName() string {
+	return "SpotsUpdateRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e SpotsUpdateRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSpotsUpdateRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = SpotsUpdateRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = SpotsUpdateRequestValidationError{}
+
 // Validate checks the field values on SpotsAddRequest_Coordinates with the
 // rules defined in the proto definition for this message. If any rules are
 // violated, an error is returned.
@@ -216,3 +303,85 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = SpotsAddRequest_CoordinatesValidationError{}
+
+// Validate checks the field values on SpotsUpdateRequest_Coordinates with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, an error is returned.
+func (m *SpotsUpdateRequest_Coordinates) Validate() error {
+	if m == nil {
+		return nil
+	}
+
+	if val := m.GetLat(); val < -90 || val > 90 {
+		return SpotsUpdateRequest_CoordinatesValidationError{
+			field:  "Lat",
+			reason: "value must be inside range [-90, 90]",
+		}
+	}
+
+	if val := m.GetLong(); val < -180 || val > 180 {
+		return SpotsUpdateRequest_CoordinatesValidationError{
+			field:  "Long",
+			reason: "value must be inside range [-180, 180]",
+		}
+	}
+
+	return nil
+}
+
+// SpotsUpdateRequest_CoordinatesValidationError is the validation error
+// returned by SpotsUpdateRequest_Coordinates.Validate if the designated
+// constraints aren't met.
+type SpotsUpdateRequest_CoordinatesValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e SpotsUpdateRequest_CoordinatesValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e SpotsUpdateRequest_CoordinatesValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e SpotsUpdateRequest_CoordinatesValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e SpotsUpdateRequest_CoordinatesValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e SpotsUpdateRequest_CoordinatesValidationError) ErrorName() string {
+	return "SpotsUpdateRequest_CoordinatesValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e SpotsUpdateRequest_CoordinatesValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSpotsUpdateRequest_Coordinates.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = SpotsUpdateRequest_CoordinatesValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = SpotsUpdateRequest_CoordinatesValidationError{}
