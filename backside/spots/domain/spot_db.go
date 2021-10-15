@@ -58,7 +58,11 @@ func (db SpotDb) Update(id int, spotToUpdateWith *Spot) (*Spot, *errs.AppError) 
 }
 
 func (db SpotDb) Delete(id int) *errs.AppError {
-	err := db.client.Where("id = ?", id).Delete(&Spot{}).Error
+	if _, err := db.Get(id); err != nil {
+		return errs.NewBadRequestError(fmt.Sprintf(`Spot with id %d does not exist`, id))
+	}
+
+	err := db.client.Delete(&Spot{}, id).Error
 	if err != nil {
 		return errs.NewUnexpectedError(err.Error())
 	}
