@@ -1,4 +1,4 @@
-usage:
+usage::
 	@echo "+------------------------------------+"
 	@echo "|              /                 |   |"
 	@echo "|             /                  |   |"
@@ -25,12 +25,12 @@ usage:
 	@echo "	make dev:clean	start development server with clean db"
 	@echo "	make test	run tests"
 
-dev:
+dev::
 	docker-compose -f docker-compose.dev.yml up --build
 
-dev\:clean:
+dev\:clean::
 	SK8_DB_DROP_ALL_TABLES=true docker-compose -f docker-compose.dev.yml up --build
 
-test:
+test::
 	export $$(grep -v \'^#\' .env.test | xargs)
 	go test ./...
