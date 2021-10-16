@@ -2,6 +2,8 @@ package errs
 
 import (
 	"net/http"
+
+	"sk8.town/backside/config"
 )
 
 type AppError struct {
@@ -19,7 +21,9 @@ func NewNotFoundError(message string) *AppError {
 }
 
 func NewUnexpectedError(message string) *AppError {
-	if message == "" {
+	isProduction := config.GetEnv() == config.Env.Production
+
+	if message == "" || isProduction {
 		message = "Internal server error"
 	}
 
