@@ -30,6 +30,23 @@ make dev
 
 Backside should be available at [http://localhost:8080](http://localhost:8080). The app will reload on every file change.
 
+### Compile proto
+
+1. Install `protoc`:
+  [https://grpc.io/docs/protoc-installation/](https://grpc.io/docs/protoc-installation/)
+   
+
+2. Install `protoc-gen-go` and `protoc-gen-validate`:
+  ```
+  go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.26
+  go install github.com/envoyproxy/protoc-gen-validate@v0.6.1
+  ```
+
+3. Run:
+  ```
+  make proto
+  ```
+
 ### Available scripts
 ```
 +------------------------------------+
@@ -57,4 +74,5 @@ Available scripts:
         make dev        start development server
         make dev:clean  start development server with clean db
         make test       run tests
+        make proto      compile protobuf files
 ```

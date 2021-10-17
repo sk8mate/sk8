@@ -145,7 +145,7 @@ func Test_get_request_should_return_spot_response_when_spot_retrieved_successful
 		Friendly: true,
 		Verified: true,
 	}
-	expectedSpotDtoData := dto.SpotsGetData{
+	expectedSpotDtoData := &dto.SpotsGetData{
 		Id:      "4",
 		Name:    "Dworzec Glowny Krakow",
 		Address: "Pawia 5",
@@ -167,7 +167,7 @@ func Test_get_request_should_return_spot_response_when_spot_retrieved_successful
 	spotsGetData, appError := service.Get(id)
 
 	assert.Nil(t, appError)
-	assert.Equal(t, expectedSpotDtoData, *spotsGetData)
+	assert.Equal(t, expectedSpotDtoData, spotsGetData)
 }
 
 func Test_get_all_request_should_propagate_an_error_from_db(t *testing.T) {
@@ -327,7 +327,7 @@ func Test_update_request_should_return_updated_spot_response_when_spot_updated_s
 	request := dto.SpotsUpdateRequest{
 		Name: "Rynek Krakow",
 	}
-	expectedSpotsDtoData := dto.SpotsUpdateData{
+	expectedSpotsDtoData := &dto.SpotsUpdateData{
 		Id:      "10",
 		Name:    "Rynek Krakow",
 		Address: "Pawia 5",
@@ -349,7 +349,7 @@ func Test_update_request_should_return_updated_spot_response_when_spot_updated_s
 	spotUpdatedData, appError := service.Update(id, &request)
 
 	assert.Nil(t, appError)
-	assert.Equal(t, expectedSpotsDtoData, *spotUpdatedData)
+	assert.Equal(t, expectedSpotsDtoData, spotUpdatedData)
 }
 
 func Test_delete_request_should_propagate_an_error_from_db(t *testing.T) {
