@@ -4,7 +4,9 @@ option go_package = "./dto";
 
 package main;
 
+import "validate/validate.proto";
+
 message AutocompleteRequest {
-    string search = 1;
-    string language = 2;
+    string search = 1 [(validate.rules).string.min_len = 1];
+    string language = 2 [(validate.rules).string = {in: ["pl", "en"]}];;
 }

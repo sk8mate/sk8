@@ -4,25 +4,32 @@ option go_package = "./dto";
 
 package main;
 
+import "validate/validate.proto";
+
 message SpotsAddRequest {
-    string name = 1;
-    string address = 2;
-    RequestCoordinates coordinates = 3;
-    bool lighting = 4;
-    bool friendly = 5;
-    bool verified = 6;
+  string name = 1 [(validate.rules).string.min_len = 1];
+  string address = 2 [(validate.rules).string.min_len = 1];
+  Coordinates coordinates = 3 [(validate.rules).message.required = true];
+  bool lighting = 4;
+  bool friendly = 5;
+  bool verified = 6;
+
+  message Coordinates {
+    double lat = 1 [(validate.rules).double = { gte: -90,  lte: 90 }];
+    double long = 2 [(validate.rules).double = { gte: -180, lte: 180 }];
+  }
 }
 
 message SpotsUpdateRequest {
     string name = 1;
     string address = 2;
-    RequestCoordinates coordinates = 3;
+    Coordinates coordinates = 3;
     bool lighting = 4;
     bool friendly = 5;
     bool verified = 6;
-}
 
-message RequestCoordinates {
-    double lat = 1;
-    double long = 2;
+  message Coordinates {
+    double lat = 1 [(validate.rules).double = { gte: -90,  lte: 90 }];
+    double long = 2 [(validate.rules).double = { gte: -180, lte: 180 }];
+  }
 }

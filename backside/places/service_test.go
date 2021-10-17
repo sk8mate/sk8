@@ -1,7 +1,6 @@
 package places
 
 import (
-	"regexp"
 	"testing"
 
 	"sk8.town/backside/places/mocks"
@@ -17,12 +16,12 @@ import (
 func Test_should_return_an_error_when_request_is_not_valid(t *testing.T) {
 	request := dto.AutocompleteRequest{
 		Search:   "",
-		Language: "",
+		Language: "pl",
 	}
 	service := NewService(nil)
 	_, appError := service.GetPlaces(&request)
 
-	assert.Regexp(t, regexp.MustCompile("\"search\" is required"), appError.Message)
+	assert.Equal(t, "invalid AutocompleteRequest.Search: value length must be at least 1 runes", appError.Message)
 }
 
 func Test_should_propagate_an_error_from_http_service(t *testing.T) {

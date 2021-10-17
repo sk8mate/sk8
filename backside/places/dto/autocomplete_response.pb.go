@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.27.1
 // 	protoc        v3.17.3
-// source: proto/autocomplete_response.proto
+// source: places/proto/autocomplete_response.proto
 
 package dto
 
@@ -33,7 +33,7 @@ type AutocompleteEntry struct {
 func (x *AutocompleteEntry) Reset() {
 	*x = AutocompleteEntry{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_autocomplete_response_proto_msgTypes[0]
+		mi := &file_places_proto_autocomplete_response_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -46,7 +46,7 @@ func (x *AutocompleteEntry) String() string {
 func (*AutocompleteEntry) ProtoMessage() {}
 
 func (x *AutocompleteEntry) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_autocomplete_response_proto_msgTypes[0]
+	mi := &file_places_proto_autocomplete_response_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -59,7 +59,7 @@ func (x *AutocompleteEntry) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AutocompleteEntry.ProtoReflect.Descriptor instead.
 func (*AutocompleteEntry) Descriptor() ([]byte, []int) {
-	return file_proto_autocomplete_response_proto_rawDescGZIP(), []int{0}
+	return file_places_proto_autocomplete_response_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *AutocompleteEntry) GetCoordinates() *Coordinates {
@@ -95,7 +95,7 @@ type Coordinates struct {
 func (x *Coordinates) Reset() {
 	*x = Coordinates{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_autocomplete_response_proto_msgTypes[1]
+		mi := &file_places_proto_autocomplete_response_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -108,7 +108,7 @@ func (x *Coordinates) String() string {
 func (*Coordinates) ProtoMessage() {}
 
 func (x *Coordinates) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_autocomplete_response_proto_msgTypes[1]
+	mi := &file_places_proto_autocomplete_response_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -121,7 +121,7 @@ func (x *Coordinates) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Coordinates.ProtoReflect.Descriptor instead.
 func (*Coordinates) Descriptor() ([]byte, []int) {
-	return file_proto_autocomplete_response_proto_rawDescGZIP(), []int{1}
+	return file_places_proto_autocomplete_response_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *Coordinates) GetLat() float64 {
@@ -150,7 +150,7 @@ type AutocompleteResponse struct {
 func (x *AutocompleteResponse) Reset() {
 	*x = AutocompleteResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_autocomplete_response_proto_msgTypes[2]
+		mi := &file_places_proto_autocomplete_response_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -163,7 +163,7 @@ func (x *AutocompleteResponse) String() string {
 func (*AutocompleteResponse) ProtoMessage() {}
 
 func (x *AutocompleteResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_autocomplete_response_proto_msgTypes[2]
+	mi := &file_places_proto_autocomplete_response_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -176,7 +176,7 @@ func (x *AutocompleteResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AutocompleteResponse.ProtoReflect.Descriptor instead.
 func (*AutocompleteResponse) Descriptor() ([]byte, []int) {
-	return file_proto_autocomplete_response_proto_rawDescGZIP(), []int{2}
+	return file_places_proto_autocomplete_response_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *AutocompleteResponse) GetStatus() string {
@@ -193,51 +193,51 @@ func (x *AutocompleteResponse) GetData() []*AutocompleteEntry {
 	return nil
 }
 
-var File_proto_autocomplete_response_proto protoreflect.FileDescriptor
+var File_places_proto_autocomplete_response_proto protoreflect.FileDescriptor
 
-var file_proto_autocomplete_response_proto_rawDesc = []byte{
-	0x0a, 0x21, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x61, 0x75, 0x74, 0x6f, 0x63, 0x6f, 0x6d, 0x70,
-	0x6c, 0x65, 0x74, 0x65, 0x5f, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x2e, 0x70, 0x72,
-	0x6f, 0x74, 0x6f, 0x12, 0x04, 0x6d, 0x61, 0x69, 0x6e, 0x22, 0x76, 0x0a, 0x11, 0x41, 0x75, 0x74,
-	0x6f, 0x63, 0x6f, 0x6d, 0x70, 0x6c, 0x65, 0x74, 0x65, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x33,
-	0x0a, 0x0b, 0x63, 0x6f, 0x6f, 0x72, 0x64, 0x69, 0x6e, 0x61, 0x74, 0x65, 0x73, 0x18, 0x01, 0x20,
-	0x01, 0x28, 0x0b, 0x32, 0x11, 0x2e, 0x6d, 0x61, 0x69, 0x6e, 0x2e, 0x43, 0x6f, 0x6f, 0x72, 0x64,
-	0x69, 0x6e, 0x61, 0x74, 0x65, 0x73, 0x52, 0x0b, 0x63, 0x6f, 0x6f, 0x72, 0x64, 0x69, 0x6e, 0x61,
-	0x74, 0x65, 0x73, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65,
-	0x73, 0x73, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73,
-	0x73, 0x22, 0x33, 0x0a, 0x0b, 0x43, 0x6f, 0x6f, 0x72, 0x64, 0x69, 0x6e, 0x61, 0x74, 0x65, 0x73,
-	0x12, 0x10, 0x0a, 0x03, 0x6c, 0x61, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x01, 0x52, 0x03, 0x6c,
-	0x61, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x6c, 0x6f, 0x6e, 0x67, 0x18, 0x02, 0x20, 0x01, 0x28, 0x01,
-	0x52, 0x04, 0x6c, 0x6f, 0x6e, 0x67, 0x22, 0x5b, 0x0a, 0x14, 0x41, 0x75, 0x74, 0x6f, 0x63, 0x6f,
-	0x6d, 0x70, 0x6c, 0x65, 0x74, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x16,
-	0x0a, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06,
-	0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x2b, 0x0a, 0x04, 0x64, 0x61, 0x74, 0x61, 0x18, 0x02,
-	0x20, 0x03, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x6d, 0x61, 0x69, 0x6e, 0x2e, 0x41, 0x75, 0x74, 0x6f,
-	0x63, 0x6f, 0x6d, 0x70, 0x6c, 0x65, 0x74, 0x65, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x04, 0x64,
-	0x61, 0x74, 0x61, 0x42, 0x07, 0x5a, 0x05, 0x2e, 0x2f, 0x64, 0x74, 0x6f, 0x62, 0x06, 0x70, 0x72,
-	0x6f, 0x74, 0x6f, 0x33,
+var file_places_proto_autocomplete_response_proto_rawDesc = []byte{
+	0x0a, 0x28, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x73, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x61,
+	0x75, 0x74, 0x6f, 0x63, 0x6f, 0x6d, 0x70, 0x6c, 0x65, 0x74, 0x65, 0x5f, 0x72, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x04, 0x6d, 0x61, 0x69, 0x6e,
+	0x22, 0x76, 0x0a, 0x11, 0x41, 0x75, 0x74, 0x6f, 0x63, 0x6f, 0x6d, 0x70, 0x6c, 0x65, 0x74, 0x65,
+	0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x33, 0x0a, 0x0b, 0x63, 0x6f, 0x6f, 0x72, 0x64, 0x69, 0x6e,
+	0x61, 0x74, 0x65, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x11, 0x2e, 0x6d, 0x61, 0x69,
+	0x6e, 0x2e, 0x43, 0x6f, 0x6f, 0x72, 0x64, 0x69, 0x6e, 0x61, 0x74, 0x65, 0x73, 0x52, 0x0b, 0x63,
+	0x6f, 0x6f, 0x72, 0x64, 0x69, 0x6e, 0x61, 0x74, 0x65, 0x73, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61,
+	0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x18,
+	0x0a, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x22, 0x33, 0x0a, 0x0b, 0x43, 0x6f, 0x6f, 0x72,
+	0x64, 0x69, 0x6e, 0x61, 0x74, 0x65, 0x73, 0x12, 0x10, 0x0a, 0x03, 0x6c, 0x61, 0x74, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x01, 0x52, 0x03, 0x6c, 0x61, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x6c, 0x6f, 0x6e,
+	0x67, 0x18, 0x02, 0x20, 0x01, 0x28, 0x01, 0x52, 0x04, 0x6c, 0x6f, 0x6e, 0x67, 0x22, 0x5b, 0x0a,
+	0x14, 0x41, 0x75, 0x74, 0x6f, 0x63, 0x6f, 0x6d, 0x70, 0x6c, 0x65, 0x74, 0x65, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x2b, 0x0a,
+	0x04, 0x64, 0x61, 0x74, 0x61, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x6d, 0x61,
+	0x69, 0x6e, 0x2e, 0x41, 0x75, 0x74, 0x6f, 0x63, 0x6f, 0x6d, 0x70, 0x6c, 0x65, 0x74, 0x65, 0x45,
+	0x6e, 0x74, 0x72, 0x79, 0x52, 0x04, 0x64, 0x61, 0x74, 0x61, 0x42, 0x07, 0x5a, 0x05, 0x2e, 0x2f,
+	0x64, 0x74, 0x6f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
-	file_proto_autocomplete_response_proto_rawDescOnce sync.Once
-	file_proto_autocomplete_response_proto_rawDescData = file_proto_autocomplete_response_proto_rawDesc
+	file_places_proto_autocomplete_response_proto_rawDescOnce sync.Once
+	file_places_proto_autocomplete_response_proto_rawDescData = file_places_proto_autocomplete_response_proto_rawDesc
 )
 
-func file_proto_autocomplete_response_proto_rawDescGZIP() []byte {
-	file_proto_autocomplete_response_proto_rawDescOnce.Do(func() {
-		file_proto_autocomplete_response_proto_rawDescData = protoimpl.X.CompressGZIP(file_proto_autocomplete_response_proto_rawDescData)
+func file_places_proto_autocomplete_response_proto_rawDescGZIP() []byte {
+	file_places_proto_autocomplete_response_proto_rawDescOnce.Do(func() {
+		file_places_proto_autocomplete_response_proto_rawDescData = protoimpl.X.CompressGZIP(file_places_proto_autocomplete_response_proto_rawDescData)
 	})
-	return file_proto_autocomplete_response_proto_rawDescData
+	return file_places_proto_autocomplete_response_proto_rawDescData
 }
 
-var file_proto_autocomplete_response_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
-var file_proto_autocomplete_response_proto_goTypes = []interface{}{
+var file_places_proto_autocomplete_response_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_places_proto_autocomplete_response_proto_goTypes = []interface{}{
 	(*AutocompleteEntry)(nil),    // 0: main.AutocompleteEntry
 	(*Coordinates)(nil),          // 1: main.Coordinates
 	(*AutocompleteResponse)(nil), // 2: main.AutocompleteResponse
 }
-var file_proto_autocomplete_response_proto_depIdxs = []int32{
+var file_places_proto_autocomplete_response_proto_depIdxs = []int32{
 	1, // 0: main.AutocompleteEntry.coordinates:type_name -> main.Coordinates
 	0, // 1: main.AutocompleteResponse.data:type_name -> main.AutocompleteEntry
 	2, // [2:2] is the sub-list for method output_type
@@ -247,13 +247,13 @@ var file_proto_autocomplete_response_proto_depIdxs = []int32{
 	0, // [0:2] is the sub-list for field type_name
 }
 
-func init() { file_proto_autocomplete_response_proto_init() }
-func file_proto_autocomplete_response_proto_init() {
-	if File_proto_autocomplete_response_proto != nil {
+func init() { file_places_proto_autocomplete_response_proto_init() }
+func file_places_proto_autocomplete_response_proto_init() {
+	if File_places_proto_autocomplete_response_proto != nil {
 		return
 	}
 	if !protoimpl.UnsafeEnabled {
-		file_proto_autocomplete_response_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+		file_places_proto_autocomplete_response_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*AutocompleteEntry); i {
 			case 0:
 				return &v.state
@@ -265,7 +265,7 @@ func file_proto_autocomplete_response_proto_init() {
 				return nil
 			}
 		}
-		file_proto_autocomplete_response_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+		file_places_proto_autocomplete_response_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Coordinates); i {
 			case 0:
 				return &v.state
@@ -277,7 +277,7 @@ func file_proto_autocomplete_response_proto_init() {
 				return nil
 			}
 		}
-		file_proto_autocomplete_response_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+		file_places_proto_autocomplete_response_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*AutocompleteResponse); i {
 			case 0:
 				return &v.state
@@ -294,18 +294,18 @@ func file_proto_autocomplete_response_proto_init() {
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: file_proto_autocomplete_response_proto_rawDesc,
+			RawDescriptor: file_places_proto_autocomplete_response_proto_rawDesc,
 			NumEnums:      0,
 			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_proto_autocomplete_response_proto_goTypes,
-		DependencyIndexes: file_proto_autocomplete_response_proto_depIdxs,
-		MessageInfos:      file_proto_autocomplete_response_proto_msgTypes,
+		GoTypes:           file_places_proto_autocomplete_response_proto_goTypes,
+		DependencyIndexes: file_places_proto_autocomplete_response_proto_depIdxs,
+		MessageInfos:      file_places_proto_autocomplete_response_proto_msgTypes,
 	}.Build()
-	File_proto_autocomplete_response_proto = out.File
-	file_proto_autocomplete_response_proto_rawDesc = nil
-	file_proto_autocomplete_response_proto_goTypes = nil
-	file_proto_autocomplete_response_proto_depIdxs = nil
+	File_places_proto_autocomplete_response_proto = out.File
+	file_places_proto_autocomplete_response_proto_rawDesc = nil
+	file_places_proto_autocomplete_response_proto_goTypes = nil
+	file_places_proto_autocomplete_response_proto_depIdxs = nil
 }

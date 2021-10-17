@@ -38,7 +38,7 @@ func Test_add_spot_given_correct_request_should_return_spot_id_with_status_200(t
 	addSpotRequest := dto.SpotsAddRequest{
 		Name:    "Dworzec Glowny Krakow",
 		Address: "Pawia 5",
-		Coordinates: &dto.RequestCoordinates{
+		Coordinates: &dto.SpotsAddRequest_Coordinates{
 			Lat:  40,
 			Long: 60,
 		},
@@ -83,7 +83,7 @@ func Test_add_spot_given_service_error_should_return_service_error(t *testing.T)
 	addSpotRequest := dto.SpotsAddRequest{
 		Name:    "Dworzec Glowny Krakow",
 		Address: "Pawia 5",
-		Coordinates: &dto.RequestCoordinates{
+		Coordinates: &dto.SpotsAddRequest_Coordinates{
 			Lat:  40,
 			Long: 60,
 		},
