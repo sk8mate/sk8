@@ -60,7 +60,8 @@ func Test_add_spot_given_correct_request_should_return_spot_id_with_status_200(t
 
 	assert.Equal(t, http.StatusOK, recorder.Code)
 	var response dto.SpotsAddResponse
-	json.Unmarshal(recorder.Body.Bytes(), &response)
+	err := json.Unmarshal(recorder.Body.Bytes(), &response)
+	assert.Nil(t, err)
 	assert.Equal(t, "success", response.Status)
 	assert.Equal(t, "random id", response.Data.Id)
 }
@@ -77,7 +78,8 @@ func Test_add_spot_given_bad_request_should_return_400(t *testing.T) {
 
 	assert.Equal(t, http.StatusBadRequest, recorder.Code)
 	var response utils.ErrorResponse
-	json.Unmarshal(recorder.Body.Bytes(), &response)
+	err := json.Unmarshal(recorder.Body.Bytes(), &response)
+	assert.Nil(t, err)
 	assert.Equal(t, "error", response.Status)
 	assert.Equal(t, "Bad request", response.Message)
 }
@@ -106,7 +108,8 @@ func Test_add_spot_given_service_error_should_return_service_error(t *testing.T)
 
 	assert.Equal(t, http.StatusNotFound, recorder.Code)
 	var response utils.ErrorResponse
-	json.Unmarshal(recorder.Body.Bytes(), &response)
+	err := json.Unmarshal(recorder.Body.Bytes(), &response)
+	assert.Nil(t, err)
 	assert.Equal(t, "error", response.Status)
 	assert.Equal(t, "Not found", response.Message)
 }
@@ -136,7 +139,8 @@ func Test_get_spot_given_correct_request_should_return_spot_with_status_200(t *t
 
 	assert.Equal(t, http.StatusOK, recorder.Code)
 	var response dto.SpotsGetResponse
-	json.Unmarshal(recorder.Body.Bytes(), &response)
+	err := json.Unmarshal(recorder.Body.Bytes(), &response)
+	assert.Nil(t, err)
 	assert.Equal(t, "success", response.Status)
 	assert.Equal(t, spotGetData.String(), response.Data.String())
 }
@@ -154,7 +158,8 @@ func Test_get_spot_given_service_error_should_return_service_error(t *testing.T)
 
 	assert.Equal(t, http.StatusNotFound, recorder.Code)
 	var response utils.ErrorResponse
-	json.Unmarshal(recorder.Body.Bytes(), &response)
+	err := json.Unmarshal(recorder.Body.Bytes(), &response)
+	assert.Nil(t, err)
 	assert.Equal(t, "error", response.Status)
 	assert.Equal(t, "Not found", response.Message)
 }
@@ -195,7 +200,8 @@ func Test_get_spots_given_correct_request_should_return_spots_with_status_200(t 
 
 	assert.Equal(t, http.StatusOK, recorder.Code)
 	var response dto.SpotsGetAllResponse
-	json.Unmarshal(recorder.Body.Bytes(), &response)
+	err := json.Unmarshal(recorder.Body.Bytes(), &response)
+	assert.Nil(t, err)
 	assert.Equal(t, "success", response.Status)
 	assert.Equal(t, spotsGetAllData[0].String(), response.Data[0].String())
 	assert.Equal(t, spotsGetAllData[1].String(), response.Data[1].String())
@@ -213,7 +219,8 @@ func Test_get_spots_given_service_error_should_return_service_error(t *testing.T
 
 	assert.Equal(t, http.StatusNotFound, recorder.Code)
 	var response utils.ErrorResponse
-	json.Unmarshal(recorder.Body.Bytes(), &response)
+	err := json.Unmarshal(recorder.Body.Bytes(), &response)
+	assert.Nil(t, err)
 	assert.Equal(t, "error", response.Status)
 	assert.Equal(t, "Not found", response.Message)
 }
@@ -247,7 +254,8 @@ func Test_update_spot_given_correct_request_should_return_updated_spot_with_stat
 
 	assert.Equal(t, http.StatusOK, recorder.Code)
 	var response dto.SpotsUpdateResponse
-	json.Unmarshal(recorder.Body.Bytes(), &response)
+	err := json.Unmarshal(recorder.Body.Bytes(), &response)
+	assert.Nil(t, err)
 	assert.Equal(t, "success", response.Status)
 	assert.Equal(t, updatedSpotData.String(), response.Data.String())
 }
@@ -264,7 +272,8 @@ func Test_update_spot_given_bad_request_should_return_400(t *testing.T) {
 
 	assert.Equal(t, http.StatusBadRequest, recorder.Code)
 	var response utils.ErrorResponse
-	json.Unmarshal(recorder.Body.Bytes(), &response)
+	err := json.Unmarshal(recorder.Body.Bytes(), &response)
+	assert.Nil(t, err)
 	assert.Equal(t, "error", response.Status)
 	assert.Equal(t, "Bad request", response.Message)
 }
@@ -286,7 +295,8 @@ func Test_update_spot_given_service_error_should_return_service_error(t *testing
 
 	assert.Equal(t, http.StatusNotFound, recorder.Code)
 	var response utils.ErrorResponse
-	json.Unmarshal(recorder.Body.Bytes(), &response)
+	err := json.Unmarshal(recorder.Body.Bytes(), &response)
+	assert.Nil(t, err)
 	assert.Equal(t, "error", response.Status)
 	assert.Equal(t, "Not found", response.Message)
 }
@@ -318,7 +328,8 @@ func Test_delete_spot_given_service_error_should_return_service_error(t *testing
 
 	assert.Equal(t, http.StatusNotFound, recorder.Code)
 	var response utils.ErrorResponse
-	json.Unmarshal(recorder.Body.Bytes(), &response)
+	err := json.Unmarshal(recorder.Body.Bytes(), &response)
+	assert.Nil(t, err)
 	assert.Equal(t, "error", response.Status)
 	assert.Equal(t, "Not found", response.Message)
 }
