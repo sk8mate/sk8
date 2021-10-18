@@ -31,7 +31,7 @@ func (handler Handler) AddSpot(writer http.ResponseWriter, request *http.Request
 			Status: "success",
 			Data:   spot,
 		}
-		utils.WriteJSON(writer, http.StatusOK, response)
+		utils.WriteProtoMessage(writer, http.StatusOK, response)
 	}
 }
 
@@ -53,7 +53,7 @@ func (handler Handler) GetSpot(writer http.ResponseWriter, request *http.Request
 			Status: "success",
 			Data:   spot,
 		}
-		utils.WriteJSON(writer, http.StatusOK, response)
+		utils.WriteProtoMessage(writer, http.StatusOK, response)
 	}
 }
 
@@ -66,7 +66,7 @@ func (handler Handler) GetSpots(writer http.ResponseWriter, request *http.Reques
 			Status: "success",
 			Data:   spots,
 		}
-		utils.WriteJSON(writer, http.StatusOK, response)
+		utils.WriteProtoMessage(writer, http.StatusOK, response)
 	}
 }
 
@@ -94,7 +94,7 @@ func (handler Handler) UpdateSpot(writer http.ResponseWriter, request *http.Requ
 			Status: "success",
 			Data:   spot,
 		}
-		utils.WriteJSON(writer, http.StatusOK, response)
+		utils.WriteProtoMessage(writer, http.StatusOK, response)
 	}
 }
 

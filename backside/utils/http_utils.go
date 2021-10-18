@@ -2,8 +2,8 @@ package utils
 
 import (
 	"encoding/json"
-	"github.com/golang/protobuf/jsonpb"
-	"github.com/golang/protobuf/proto"
+	"google.golang.org/protobuf/encoding/protojson"
+	"google.golang.org/protobuf/proto"
 	"net/http"
 
 	"sk8.town/backside/errs"
@@ -42,8 +42,12 @@ func WriteJSON(writer http.ResponseWriter, code int, data interface{}) {
 func WriteProtoMessage(writer http.ResponseWriter, code int, data proto.Message) {
 	writer.Header().Set("Content-Type", "application/json; charset=utf-8")
 	writer.WriteHeader(code)
-	m := jsonpb.Marshaler{EmitDefaults: true}
-	err := m.Marshal(writer, data)
+	marshalOptions := protojson.MarshalOptions{EmitUnpopulated:true}
+	jsonData, err := marshalOptions.Marshal(data)
+	if err != nil {
+		panic(err)
+	}
+	_, err = writer.Write(jsonData)
 	if err != nil {
 		panic(err)
 	}
