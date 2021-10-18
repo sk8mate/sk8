@@ -183,7 +183,7 @@ func Test_get_spots_given_correct_request_should_return_spots_with_status_200(t 
 	router.ServeHTTP(recorder, request)
 
 	assert.Equal(t, http.StatusOK, recorder.Code)
-	expectedResponse := `{"status":"success","data":[{"id":"5","name":"Dom","address":"Grzegorzecka 79f Krakow","coordinates":{"lat":40,"long":60},"lighting":true,"friendly":true,"verified":true},{"id":"6","name":"Sasiad","address":"Grzegorzecka 79e Krakow","coordinates":{"lat":40,"long":60}}]}`
+	expectedResponse := `{"status":"success","data":[{"id":"5","name":"Dom","address":"Grzegorzecka 79f Krakow","coordinates":{"lat":40,"long":60},"lighting":true,"friendly":true,"verified":true},{"id":"6","name":"Sasiad","address":"Grzegorzecka 79e Krakow","coordinates":{"lat":40,"long":60},"lighting":false,"friendly":false,"verified":false}]}`
 	assert.Equal(t, expectedResponse, strings.TrimSpace(recorder.Body.String()))
 }
 
@@ -230,7 +230,7 @@ func Test_update_spot_given_correct_request_should_return_updated_spot_with_stat
 	router.ServeHTTP(recorder, request)
 
 	assert.Equal(t, http.StatusOK, recorder.Code)
-	expectedResponse := `{"status":"success","data":{"id":"5","name":"Pizza","address":"Pawia 5","coordinates":{"lat":40,"long":60}}}`
+	expectedResponse := `{"status":"success","data":{"id":"5","name":"Pizza","address":"Pawia 5","coordinates":{"lat":40,"long":60},"lighting":false,"friendly":false,"verified":false}}`
 	assert.Equal(t, expectedResponse, strings.TrimSpace(recorder.Body.String()))
 }
 
