@@ -85,6 +85,7 @@ func NewSpotDb(host, port, dbName, user, password string) SpotDb {
 		dropTables(db)
 	}
 	autoMigrate(db)
+	initializeTables(db)
 
 	return SpotDb{db}
 }
