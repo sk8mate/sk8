@@ -18,6 +18,7 @@ type SpotRepository interface {
 	GetAll() ([]*Spot, *errs.AppError)
 	Update(int, *Spot) (*Spot, *errs.AppError)
 	Delete(int) *errs.AppError
+	GetAllFilterValues() ([]*FilterValue, *errs.AppError)
 }
 
 type SpotDb struct {

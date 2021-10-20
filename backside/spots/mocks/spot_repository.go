@@ -93,6 +93,21 @@ func (mr *MockSpotRepositoryMockRecorder) GetAll() *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAll", reflect.TypeOf((*MockSpotRepository)(nil).GetAll))
 }
 
+// GetAllFilterValues mocks base method
+func (m *MockSpotRepository) GetAllFilterValues() ([]*domain.FilterValue, *errs.AppError) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetAllFilterValues")
+	ret0, _ := ret[0].([]*domain.FilterValue)
+	ret1, _ := ret[1].(*errs.AppError)
+	return ret0, ret1
+}
+
+// GetAllFilterValues indicates an expected call of GetAllFilterValues
+func (mr *MockSpotRepositoryMockRecorder) GetAllFilterValues() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllFilterValues", reflect.TypeOf((*MockSpotRepository)(nil).GetAllFilterValues))
+}
+
 // Update mocks base method
 func (m *MockSpotRepository) Update(arg0 int, arg1 *domain.Spot) (*domain.Spot, *errs.AppError) {
 	m.ctrl.T.Helper()

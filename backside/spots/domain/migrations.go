@@ -6,6 +6,12 @@ import (
 	"sk8.town/backside/logger"
 )
 
+func dropTables(db *gorm.DB) {
+	dropTable(db, Spot{})
+	dropTable(db, Filter{})
+	dropTable(db, FilterValue{})
+}
+
 func dropTable(db *gorm.DB, data interface{}) {
 	if db.Migrator().HasTable(data) {
 		err := db.Migrator().DropTable(data)
@@ -18,10 +24,14 @@ func dropTable(db *gorm.DB, data interface{}) {
 	}
 }
 
-func dropTables(db *gorm.DB) {
-	dropTable(db, Spot{})
-	dropTable(db, Filter{})
-	dropTable(db, FilterValue{})
+func autoMigrate(db *gorm.DB) {
+	migrateTable(db, Spot{})
+	migrateTable(db, Filter{})
+	migrateTable(db, FilterValue{})
+
+	if !hasInitialValues(db) {
+		initializeTables(db)
+	}
 }
 
 func migrateTable(db *gorm.DB, data interface{}) {
@@ -32,16 +42,6 @@ func migrateTable(db *gorm.DB, data interface{}) {
 	}
 	table := getTableName(db, data)
 	logger.Info(fmt.Sprintf("Migrate %s ✓", table))
-}
-
-func autoMigrate(db *gorm.DB) {
-	migrateTable(db, Spot{})
-	migrateTable(db, Filter{})
-	migrateTable(db, FilterValue{})
-
-	if !hasInitialValues(db) {
-		initializeTables(db)
-	}
 }
 
 func hasInitialValues(db *gorm.DB) bool {
