@@ -38,70 +38,83 @@ func autoMigrate(db *gorm.DB) {
 	migrateTable(db, Spot{})
 	migrateTable(db, Filter{})
 	migrateTable(db, FilterValue{})
+
+	if !hasInitialValues(db) {
+		initializeTables(db)
+	}
 }
 
-func initializeTables(db *gorm.DB){
-	lightingFilter:= Filter{
+func hasInitialValues(db *gorm.DB) bool {
+	var filters []*Filter
+	err := db.Find(&filters).Error
+	if err != nil {
+		panic(err)
+	}
+
+	var filterValues []*FilterValue
+	err = db.Find(&filterValues).Error
+	if err != nil {
+		panic(err)
+	}
+
+	return len(filters) > 0 && len(filterValues) > 0
+}
+
+func initializeTables(db *gorm.DB) {
+	lightingFilter := &Filter{
 		Name: "Lighting",
 		Type: "checkbox",
 	}
-	err := db.Create(&lightingFilter).Error
-	if err != nil {
-		panic(err)
-	}
+	lightingFilter = addFilter(db, lightingFilter)
 
-	obstaclesFilter:= Filter{
+	obstaclesFilter := &Filter{
 		Name: "Obstacles",
 		Type: "multi_select",
 	}
-	err = db.Create(&obstaclesFilter).Error
-	if err != nil {
-		panic(err)
-	}
-	db.Find(&obstaclesFilter)
+	obstaclesFilter = addFilter(db, obstaclesFilter)
 
-	obstaclesFilterValue1 := FilterValue{
+	obstaclesFilterValue1 := &FilterValue{
 		Value:    "Stairs",
 		FilterId: obstaclesFilter.Id,
 	}
-	err = db.Create(&obstaclesFilterValue1).Error
-	if err != nil {
-		panic(err)
-	}
+	addFilterValue(db, obstaclesFilterValue1)
 
-	obstaclesFilterValue2 := FilterValue{
+	obstaclesFilterValue2 := &FilterValue{
 		Value:    "Mini-ramp",
 		FilterId: obstaclesFilter.Id,
 	}
-	err = db.Create(&obstaclesFilterValue2).Error
-	if err != nil {
-		panic(err)
-	}
+	addFilterValue(db, obstaclesFilterValue2)
 
-	singleFilter := Filter{
+	singleFilter := &Filter{
 		Name: "Somefilter",
 		Type: "single_select",
 	}
-	err = db.Create(&singleFilter).Error
-	if err != nil {
-		panic(err)
-	}
-	db.Find(&singleFilter)
+	singleFilter = addFilter(db, singleFilter)
 
-	singleFilterValue1 := FilterValue{
+	singleFilterValue1 := &FilterValue{
 		Value:    "Some_value",
 		FilterId: singleFilter.Id,
 	}
-	err = db.Create(&singleFilterValue1).Error
-	if err != nil {
-		panic(err)
-	}
+	addFilterValue(db, singleFilterValue1)
 
-	singleFilterValue2 := FilterValue{
+	singleFilterValue2 := &FilterValue{
 		Value:    "Some_other_value",
 		FilterId: singleFilter.Id,
 	}
-	err = db.Create(&singleFilterValue2).Error
+	addFilterValue(db, singleFilterValue2)
+}
+
+func addFilter(db *gorm.DB, filter *Filter) *Filter {
+	err := db.Create(filter).Error
+	if err != nil {
+		panic(err)
+	}
+	db.Find(&filter)
+	return filter
+}
+
+func addFilterValue(db *gorm.DB, filterValue *FilterValue) {
+	err := db.Create(&filterValue).Error
 	if err != nil {
 		panic(err)
 	}
