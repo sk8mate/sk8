@@ -17,32 +17,17 @@ type FilterDb struct {
 
 func (db FilterDb) GetAllFilterValues() ([]*FilterValue, *errs.AppError) {
 	var filterValues []*FilterValue
+
 	err := db.client.Preload("Filter").Find(&filterValues).Error
 	if err != nil {
 		return nil, errs.NewUnexpectedError(err.Error())
 	}
+
 	if len(filterValues) == 0 {
 		return nil, errs.NewNotFoundError(err.Error())
 	}
-	return filterValues, nil
 
-	//mapping:= make(map[Filter][]*FilterValue)
-	//for _, filterValue := range filterValues {
-	//	mapping[filterValue.Filter] = append(mapping[filterValue.Filter], &FilterValue{
-	//		ID:       filterValue.ID,
-	//		Value:    filterValue.Value,
-	//	})
-	//}
-	//
-	//for k, v:=range mapping{
-	//	fmt.Println(k)
-	//	fmt.Println(v[0])
-	//	fmt.Println(v[1])
-	//}
-	//
-	////var filterWithFilterValues []*FilterWithFilterValues
-	//
-	//return nil, nil
+	return filterValues, nil
 }
 
 func NewFilterDb(db *gorm.DB) FilterDb {
