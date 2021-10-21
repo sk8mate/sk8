@@ -50,7 +50,7 @@ func (s DefaultFilterService) GetAll() ([]*dto.FilterData, *errs.AppError) {
 		result = append(result, filterData)
 	}
 
-	return nil, nil
+	return result, nil
 }
 
 func NewFilterService(repo domain.FilterRepository) DefaultFilterService {
