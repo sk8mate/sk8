@@ -75,13 +75,13 @@ func initializeTables(db *gorm.DB) {
 
 	obstaclesFilterValue1 := &FilterValue{
 		Value:    "Stairs",
-		FilterId: obstaclesFilter.Id,
+		FilterID: obstaclesFilter.ID,
 	}
 	addFilterValue(db, obstaclesFilterValue1)
 
 	obstaclesFilterValue2 := &FilterValue{
 		Value:    "Mini-ramp",
-		FilterId: obstaclesFilter.Id,
+		FilterID: obstaclesFilter.ID,
 	}
 	addFilterValue(db, obstaclesFilterValue2)
 
@@ -93,13 +93,13 @@ func initializeTables(db *gorm.DB) {
 
 	singleFilterValue1 := &FilterValue{
 		Value:    "Some_value",
-		FilterId: singleFilter.Id,
+		FilterID: singleFilter.ID,
 	}
 	addFilterValue(db, singleFilterValue1)
 
 	singleFilterValue2 := &FilterValue{
 		Value:    "Some_other_value",
-		FilterId: singleFilter.Id,
+		FilterID: singleFilter.ID,
 	}
 	addFilterValue(db, singleFilterValue2)
 }
@@ -114,7 +114,7 @@ func addFilter(db *gorm.DB, filter *Filter) *Filter {
 }
 
 func addFilterValue(db *gorm.DB, filterValue *FilterValue) {
-	err := db.Create(&filterValue).Error
+	err := db.Create(filterValue).Error
 	if err != nil {
 		panic(err)
 	}

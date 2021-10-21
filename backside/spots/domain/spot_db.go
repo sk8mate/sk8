@@ -72,6 +72,18 @@ func (db SpotDb) Delete(id int) *errs.AppError {
 	return nil
 }
 
+func (db SpotDb) GetAllFilterValues() ([]*FilterValue, *errs.AppError) {
+	var filterValue FilterValue
+	err := db.client.Preload("Filter").Find(&filterValue, 3).Error
+
+	fmt.Println(filterValue)
+	if err != nil {
+		return nil, errs.NewUnexpectedError(err.Error())
+	}
+
+	return nil, nil
+}
+
 func NewSpotDb(host, port, dbName, user, password string) SpotDb {
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Europe/Warsaw",
 		host, user, password, dbName, port)
