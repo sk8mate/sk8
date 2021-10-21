@@ -2,13 +2,9 @@ package domain
 
 import (
 	"fmt"
-	"os"
-
-	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 
 	"sk8.town/backside/errs"
-	"sk8.town/backside/logger"
 )
 
 //go:generate mockgen --build_flags=--mod=mod -destination=../mocks/spot_repository.go -package=mocks sk8.town/backside/spots/domain SpotRepository
@@ -18,7 +14,6 @@ type SpotRepository interface {
 	GetAll() ([]*Spot, *errs.AppError)
 	Update(int, *Spot) (*Spot, *errs.AppError)
 	Delete(int) *errs.AppError
-	GetAllFilterValues() ([]*FilterValue, *errs.AppError)
 }
 
 type SpotDb struct {
@@ -72,50 +67,6 @@ func (db SpotDb) Delete(id int) *errs.AppError {
 	return nil
 }
 
-func (db SpotDb) GetAllFilterValues() ([]*FilterValue, *errs.AppError) {
-	var filterValues []*FilterValue
-	err := db.client.Preload("Filter").Find(&filterValues).Error
-	if err != nil {
-		return nil, errs.NewUnexpectedError(err.Error())
-	}
-	if len(filterValues) == 0 {
-		return nil, errs.NewNotFoundError(err.Error())
-	}
-	return filterValues, nil
-
-	//mapping:= make(map[Filter][]*FilterValue)
-	//for _, filterValue := range filterValues {
-	//	mapping[filterValue.Filter] = append(mapping[filterValue.Filter], &FilterValue{
-	//		ID:       filterValue.ID,
-	//		Value:    filterValue.Value,
-	//	})
-	//}
-	//
-	//for k, v:=range mapping{
-	//	fmt.Println(k)
-	//	fmt.Println(v[0])
-	//	fmt.Println(v[1])
-	//}
-	//
-	////var filterWithFilterValues []*FilterWithFilterValues
-	//
-	//return nil, nil
-}
-
-func NewSpotDb(host, port, dbName, user, password string) SpotDb {
-	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Europe/Warsaw",
-		host, user, password, dbName, port)
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
-	if err != nil {
-		logger.Error(err.Error())
-		panic(err)
-	}
-	logger.Info(fmt.Sprintf("Connected to database %s on %s:%s", dbName, host, port))
-
-	if os.Getenv("SK8_DB_DROP_ALL_TABLES") == "true" {
-		dropTables(db)
-	}
-	autoMigrate(db)
-
+func NewSpotDb(db *gorm.DB) SpotDb {
 	return SpotDb{db}
 }
