@@ -13,7 +13,7 @@ type FilterValue struct {
 	FilterID int    `gorm:"not null"`
 }
 
-type FilterWithFilterValue struct {
-	FilterID    Filter
-	FilterValue FilterValue
+type FilterWithFilterValues struct {
+	Filter      Filter
+	FilterValue []FilterValue
 }
