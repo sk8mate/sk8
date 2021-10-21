@@ -13,6 +13,7 @@ func Make(router *mux.Router) {
 	cfg := config.Get()
 
 	db:= domain.Connect(cfg.DbHost, cfg.DbPort, cfg.DbName, cfg.DbUser, cfg.DbPassword)
+
 	spotsDb := domain.NewSpotDb(db)
 	spotsService := NewSpotService(spotsDb)
 	spotsHandler := SpotHandler{spotsService}
@@ -37,4 +38,13 @@ func Make(router *mux.Router) {
 		HandleFunc("/spots/{id:[0-9]+}", spotsHandler.DeleteSpot).
 		Methods(http.MethodDelete).
 		Name("DeleteSpot")
+
+	filtersDb := domain.NewFilterDb(db)
+	filtersService := NewFilterService(filtersDb)
+	filtersHandler := FilterHandler{filtersService}
+
+	router.
+		HandleFunc("/spots/filters", filtersHandler.GetFilters).
+		Methods(http.MethodGet).
+		Name("GetAllFilters")
 }
