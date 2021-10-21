@@ -151,7 +151,7 @@ func Test_get_spot_given_service_error_should_return_service_error(t *testing.T)
 	id := 5
 	spotServiceMock.EXPECT().Get(id).Return(nil, errs.NewNotFoundError(""))
 	spotsRouter.HandleFunc("/spots/{id:[0-9]+}", spotsHandler.GetSpot)
-	request, _ := http.NewRequest(http.MethodPost, "/spots/5", nil)
+	request, _ := http.NewRequest(http.MethodGet, "/spots/5", nil)
 	recorder := httptest.NewRecorder()
 
 	spotsRouter.ServeHTTP(recorder, request)
@@ -212,7 +212,7 @@ func Test_get_spots_given_service_error_should_return_service_error(t *testing.T
 	defer teardown()
 	spotServiceMock.EXPECT().GetAll().Return(nil, errs.NewNotFoundError(""))
 	spotsRouter.HandleFunc("/spots", spotsHandler.GetSpots)
-	request, _ := http.NewRequest(http.MethodPost, "/spots", nil)
+	request, _ := http.NewRequest(http.MethodGet, "/spots", nil)
 	recorder := httptest.NewRecorder()
 
 	spotsRouter.ServeHTTP(recorder, request)
