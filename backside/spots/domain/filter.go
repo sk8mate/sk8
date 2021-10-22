@@ -1,19 +1,14 @@
 package domain
 
 type Filter struct {
-	ID   int `gorm:"primary_key;AUTO_INCREMENT"`
-	Name string
-	Type string
+	ID           int `gorm:"primary_key;AUTO_INCREMENT"`
+	Name         string
+	Type         string
+	FilterValues []FilterValue
 }
 
 type FilterValue struct {
 	ID       int `gorm:"primary_key;AUTO_INCREMENT"`
 	Value    string
-	Filter   Filter `gorm:"foreignKey:FilterID;references:ID"`
-	FilterID int    `gorm:"not null"`
-}
-
-type FilterWithFilterValues struct {
-	Filter      Filter
-	FilterValue []FilterValue
+	FilterID int
 }
