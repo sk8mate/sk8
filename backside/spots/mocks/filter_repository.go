@@ -34,17 +34,17 @@ func (m *MockFilterRepository) EXPECT() *MockFilterRepositoryMockRecorder {
 	return m.recorder
 }
 
-// GetAllFilterValues mocks base method
-func (m *MockFilterRepository) GetAllFilterValues() ([]*domain.FilterValue, *errs.AppError) {
+// GetAll mocks base method
+func (m *MockFilterRepository) GetAll() ([]*domain.Filter, *errs.AppError) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetAllFilterValues")
-	ret0, _ := ret[0].([]*domain.FilterValue)
+	ret := m.ctrl.Call(m, "GetAll")
+	ret0, _ := ret[0].([]*domain.Filter)
 	ret1, _ := ret[1].(*errs.AppError)
 	return ret0, ret1
 }
 
-// GetAllFilterValues indicates an expected call of GetAllFilterValues
-func (mr *MockFilterRepositoryMockRecorder) GetAllFilterValues() *gomock.Call {
+// GetAll indicates an expected call of GetAll
+func (mr *MockFilterRepositoryMockRecorder) GetAll() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllFilterValues", reflect.TypeOf((*MockFilterRepository)(nil).GetAllFilterValues))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAll", reflect.TypeOf((*MockFilterRepository)(nil).GetAll))
 }
