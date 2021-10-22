@@ -65,7 +65,7 @@ func initializeTables(db *gorm.DB) {
 		Name: "Lighting",
 		Type: "checkbox",
 	}
-	lightingFilter = addFilter(db, lightingFilter)
+	addFilter(db, lightingFilter)
 
 	obstaclesFilter := &Filter{
 		Name: "Obstacles",
