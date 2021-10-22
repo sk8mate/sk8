@@ -8,26 +8,26 @@ import (
 
 //go:generate mockgen --build_flags=--mod=mod -destination=../mocks/filter_repository.go -package=mocks sk8.town/backside/spots/domain FilterRepository
 type FilterRepository interface {
-	GetAllFilterValues() ([]*FilterValue, *errs.AppError)
+	GetAll() ([]*Filter, *errs.AppError)
 }
 
 type FilterDb struct {
 	client *gorm.DB
 }
 
-func (db FilterDb) GetAllFilterValues() ([]*FilterValue, *errs.AppError) {
-	var filterValues []*FilterValue
+func (db FilterDb) GetAll() ([]*Filter, *errs.AppError) {
+	var filters []*Filter
 
-	err := db.client.Preload("Filter").Find(&filterValues).Error
+	err := db.client.Preload("FilterValues").Find(&filters).Error
 	if err != nil {
 		return nil, errs.NewUnexpectedError(err.Error())
 	}
 
-	if len(filterValues) == 0 {
+	if len(filters) == 0 {
 		return nil, errs.NewNotFoundError(err.Error())
 	}
 
-	return filterValues, nil
+	return filters, nil
 }
 
 func NewFilterDb(db *gorm.DB) FilterDb {
