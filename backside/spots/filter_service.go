@@ -16,40 +16,17 @@ type DefaultFilterService struct {
 }
 
 func (s DefaultFilterService) GetAll() ([]*dto.FilterData, *errs.AppError) {
-	//allFilterValues, err := s.filterRepo.GetAllFilterValues()
-	//if err != nil {
-	//	return nil, err
-	//}
+	allFilters, err := s.filterRepo.GetAll()
+	if err != nil {
+		return nil, err
+	}
 
-	//mapping := make(map[domain.Filter][]*domain.FilterValue)
-	//for _, filterValue := range allFilterValues {
-	//	mapping[filterValue.Filter] = append(mapping[filterValue.Filter], &domain.FilterValue{
-	//		ID:    filterValue.ID,
-	//		Value: filterValue.Value,
-	//	})
-	//}
-	//
-	//var result []*dto.FilterData
-	//
-	//for filter, filterValues := range mapping {
-	//	filterData := &dto.FilterData{
-	//		Id:     strconv.Itoa(filter.ID),
-	//		Name:   filter.Name,
-	//		Type:   filter.Type,
-	//		Values: nil,
-	//	}
-	//
-	//	for _, filterValue := range filterValues {
-	//		filterData.Values = append(filterData.Values, &dto.FilterValueData{
-	//			Id:   strconv.Itoa(filterValue.ID),
-	//			Name: filterValue.Value,
-	//		})
-	//	}
-	//
-	//	result = append(result, filterData)
-	//}
+	var dtoAllFilters []*dto.FilterData
+	for _, filter := range allFilters {
+		dtoAllFilters = append(dtoAllFilters, filter.ToDto())
+	}
 
-	return nil, nil
+	return dtoAllFilters, nil
 }
 
 func NewFilterService(repo domain.FilterRepository) DefaultFilterService {
