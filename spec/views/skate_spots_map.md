@@ -15,7 +15,7 @@ The main view of the app.
 . . . . . . Map . . . . . .
 . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . 
+. . . . . Drawer . . . . . 
 ###########################
 . . . . Navigation . . . . 
 ###########################
@@ -34,35 +34,25 @@ By default, the map centers itself on the user's location. However, the map posi
   Return `X` matching places based on the `search` parameter value.
   
   Parameters
-  | name | type | description | required |
-  | -- | -- | -- | -- |
-  | search | string | any point of interest (e.g. city or district) | yes |
-  | language | string | user's device language | yes |
+  | name     | type   | description                                   | required |
+  | -------- | ------ | --------------------------------------------- | -------- |
+  | search   | string | any point of interest (e.g. city or district) | yes      |
+  | language | string | user's device language                        | yes      |
 
-  ```go
-  type Coordinates struct {
-    lat float64
-    long float64
-  }
-
-  type Place struct {
-    Coordinates
-    name string
-    address string
-  }
-  ```
+  **Proto**
+  [https://github.com/sk8mate/sk8/tree/main/backside/places/proto](https://github.com/sk8mate/sk8/tree/main/backside/places/proto)
 
 ## Filters
 Users can filter the skate spots by their parameters, such as `lighting` or `types of obstacle`. 
 
 **Frontside**
-- require data from `/filters` endpoint to render
+- require data from `/spots/filters` endpoint to render
 - nice buttons with checkbox functionality under the hood
 - scrollable, stacked in one row, can go beyond the screen
 - trigger `/spots` API request on every filter change
 
 **Backside**
-- `/filters GET`
+- `/spots/filters GET`
   Return list of available filters.
 
 - `/spots GET`
@@ -112,6 +102,18 @@ Users can filter the skate spots by their parameters, such as `lighting` or `typ
   
 **Backside**
 Use `/spots GET` described in [Filters](#filters).
+
+## Drawer
+Drawer with a list view of filtered spots including some more details.
+**Frontside**
+It should use the data from `/spots GET`.
+
+One item in a list should contain:
+- photos in a horizontal view
+- name
+- rating
+- distance
+- spot details
 
 ## Navigation
 **Frontside**
