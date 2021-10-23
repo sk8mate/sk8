@@ -39,7 +39,7 @@ func WriteJSON(writer http.ResponseWriter, code int, data interface{}) {
 	}
 }
 
-func WriteProtoMessage(writer http.ResponseWriter, code int, data proto.Message) {
+func WriteProtoJSON(writer http.ResponseWriter, code int, data proto.Message) {
 	writer.Header().Set("Content-Type", "application/json; charset=utf-8")
 	writer.WriteHeader(code)
 	marshalOptions := protojson.MarshalOptions{EmitUnpopulated: true}

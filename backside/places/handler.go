@@ -32,6 +32,6 @@ func (handler Handler) GetPlacesAutocomplete(writer http.ResponseWriter, request
 			Status: "success",
 			Data:   places,
 		}
-		utils.WriteProtoMessage(writer, http.StatusOK, response)
+		utils.WriteProtoJSON(writer, http.StatusOK, response)
 	}
 }
