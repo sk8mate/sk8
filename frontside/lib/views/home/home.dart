@@ -1,36 +1,44 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:frontside/views/home/autocomplete_request.pb.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:flutter/material.dart';
 import 'package:frontside/parts/navbar.dart';
+import 'package:frontside/views/home/autocomplete_request.pb.dart';
 import 'package:frontside/views/home/autocomplete_response.pb.dart';
-// import 'package:frontside/views/home/autocomplete_request.pb.dart';
 
-// class Debouncer<T> {
-//   Debouncer(this.duration, this.onValue);
-//   final Duration duration;
-//   void Function(T value) onValue;
-//   late T _value;
-//   late Timer? _timer;
-//   T get value => _value;
-//   set value(T val) {
-//     _value = val;
-//     _timer?.cancel();
-//     _timer = Timer(duration, () => onValue(_value));
-//   }
-// }
+class Debouncer {
+  Duration delay;
+  Timer _timer = new Timer(Duration(milliseconds: 1), () {
+    print("init timer");
+  });
+  late VoidCallback _callback;
 
-// final _completer = Completer<AutocompleteResponse?>();
+  Debouncer({this.delay = const Duration(milliseconds: 500)});
+
+  void debounce(VoidCallback callback) {
+    _callback = callback;
+    if (_timer.isActive) {
+      _timer.cancel();
+    }
+    _timer = new Timer(delay, this.flush);
+  }
+
+  void flush() {
+    _callback();
+    // _timer.cancel();
+  }
+}
 
 // var _debouncer = Debouncer<String>(Duration(milliseconds: 500), (value) {
 //   _completer.complete(_getSuggestions(query));
 // });
 
 class PlacesSearchDelegate extends SearchDelegate<AutocompleteEntry?> {
+  final _debouncer = new Debouncer();
+
   @override
   Widget buildLeading(BuildContext context) {
     return IconButton(
@@ -49,6 +57,7 @@ class PlacesSearchDelegate extends SearchDelegate<AutocompleteEntry?> {
     // TODO: Debounce a request
     // TODO: Parametrize a language
     // TODO: Error handling
+
     var request = AutocompleteRequest(language: "pl", search: value);
     final queryParameters = {
       "language": request.language,
@@ -60,6 +69,17 @@ class PlacesSearchDelegate extends SearchDelegate<AutocompleteEntry?> {
 
     return AutocompleteResponse.create()
       ..mergeFromProto3Json(jsonDecode(utf8.decode(response.bodyBytes)));
+  }
+
+  Future<AutocompleteResponse?> _doStuff() async {
+    final Completer<AutocompleteResponse?> _completer = new Completer();
+
+    _debouncer.debounce(() async {
+      print("debounce");
+      _completer.complete(await _getSuggestions(query));
+    });
+
+    return _completer.future;
   }
 
   @override
@@ -84,7 +104,7 @@ class PlacesSearchDelegate extends SearchDelegate<AutocompleteEntry?> {
             itemCount: suggestions.length,
           );
         },
-        future: _getSuggestions(query));
+        future: _doStuff());
   }
 
   @override
