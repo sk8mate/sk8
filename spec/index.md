@@ -8,8 +8,6 @@ The app is open-source and free to use.
 
 ## Views
 - [Skate spots map](views/skate_spots_map.md) (main view)
-- TODO: [Add new skate spot](views/add_new_skate_spot.md) 
-- TODO: [Profile](views/profile.md)
-- TODO: [Auth](views/auth.md) (main view for unauthenticated users)
-
-> **NOTE:** Every view except [Auth](views/auth.md) is protected. The user has to log in to use the app.
+- [Add new skate spot](views/add_new_skate_spot.md) 
+- [Profile](views/profile.md)
+- [Auth](views/auth.md)

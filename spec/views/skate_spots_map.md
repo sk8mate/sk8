@@ -1,8 +1,6 @@
 # Skate spots map
 **Route:** `/`
 
-The main view of the app.
-
 **UI Sketch**
 ```
 ###########################
@@ -15,106 +13,54 @@ The main view of the app.
 . . . . . . Map . . . . . .
 . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . 
+. . . . . Drawer . . . . . 
 ###########################
 . . . . Navigation . . . . 
 ###########################
 ```
 
-## Search
-By default, the map centers itself on the user's location. However, the map position can be quickly changed, for example, by typing another city name.
+## User perspective
+### Search & Map
+- As a user, I want to be able to move the map position to any place by typing the place's name in a text input to browse spots in different cities/locations.
 
-**Frontside**
-- autocomplete input
-- make throttled API calls while typing
-- move [the Map](#map) to the selected area (on submission)
+- As a user, I want the map to be centered to my current location by default.
 
-**Backside**
-- `/places GET`
-  Return `X` matching places based on the `search` parameter value.
-  
-  Parameters
-  | name | type | description | required |
-  | -- | -- | -- | -- |
-  | search | string | any point of interest (e.g. city or district) | yes |
-  | language | string | user's device language | yes |
+- As a user, I want to see my current location on the map.
 
-  ```go
-  type Coordinates struct {
-    lat float64
-    long float64
-  }
+- As a user, I want to see all the spots marked on the map.
 
-  type Place struct {
-    Coordinates
-    name string
-    address string
-  }
-  ```
+- As a user, I want to be able to open a detailed view of a spot by tapping on a marker.
 
-## Filters
-Users can filter the skate spots by their parameters, such as `lighting` or `types of obstacle`. 
+### Filters
+- As a user, I want to be able to narrow down my search to spots with specific attributes.
+    > Example: I'm going to skate in the late evening, so let's find spots with a `lighting`.
 
-**Frontside**
-- require data from `/filters` endpoint to render
-- nice buttons with checkbox functionality under the hood
-- scrollable, stacked in one row, can go beyond the screen
-- trigger `/spots` API request on every filter change
 
-**Backside**
-- `/filters GET`
-  Return list of available filters.
+- As a user, I want to be able to combine spots' filters.
+    > Example: Select `mini ramp` obstacle and `lighting` at the same time.
 
-- `/spots GET`
-  Return list of spots based on the input location (lat, long params).
-  
-  Parameters:
-  <table>
-    <tr>
-      <td><strong>name</strong></td>
-      <td><strong>type<strong></td>
-      <td><strong>description</strong></td>
-      <td><strong>required</strong></td>
-    </tr>
-    <tr>
-      <td>lat</td>
-      <td>float</td>
-      <td rowspan="2">center point on the map</td>
-      <td>yes</td>
-    </tr>
-    <tr>
-      <td>long</td>
-      <td>float</td>
-      <td>yes</td>
-    </tr>
-    <tr>
-      <td colspan="4">### Filters ###</td>
-    </tr>
-    <tr>
-      <td>lighting</td>
-      <td>bool</td>
-      <td>if a place is lit</td>
-      <td>no</td>
+### Drawer
+- As a user, I want to be able to draw out a scrollable list of the spots with more details.
 
-    </tr>
-    <tr>
-      <td>friendly</td>
-      <td>bool</td>
-      <td>if a place is intended for skaters (e.g. skatepark), not a place in front of a some kind of building where guards are trying to get rid of you</td>
-      <td>no</td>
-    </tr>
-  </table>
-## Map
-**Frontside**
-- center at the current user location by default
-- skate spots markers
-- spot details after click (to be described)
-  
-**Backside**
-Use `/spots GET` described in [Filters](#filters).
+    One item in a list should contain:
+    - photos in a horizontal view
+    - name
+    - rating
+    - distance
+    - spot's attributes
 
-## Navigation
-**Frontside**
-- visible on every view
-- even spacing between menu items
-- highlight the current view
+- As a user, I want to get directions to the selected spot.
+    > Example: Click a `Navigate` button to open a map application and use the spot's address as a destination.
+
+- As a user, I want to be able to open a detailed view of a spot by tapping on a list item.
+
+### Navigation
+- As a user, I want to see a navigation on every view to be able to switch between app views quickly.
+
+    Menu items:
+    - skate spots map `/`
+    - add new spot `/add`
+    - profile `/profile`
+
+- As a user, I want to be able to switch between `/add` and other views without input data loss.
+    > Example: I upload photos and change the view to skate spots map. I want the photos to be there when I visit the `/add` view again.
