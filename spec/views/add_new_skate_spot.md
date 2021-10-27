@@ -26,6 +26,6 @@
   - As a user, I want to be able to describe the attributes of a spot.
 
     List of attributes:
-        - obstacles (mini ramp, quarter pipe etc.)
-        - lighting (yes/no)
-        - type (skatepark, public institution, parking etc.)
+      - obstacles (mini ramp, quarter pipe etc.)
+      - lighting (yes/no)
+      - type (skatepark, public institution, parking etc.)
