@@ -16,7 +16,7 @@ import (
 func Test_get_all_filters_should_propagate_an_error_from_db(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
-	mockDb := mocks.NewMockFilterRepository(ctrl)
+	mockDb := mocks.NewMockFiltersRepository(ctrl)
 	service := NewFilterService(mockDb)
 	expectedError := errs.NewNotFoundError("not found error")
 	mockDb.EXPECT().GetAll().Return(nil, expectedError)
@@ -73,7 +73,7 @@ func Test_get_all_filters_should_return_filters_response_when_filters_retrieved_
 	}
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
-	mockDb := mocks.NewMockFilterRepository(ctrl)
+	mockDb := mocks.NewMockFiltersRepository(ctrl)
 	service := NewFilterService(mockDb)
 	mockDb.EXPECT().GetAll().Return(filterValues, nil)
 

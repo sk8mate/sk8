@@ -18,11 +18,11 @@ import (
 
 var filterRouter *mux.Router
 var filtersHandler FiltersHandler
-var filterServiceMock *mocks.MockFilterService
+var filterServiceMock *mocks.MockFiltersService
 
 func initialize(t *testing.T) func() {
 	ctrl := gomock.NewController(t)
-	filterServiceMock = mocks.NewMockFilterService(ctrl)
+	filterServiceMock = mocks.NewMockFiltersService(ctrl)
 	filtersHandler = FiltersHandler{filterServiceMock}
 	filterRouter = mux.NewRouter()
 	return func() {
