@@ -1,40 +1,11 @@
 import 'dart:async';
-import 'dart:convert';
-
-import 'package:http/http.dart' as http;
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:flutter/material.dart';
 import 'package:frontside/parts/navbar.dart';
-import 'package:frontside/views/home/autocomplete_request.pb.dart';
-import 'package:frontside/views/home/autocomplete_response.pb.dart';
 
-class Debouncer {
-  Duration delay;
-  Timer _timer = new Timer(Duration(milliseconds: 1), () {
-    print("init timer");
-  });
-  late VoidCallback _callback;
-
-  Debouncer({this.delay = const Duration(milliseconds: 500)});
-
-  void debounce(VoidCallback callback) {
-    _callback = callback;
-    if (_timer.isActive) {
-      _timer.cancel();
-    }
-    _timer = new Timer(delay, this.flush);
-  }
-
-  void flush() {
-    _callback();
-    // _timer.cancel();
-  }
-}
-
-// var _debouncer = Debouncer<String>(Duration(milliseconds: 500), (value) {
-//   _completer.complete(_getSuggestions(query));
-// });
+import 'package:frontside/services/places/autocomplete_response.pb.dart';
+import 'package:frontside/services/places/places.dart';
+import 'package:frontside/utils/debouncer.dart';
 
 class PlacesSearchDelegate extends SearchDelegate<AutocompleteEntry?> {
   final _debouncer = new Debouncer();
@@ -49,34 +20,11 @@ class PlacesSearchDelegate extends SearchDelegate<AutocompleteEntry?> {
     );
   }
 
-  Future<AutocompleteResponse?> _getSuggestions(String value) async {
-    if (value.isEmpty) {
-      return null;
-    }
-
-    // TODO: Debounce a request
-    // TODO: Parametrize a language
-    // TODO: Error handling
-
-    var request = AutocompleteRequest(language: "pl", search: value);
-    final queryParameters = {
-      "language": request.language,
-      "search": request.search
-    };
-    final uri = Uri.parse(
-        '${dotenv.env['SK8_BACKSIDE_URL']}/places/autocomplete?${Uri(queryParameters: queryParameters).query}');
-    var response = await http.get(uri);
-
-    return AutocompleteResponse.create()
-      ..mergeFromProto3Json(jsonDecode(utf8.decode(response.bodyBytes)));
-  }
-
-  Future<AutocompleteResponse?> _doStuff() async {
-    final Completer<AutocompleteResponse?> _completer = new Completer();
+  Future<AutocompleteResponse> _getResults() async {
+    final Completer<AutocompleteResponse> _completer = new Completer();
 
     _debouncer.debounce(() async {
-      print("debounce");
-      _completer.complete(await _getSuggestions(query));
+      _completer.complete(await getPlaces(query));
     });
 
     return _completer.future;
@@ -86,25 +34,25 @@ class PlacesSearchDelegate extends SearchDelegate<AutocompleteEntry?> {
   Widget buildResults(BuildContext context) {
     return FutureBuilder(
         builder: (BuildContext context,
-            AsyncSnapshot<AutocompleteResponse?> response) {
-          var suggestions = response.data?.data ?? [];
+            AsyncSnapshot<AutocompleteResponse> response) {
+          var places = response.data?.data ?? [];
 
           return ListView.builder(
             itemBuilder: (context, index) {
-              var suggestion = suggestions[index];
+              var place = places[index];
 
               return ListTile(
-                title: Text(suggestion.name),
-                subtitle: Text(suggestion.address),
+                title: Text(place.name),
+                subtitle: Text(place.address),
                 onTap: () {
-                  close(context, suggestion);
+                  close(context, place);
                 },
               );
             },
-            itemCount: suggestions.length,
+            itemCount: places.length,
           );
         },
-        future: _doStuff());
+        future: _getResults());
   }
 
   @override
