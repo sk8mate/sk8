@@ -2,6 +2,7 @@ package domain
 
 import (
 	"fmt"
+
 	"gorm.io/gorm"
 	"sk8.town/backside/logger"
 )
@@ -10,6 +11,26 @@ func dropTables(db *gorm.DB) {
 	dropTable(db, Spot{})
 	dropTable(db, Filter{})
 	dropTable(db, FilterValue{})
+}
+
+func autoMigrate(db *gorm.DB) {
+	migrateTable(db, Spot{})
+	migrateTable(db, Filter{})
+	migrateTable(db, FilterValue{})
+
+	if !hasInitData(db) {
+		initData(db)
+	}
+}
+
+func migrateTable(db *gorm.DB, data interface{}) {
+	err := db.AutoMigrate(data)
+	if err != nil {
+		logger.Error(err.Error())
+		panic(err)
+	}
+	table := getTableName(db, data)
+	logger.Info(fmt.Sprintf("Migrate %s ✓", table))
 }
 
 func dropTable(db *gorm.DB, data interface{}) {
@@ -24,27 +45,23 @@ func dropTable(db *gorm.DB, data interface{}) {
 	}
 }
 
-func autoMigrate(db *gorm.DB) {
-	migrateTable(db, Spot{})
-	migrateTable(db, Filter{})
-	migrateTable(db, FilterValue{})
-
-	if !hasInitialValues(db) {
-		initializeTables(db)
+func initData(db *gorm.DB) {
+	data := []Filter{
+		{Name: "lighting", Type: "checkbox"},
+		{Name: "obstacles", Type: "multi_select", FilterValues: []FilterValue{
+			{Value: "mini-ramp"},
+			{Value: "stairs"},
+		}},
 	}
-}
 
-func migrateTable(db *gorm.DB, data interface{}) {
-	err := db.AutoMigrate(data)
+	err := db.Create(data).Error
+
 	if err != nil {
-		logger.Error(err.Error())
 		panic(err)
 	}
-	table := getTableName(db, data)
-	logger.Info(fmt.Sprintf("Migrate %s ✓", table))
 }
 
-func hasInitialValues(db *gorm.DB) bool {
+func hasInitData(db *gorm.DB) bool {
 	var filters []*Filter
 	err := db.Find(&filters).Error
 	if err != nil {
@@ -58,66 +75,6 @@ func hasInitialValues(db *gorm.DB) bool {
 	}
 
 	return len(filters) > 0 && len(filterValues) > 0
-}
-
-func initializeTables(db *gorm.DB) {
-	lightingFilter := &Filter{
-		Name: "Lighting",
-		Type: "checkbox",
-	}
-	addFilter(db, lightingFilter)
-
-	obstaclesFilter := &Filter{
-		Name: "Obstacles",
-		Type: "multi_select",
-	}
-	obstaclesFilter = addFilter(db, obstaclesFilter)
-
-	obstaclesFilterValue1 := &FilterValue{
-		Value:    "Stairs",
-		FilterID: obstaclesFilter.ID,
-	}
-	addFilterValue(db, obstaclesFilterValue1)
-
-	obstaclesFilterValue2 := &FilterValue{
-		Value:    "Mini-ramp",
-		FilterID: obstaclesFilter.ID,
-	}
-	addFilterValue(db, obstaclesFilterValue2)
-
-	singleFilter := &Filter{
-		Name: "Somefilter",
-		Type: "single_select",
-	}
-	singleFilter = addFilter(db, singleFilter)
-
-	singleFilterValue1 := &FilterValue{
-		Value:    "Some_value",
-		FilterID: singleFilter.ID,
-	}
-	addFilterValue(db, singleFilterValue1)
-
-	singleFilterValue2 := &FilterValue{
-		Value:    "Some_other_value",
-		FilterID: singleFilter.ID,
-	}
-	addFilterValue(db, singleFilterValue2)
-}
-
-func addFilter(db *gorm.DB, filter *Filter) *Filter {
-	err := db.Create(filter).Error
-	if err != nil {
-		panic(err)
-	}
-	db.Find(&filter)
-	return filter
-}
-
-func addFilterValue(db *gorm.DB, filterValue *FilterValue) {
-	err := db.Create(filterValue).Error
-	if err != nil {
-		panic(err)
-	}
 }
 
 // TODO: move to utils
