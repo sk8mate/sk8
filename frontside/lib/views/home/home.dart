@@ -80,7 +80,7 @@ class Home extends StatelessWidget {
             onTap: () async {
               var result = await showSearch(
                   context: context, delegate: PlacesSearchDelegate());
-              print("result: ${result}");
+              print("result: $result");
             },
             decoration: InputDecoration(
                 border: OutlineInputBorder(
