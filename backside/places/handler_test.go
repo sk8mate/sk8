@@ -65,7 +65,7 @@ func Test_given_correct_request_should_return_places_with_status_200(t *testing.
 	router.ServeHTTP(recorder, request)
 
 	assert.Equal(t, http.StatusOK, recorder.Code)
-	expectedResponse := `{"status":"success", "data":[{"coordinates":{"lat":5, "long":6}, "name":"name1", "address":"address1"}, {"coordinates":{"lat":10, "long":20}, "name":"name2", "address":"address2"}]}`
+	expectedResponse := `{"status":"success","data":[{"coordinates":{"lat":5,"long":6},"name":"name1","address":"address1"},{"coordinates":{"lat":10,"long":20},"name":"name2","address":"address2"}]}`
 	assert.Equal(t, expectedResponse, strings.TrimSpace(recorder.Body.String()))
 }
 
