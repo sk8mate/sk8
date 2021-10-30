@@ -19,13 +19,13 @@ import (
 )
 
 var spotsRouter *mux.Router
-var spotsHandler SpotHandler
+var spotsHandler SpotsHandler
 var spotServiceMock *mocks.MockSpotService
 
 func setup(t *testing.T) func() {
 	ctrl := gomock.NewController(t)
 	spotServiceMock = mocks.NewMockSpotService(ctrl)
-	spotsHandler = SpotHandler{spotServiceMock}
+	spotsHandler = SpotsHandler{spotServiceMock}
 	spotsRouter = mux.NewRouter()
 	return func() {
 		spotsRouter = nil

@@ -17,13 +17,13 @@ import (
 )
 
 var filterRouter *mux.Router
-var filterHandler FilterHandler
+var filtersHandler FiltersHandler
 var filterServiceMock *mocks.MockFilterService
 
 func initialize(t *testing.T) func() {
 	ctrl := gomock.NewController(t)
 	filterServiceMock = mocks.NewMockFilterService(ctrl)
-	filterHandler = FilterHandler{filterServiceMock}
+	filtersHandler = FiltersHandler{filterServiceMock}
 	filterRouter = mux.NewRouter()
 	return func() {
 		filterRouter = nil
@@ -36,9 +36,9 @@ func Test_get_filters_retrieved_successfully_from_service_should_return_spots_wi
 	defer teardown()
 	filtersGetAllData := []*dto.FilterData{
 		{
-			Id:     "1",
-			Name:   "filter1",
-			Type:   "type1",
+			Id:   "1",
+			Name: "filter1",
+			Type: "type1",
 			Values: []*dto.FilterValueData{
 				{
 					Id:   "1",
@@ -51,9 +51,9 @@ func Test_get_filters_retrieved_successfully_from_service_should_return_spots_wi
 			},
 		},
 		{
-			Id:     "2",
-			Name:   "filter2",
-			Type:   "type2",
+			Id:   "2",
+			Name: "filter2",
+			Type: "type2",
 			Values: []*dto.FilterValueData{
 				{
 					Id:   "3",
@@ -63,7 +63,7 @@ func Test_get_filters_retrieved_successfully_from_service_should_return_spots_wi
 		},
 	}
 	filterServiceMock.EXPECT().GetAll().Return(filtersGetAllData, nil)
-	filterRouter.HandleFunc("/spots/filters", filterHandler.GetFilters)
+	filterRouter.HandleFunc("/spots/filters", filtersHandler.GetFilters)
 	request, _ := http.NewRequest(http.MethodGet, "/spots/filters", nil)
 	recorder := httptest.NewRecorder()
 
@@ -78,7 +78,7 @@ func Test_get_filters_failed_from_service_should_return_error(t *testing.T) {
 	teardown := initialize(t)
 	defer teardown()
 	filterServiceMock.EXPECT().GetAll().Return(nil, errs.NewNotFoundError(""))
-	filterRouter.HandleFunc("/spots/filters", filterHandler.GetFilters)
+	filterRouter.HandleFunc("/spots/filters", filtersHandler.GetFilters)
 	request, _ := http.NewRequest(http.MethodGet, "/spots/filters", nil)
 	recorder := httptest.NewRecorder()
 

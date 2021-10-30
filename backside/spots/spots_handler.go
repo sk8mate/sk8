@@ -2,9 +2,10 @@ package spots
 
 import (
 	"encoding/json"
-	"github.com/gorilla/mux"
 	"net/http"
 	"strconv"
+
+	"github.com/gorilla/mux"
 
 	"sk8.town/backside/errs"
 
@@ -12,11 +13,11 @@ import (
 	"sk8.town/backside/utils"
 )
 
-type SpotHandler struct {
-	service SpotService
+type SpotsHandler struct {
+	service SpotsService
 }
 
-func (handler SpotHandler) AddSpot(writer http.ResponseWriter, request *http.Request) {
+func (handler SpotsHandler) AddSpot(writer http.ResponseWriter, request *http.Request) {
 	var spotsRequest dto.SpotsAddRequest
 	if err := json.NewDecoder(request.Body).Decode(&spotsRequest); err != nil {
 		utils.WriteError(writer, errs.NewBadRequestError(""))
@@ -35,7 +36,7 @@ func (handler SpotHandler) AddSpot(writer http.ResponseWriter, request *http.Req
 	}
 }
 
-func (handler SpotHandler) GetSpot(writer http.ResponseWriter, request *http.Request) {
+func (handler SpotsHandler) GetSpot(writer http.ResponseWriter, request *http.Request) {
 	vars := mux.Vars(request)
 	idAsString := vars["id"]
 	id, err := strconv.Atoi(idAsString)
@@ -57,7 +58,7 @@ func (handler SpotHandler) GetSpot(writer http.ResponseWriter, request *http.Req
 	}
 }
 
-func (handler SpotHandler) GetSpots(writer http.ResponseWriter, request *http.Request) {
+func (handler SpotsHandler) GetSpots(writer http.ResponseWriter, request *http.Request) {
 	spots, appError := handler.service.GetAll()
 	if appError != nil {
 		utils.WriteError(writer, appError)
@@ -70,7 +71,7 @@ func (handler SpotHandler) GetSpots(writer http.ResponseWriter, request *http.Re
 	}
 }
 
-func (handler SpotHandler) UpdateSpot(writer http.ResponseWriter, request *http.Request) {
+func (handler SpotsHandler) UpdateSpot(writer http.ResponseWriter, request *http.Request) {
 	var spotsRequest dto.SpotsUpdateRequest
 	if err := json.NewDecoder(request.Body).Decode(&spotsRequest); err != nil {
 		utils.WriteError(writer, errs.NewBadRequestError(""))
@@ -98,7 +99,7 @@ func (handler SpotHandler) UpdateSpot(writer http.ResponseWriter, request *http.
 	}
 }
 
-func (handler SpotHandler) DeleteSpot(writer http.ResponseWriter, request *http.Request) {
+func (handler SpotsHandler) DeleteSpot(writer http.ResponseWriter, request *http.Request) {
 	vars := mux.Vars(request)
 	idAsString := vars["id"]
 	id, err := strconv.Atoi(idAsString)

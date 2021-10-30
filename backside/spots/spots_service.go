@@ -6,8 +6,8 @@ import (
 	"sk8.town/backside/spots/dto"
 )
 
-//go:generate mockgen --build_flags=--mod=mod -destination=./mocks/spot_service.go -package=mocks sk8.town/backside/spots SpotService
-type SpotService interface {
+//go:generate mockgen --build_flags=--mod=mod -destination=./mocks/spots_service.go -package=mocks sk8.town/backside/spots SpotsService
+type SpotsService interface {
 	Add(*dto.SpotsAddRequest) (*dto.SpotsAddData, *errs.AppError)
 	Get(int) (*dto.SpotsGetData, *errs.AppError)
 	GetAll() ([]*dto.SpotsGetData, *errs.AppError)
@@ -16,7 +16,7 @@ type SpotService interface {
 }
 
 type DefaultSpotService struct {
-	spotRepo domain.SpotRepository
+	spotsRepo domain.SpotsRepository
 }
 
 func (s DefaultSpotService) Add(request *dto.SpotsAddRequest) (*dto.SpotsAddData, *errs.AppError) {
@@ -33,7 +33,7 @@ func (s DefaultSpotService) Add(request *dto.SpotsAddRequest) (*dto.SpotsAddData
 		Verified:    request.Verified,
 	}
 
-	createdSpot, err := s.spotRepo.Add(&spotFromRequest)
+	createdSpot, err := s.spotsRepo.Add(&spotFromRequest)
 	if err != nil {
 		return nil, err
 	}
@@ -43,7 +43,7 @@ func (s DefaultSpotService) Add(request *dto.SpotsAddRequest) (*dto.SpotsAddData
 }
 
 func (s DefaultSpotService) Get(id int) (*dto.SpotsGetData, *errs.AppError) {
-	spot, err := s.spotRepo.Get(id)
+	spot, err := s.spotsRepo.Get(id)
 	if err != nil {
 		return nil, err
 	}
@@ -53,7 +53,7 @@ func (s DefaultSpotService) Get(id int) (*dto.SpotsGetData, *errs.AppError) {
 }
 
 func (s DefaultSpotService) GetAll() ([]*dto.SpotsGetData, *errs.AppError) {
-	spots, err := s.spotRepo.GetAll()
+	spots, err := s.spotsRepo.GetAll()
 	if err != nil {
 		return nil, err
 	}
@@ -69,7 +69,7 @@ func (s DefaultSpotService) GetAll() ([]*dto.SpotsGetData, *errs.AppError) {
 }
 
 func (s DefaultSpotService) Delete(id int) *errs.AppError {
-	return s.spotRepo.Delete(id)
+	return s.spotsRepo.Delete(id)
 }
 
 func (s DefaultSpotService) Update(id int, request *dto.SpotsUpdateRequest) (*dto.SpotsUpdateData, *errs.AppError) {
@@ -89,7 +89,7 @@ func (s DefaultSpotService) Update(id int, request *dto.SpotsUpdateRequest) (*dt
 		spotFromRequest.Coordinates.Long = request.Coordinates.Long
 	}
 
-	updatedSpot, err := s.spotRepo.Update(id, &spotFromRequest)
+	updatedSpot, err := s.spotsRepo.Update(id, &spotFromRequest)
 	if err != nil {
 		return nil, err
 	}
@@ -98,8 +98,8 @@ func (s DefaultSpotService) Update(id int, request *dto.SpotsUpdateRequest) (*dt
 	return &spotDtoResponse, nil
 }
 
-func NewSpotService(repo domain.SpotRepository) DefaultSpotService {
+func NewSpotsService(repo domain.SpotsRepository) DefaultSpotService {
 	return DefaultSpotService{
-		spotRepo: repo,
+		spotsRepo: repo,
 	}
 }

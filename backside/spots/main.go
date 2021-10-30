@@ -12,11 +12,11 @@ import (
 func Make(router *mux.Router) {
 	cfg := config.Get()
 
-	db:= domain.Connect(cfg.DbHost, cfg.DbPort, cfg.DbName, cfg.DbUser, cfg.DbPassword)
+	db := domain.Connect(cfg.DbHost, cfg.DbPort, cfg.DbName, cfg.DbUser, cfg.DbPassword)
 
-	spotsDb := domain.NewSpotDb(db)
-	spotsService := NewSpotService(spotsDb)
-	spotsHandler := SpotHandler{spotsService}
+	spotsDb := domain.NewSpotsDb(db)
+	spotsService := NewSpotsService(spotsDb)
+	spotsHandler := SpotsHandler{spotsService}
 
 	router.
 		HandleFunc("/spots", spotsHandler.AddSpot).
@@ -39,9 +39,9 @@ func Make(router *mux.Router) {
 		Methods(http.MethodDelete).
 		Name("DeleteSpot")
 
-	filtersDb := domain.NewFilterDb(db)
+	filtersDb := domain.NewFiltersDb(db)
 	filtersService := NewFilterService(filtersDb)
-	filtersHandler := FilterHandler{filtersService}
+	filtersHandler := FiltersHandler{filtersService}
 
 	router.
 		HandleFunc("/spots/filters", filtersHandler.GetFilters).

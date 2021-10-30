@@ -6,17 +6,17 @@ import (
 	"sk8.town/backside/spots/dto"
 )
 
-//go:generate mockgen --build_flags=--mod=mod -destination=./mocks/filter_service.go -package=mocks sk8.town/backside/spots FilterService
-type FilterService interface {
+//go:generate mockgen --build_flags=--mod=mod -destination=./mocks/filters_service.go -package=mocks sk8.town/backside/spots FiltersService
+type FiltersService interface {
 	GetAll() ([]*dto.FilterData, *errs.AppError)
 }
 
 type DefaultFilterService struct {
-	filterRepo domain.FilterRepository
+	filtersRepo domain.FiltersRepository
 }
 
 func (s DefaultFilterService) GetAll() ([]*dto.FilterData, *errs.AppError) {
-	allFilters, err := s.filterRepo.GetAll()
+	allFilters, err := s.filtersRepo.GetAll()
 	if err != nil {
 		return nil, err
 	}
@@ -29,8 +29,8 @@ func (s DefaultFilterService) GetAll() ([]*dto.FilterData, *errs.AppError) {
 	return dtoAllFilters, nil
 }
 
-func NewFilterService(repo domain.FilterRepository) DefaultFilterService {
+func NewFilterService(repo domain.FiltersRepository) DefaultFilterService {
 	return DefaultFilterService{
-		filterRepo: repo,
+		filtersRepo: repo,
 	}
 }
