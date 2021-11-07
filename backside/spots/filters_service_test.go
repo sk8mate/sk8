@@ -29,21 +29,21 @@ func Test_get_all_filters_should_propagate_an_error_from_db(t *testing.T) {
 func Test_get_all_filters_should_return_filters_response_when_filters_retrieved_successfully(t *testing.T) {
 	filterValues := []*domain.Filter{
 		{
-			ID:   1,
+			Id:   1,
 			Name: "filter1",
 			Type: "type1",
 		},
 		{
-			ID:   2,
+			Id:   2,
 			Name: "filter2",
 			Type: "type2",
 			FilterValues: []domain.FilterValue{
 				{
-					ID:    1,
+					Id:    1,
 					Value: "value1",
 				},
 				{
-					ID:    2,
+					Id:    2,
 					Value: "value2",
 				},
 			},
