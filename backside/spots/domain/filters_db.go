@@ -23,10 +23,6 @@ func (db FiltersDb) GetAll() ([]*Filter, *errs.AppError) {
 		return nil, errs.NewUnexpectedError(err.Error())
 	}
 
-	if len(filters) == 0 {
-		return nil, errs.NewNotFoundError(err.Error())
-	}
-
 	return filters, nil
 }
 
