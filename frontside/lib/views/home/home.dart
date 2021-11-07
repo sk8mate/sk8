@@ -8,7 +8,7 @@ import 'package:frontside/services/places/places.dart';
 import 'package:frontside/utils/debouncer.dart';
 
 class PlacesSearchDelegate extends SearchDelegate<AutocompleteEntry?> {
-  final _debouncer = new Debouncer();
+  final _debouncer = Debouncer();
 
   @override
   Widget buildLeading(BuildContext context) {
