@@ -6,16 +6,16 @@ import (
 )
 
 type Filter struct {
-	ID           int `gorm:"primary_key;AUTO_INCREMENT"`
+	Id           int `gorm:"primary_key;AUTO_INCREMENT"`
 	Name         string
 	Type         string
 	FilterValues []FilterValue
 }
 
 type FilterValue struct {
-	ID       int `gorm:"primary_key;AUTO_INCREMENT"`
+	Id       int `gorm:"primary_key;AUTO_INCREMENT"`
 	Value    string
-	FilterID int
+	FilterId int
 }
 
 func (f Filter) ToDto() *dto.FilterData {
@@ -26,7 +26,7 @@ func (f Filter) ToDto() *dto.FilterData {
 	}
 
 	return &dto.FilterData{
-		Id:     strconv.Itoa(f.ID),
+		Id:     strconv.Itoa(f.Id),
 		Name:   f.Name,
 		Type:   f.Type,
 		Values: dtoFilterValues,
@@ -35,7 +35,7 @@ func (f Filter) ToDto() *dto.FilterData {
 
 func (fv FilterValue) ToDto() *dto.FilterValueData {
 	return &dto.FilterValueData{
-		Id:   strconv.Itoa(fv.ID),
+		Id:   strconv.Itoa(fv.Id),
 		Name: fv.Value,
 	}
 }
