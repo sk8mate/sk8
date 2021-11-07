@@ -1,6 +1,7 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:frontside/views/home/home.dart';
+
+import './views/home/home.dart';
 
 class BeamerRouter {
   static final routerDelegate = BeamerDelegate(

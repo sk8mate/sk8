@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-import 'package:frontside/services/places/autocomplete_request.pb.dart';
-import 'package:frontside/services/places/autocomplete_response.pb.dart';
+import './autocomplete_request.pb.dart';
+import './autocomplete_response.pb.dart';
 
 Future<AutocompleteResponse> getPlaces(String value) async {
   if (value.isEmpty) {
