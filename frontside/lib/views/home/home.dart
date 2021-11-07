@@ -33,11 +33,13 @@ class PlacesSearchDelegate extends SearchDelegate<AutocompleteEntry?> {
   @override
   Widget buildResults(BuildContext context) {
     return FutureBuilder(
+        future: _getResults(),
         builder: (BuildContext context,
             AsyncSnapshot<AutocompleteResponse> response) {
           var places = response.data?.data ?? [];
 
           return ListView.builder(
+            itemCount: places.length,
             itemBuilder: (context, index) {
               var place = places[index];
 
@@ -49,10 +51,8 @@ class PlacesSearchDelegate extends SearchDelegate<AutocompleteEntry?> {
                 },
               );
             },
-            itemCount: places.length,
           );
-        },
-        future: _getResults());
+        });
   }
 
   @override
