@@ -9,9 +9,9 @@ class Debouncer {
   Debouncer({this.delay = const Duration(milliseconds: 500)});
 
   void debounce(VoidCallback callback) {
-    if (_timer != null && _timer!.isActive) {
-      _timer!.cancel();
+    if (_timer?.isActive ?? false) {
+      _timer?.cancel();
     }
-    _timer = new Timer(delay, callback);
+    _timer = Timer(delay, callback);
   }
 }
