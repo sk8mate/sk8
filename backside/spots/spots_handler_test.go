@@ -5,8 +5,9 @@ import (
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
-	"sk8.town/backside/utils"
 	"testing"
+
+	"sk8.town/backside/utils"
 
 	"sk8.town/backside/errs"
 	"sk8.town/backside/spots/dto"
@@ -18,17 +19,17 @@ import (
 	"sk8.town/backside/spots/mocks"
 )
 
-var router *mux.Router
-var handler Handler
-var serviceMock *mocks.MockSpotService
+var spotsRouter *mux.Router
+var spotsHandler SpotsHandler
+var spotsServiceMock *mocks.MockSpotsService
 
 func setup(t *testing.T) func() {
 	ctrl := gomock.NewController(t)
-	serviceMock = mocks.NewMockSpotService(ctrl)
-	handler = Handler{serviceMock}
-	router = mux.NewRouter()
+	spotsServiceMock = mocks.NewMockSpotsService(ctrl)
+	spotsHandler = SpotsHandler{spotsServiceMock}
+	spotsRouter = mux.NewRouter()
 	return func() {
-		router = nil
+		spotsRouter = nil
 		defer ctrl.Finish()
 	}
 }
@@ -50,13 +51,13 @@ func Test_add_spot_given_correct_request_should_return_spot_id_with_status_200(t
 	addedSpotsAddData := dto.SpotsAddData{
 		Id: "random id",
 	}
-	serviceMock.EXPECT().Add(&addSpotRequest).Return(&addedSpotsAddData, nil)
-	router.HandleFunc("/spots", handler.AddSpot)
+	spotsServiceMock.EXPECT().Add(&addSpotRequest).Return(&addedSpotsAddData, nil)
+	spotsRouter.HandleFunc("/spots", spotsHandler.AddSpot)
 	var jsonStr = []byte(`{"name":"Dworzec Glowny Krakow","address":"Pawia 5","coordinates":{"lat":40,"long":60},"lighting":true,"friendly":true,"verified":true}`)
 	request, _ := http.NewRequest(http.MethodPost, "/spots", bytes.NewBuffer(jsonStr))
 	recorder := httptest.NewRecorder()
 
-	router.ServeHTTP(recorder, request)
+	spotsRouter.ServeHTTP(recorder, request)
 
 	assert.Equal(t, http.StatusOK, recorder.Code)
 	var response dto.SpotsAddResponse
@@ -69,12 +70,12 @@ func Test_add_spot_given_correct_request_should_return_spot_id_with_status_200(t
 func Test_add_spot_given_bad_request_should_return_400(t *testing.T) {
 	teardown := setup(t)
 	defer teardown()
-	router.HandleFunc("/spots", handler.AddSpot)
+	spotsRouter.HandleFunc("/spots", spotsHandler.AddSpot)
 	var jsonStr = []byte(``)
 	request, _ := http.NewRequest(http.MethodPost, "/spots", bytes.NewBuffer(jsonStr))
 	recorder := httptest.NewRecorder()
 
-	router.ServeHTTP(recorder, request)
+	spotsRouter.ServeHTTP(recorder, request)
 
 	assert.Equal(t, http.StatusBadRequest, recorder.Code)
 	var response utils.ErrorResponse
@@ -98,13 +99,13 @@ func Test_add_spot_given_service_error_should_return_service_error(t *testing.T)
 		Friendly: true,
 		Verified: true,
 	}
-	serviceMock.EXPECT().Add(&addSpotRequest).Return(nil, errs.NewNotFoundError(""))
-	router.HandleFunc("/spots", handler.AddSpot)
+	spotsServiceMock.EXPECT().Add(&addSpotRequest).Return(nil, errs.NewNotFoundError(""))
+	spotsRouter.HandleFunc("/spots", spotsHandler.AddSpot)
 	var jsonStr = []byte(`{"name":"Dworzec Glowny Krakow","address":"Pawia 5","coordinates":{"lat":40,"long":60},"lighting":true,"friendly":true,"verified":true}`)
 	request, _ := http.NewRequest(http.MethodPost, "/spots", bytes.NewBuffer(jsonStr))
 	recorder := httptest.NewRecorder()
 
-	router.ServeHTTP(recorder, request)
+	spotsRouter.ServeHTTP(recorder, request)
 
 	assert.Equal(t, http.StatusNotFound, recorder.Code)
 	var response utils.ErrorResponse
@@ -130,12 +131,12 @@ func Test_get_spot_given_correct_request_should_return_spot_with_status_200(t *t
 		Verified: true,
 	}
 	id := 5
-	serviceMock.EXPECT().Get(id).Return(&spotGetData, nil)
-	router.HandleFunc("/spots/{id:[0-9]+}", handler.GetSpot)
+	spotsServiceMock.EXPECT().Get(id).Return(&spotGetData, nil)
+	spotsRouter.HandleFunc("/spots/{id:[0-9]+}", spotsHandler.GetSpot)
 	request, _ := http.NewRequest(http.MethodGet, "/spots/5", nil)
 	recorder := httptest.NewRecorder()
 
-	router.ServeHTTP(recorder, request)
+	spotsRouter.ServeHTTP(recorder, request)
 
 	assert.Equal(t, http.StatusOK, recorder.Code)
 	var response dto.SpotsGetResponse
@@ -149,12 +150,12 @@ func Test_get_spot_given_service_error_should_return_service_error(t *testing.T)
 	teardown := setup(t)
 	defer teardown()
 	id := 5
-	serviceMock.EXPECT().Get(id).Return(nil, errs.NewNotFoundError(""))
-	router.HandleFunc("/spots/{id:[0-9]+}", handler.GetSpot)
-	request, _ := http.NewRequest(http.MethodPost, "/spots/5", nil)
+	spotsServiceMock.EXPECT().Get(id).Return(nil, errs.NewNotFoundError(""))
+	spotsRouter.HandleFunc("/spots/{id:[0-9]+}", spotsHandler.GetSpot)
+	request, _ := http.NewRequest(http.MethodGet, "/spots/5", nil)
 	recorder := httptest.NewRecorder()
 
-	router.ServeHTTP(recorder, request)
+	spotsRouter.ServeHTTP(recorder, request)
 
 	assert.Equal(t, http.StatusNotFound, recorder.Code)
 	var response utils.ErrorResponse
@@ -191,12 +192,12 @@ func Test_get_spots_given_correct_request_should_return_spots_with_status_200(t 
 			Verified: false,
 		},
 	}
-	serviceMock.EXPECT().GetAll().Return(spotsGetAllData, nil)
-	router.HandleFunc("/spots", handler.GetSpots)
+	spotsServiceMock.EXPECT().GetAll().Return(spotsGetAllData, nil)
+	spotsRouter.HandleFunc("/spots", spotsHandler.GetSpots)
 	request, _ := http.NewRequest(http.MethodGet, "/spots", nil)
 	recorder := httptest.NewRecorder()
 
-	router.ServeHTTP(recorder, request)
+	spotsRouter.ServeHTTP(recorder, request)
 
 	assert.Equal(t, http.StatusOK, recorder.Code)
 	var response dto.SpotsGetAllResponse
@@ -210,12 +211,12 @@ func Test_get_spots_given_correct_request_should_return_spots_with_status_200(t 
 func Test_get_spots_given_service_error_should_return_service_error(t *testing.T) {
 	teardown := setup(t)
 	defer teardown()
-	serviceMock.EXPECT().GetAll().Return(nil, errs.NewNotFoundError(""))
-	router.HandleFunc("/spots", handler.GetSpots)
-	request, _ := http.NewRequest(http.MethodPost, "/spots", nil)
+	spotsServiceMock.EXPECT().GetAll().Return(nil, errs.NewNotFoundError(""))
+	spotsRouter.HandleFunc("/spots", spotsHandler.GetSpots)
+	request, _ := http.NewRequest(http.MethodGet, "/spots", nil)
 	recorder := httptest.NewRecorder()
 
-	router.ServeHTTP(recorder, request)
+	spotsRouter.ServeHTTP(recorder, request)
 
 	assert.Equal(t, http.StatusNotFound, recorder.Code)
 	var response utils.ErrorResponse
@@ -244,13 +245,13 @@ func Test_update_spot_given_correct_request_should_return_updated_spot_with_stat
 		Verified: false,
 	}
 	id := 5
-	serviceMock.EXPECT().Update(id, &updateSpotRequest).Return(&updatedSpotData, nil)
-	router.HandleFunc("/spots/{id:[0-9]+}", handler.UpdateSpot)
+	spotsServiceMock.EXPECT().Update(id, &updateSpotRequest).Return(&updatedSpotData, nil)
+	spotsRouter.HandleFunc("/spots/{id:[0-9]+}", spotsHandler.UpdateSpot)
 	var jsonStr = []byte(`{"name":"Pizza"}`)
 	request, _ := http.NewRequest(http.MethodPut, "/spots/5", bytes.NewBuffer(jsonStr))
 	recorder := httptest.NewRecorder()
 
-	router.ServeHTTP(recorder, request)
+	spotsRouter.ServeHTTP(recorder, request)
 
 	assert.Equal(t, http.StatusOK, recorder.Code)
 	var response dto.SpotsUpdateResponse
@@ -263,12 +264,12 @@ func Test_update_spot_given_correct_request_should_return_updated_spot_with_stat
 func Test_update_spot_given_bad_request_should_return_400(t *testing.T) {
 	teardown := setup(t)
 	defer teardown()
-	router.HandleFunc("/spots/{id:[0-9]+}", handler.UpdateSpot)
+	spotsRouter.HandleFunc("/spots/{id:[0-9]+}", spotsHandler.UpdateSpot)
 	var jsonStr = []byte(``)
 	request, _ := http.NewRequest(http.MethodPut, "/spots/5", bytes.NewBuffer(jsonStr))
 	recorder := httptest.NewRecorder()
 
-	router.ServeHTTP(recorder, request)
+	spotsRouter.ServeHTTP(recorder, request)
 
 	assert.Equal(t, http.StatusBadRequest, recorder.Code)
 	var response utils.ErrorResponse
@@ -285,13 +286,13 @@ func Test_update_spot_given_service_error_should_return_service_error(t *testing
 		Name: "Pizza",
 	}
 	id := 5
-	serviceMock.EXPECT().Update(id, &updateSpotRequest).Return(nil, errs.NewNotFoundError(""))
-	router.HandleFunc("/spots/{id:[0-9]+}", handler.UpdateSpot)
+	spotsServiceMock.EXPECT().Update(id, &updateSpotRequest).Return(nil, errs.NewNotFoundError(""))
+	spotsRouter.HandleFunc("/spots/{id:[0-9]+}", spotsHandler.UpdateSpot)
 	var jsonStr = []byte(`{"name":"Pizza"}`)
 	request, _ := http.NewRequest(http.MethodPut, "/spots/5", bytes.NewBuffer(jsonStr))
 	recorder := httptest.NewRecorder()
 
-	router.ServeHTTP(recorder, request)
+	spotsRouter.ServeHTTP(recorder, request)
 
 	assert.Equal(t, http.StatusNotFound, recorder.Code)
 	var response utils.ErrorResponse
@@ -305,12 +306,12 @@ func Test_delete_spot_given_correct_request_should_return_status_200(t *testing.
 	teardown := setup(t)
 	defer teardown()
 	id := 5
-	serviceMock.EXPECT().Delete(id).Return(nil)
-	router.HandleFunc("/spots/{id:[0-9]+}", handler.DeleteSpot)
+	spotsServiceMock.EXPECT().Delete(id).Return(nil)
+	spotsRouter.HandleFunc("/spots/{id:[0-9]+}", spotsHandler.DeleteSpot)
 	request, _ := http.NewRequest(http.MethodDelete, "/spots/5", nil)
 	recorder := httptest.NewRecorder()
 
-	router.ServeHTTP(recorder, request)
+	spotsRouter.ServeHTTP(recorder, request)
 
 	assert.Equal(t, http.StatusOK, recorder.Code)
 }
@@ -319,12 +320,12 @@ func Test_delete_spot_given_service_error_should_return_service_error(t *testing
 	teardown := setup(t)
 	defer teardown()
 	id := 5
-	serviceMock.EXPECT().Delete(id).Return(errs.NewNotFoundError(""))
-	router.HandleFunc("/spots/{id:[0-9]+}", handler.DeleteSpot)
+	spotsServiceMock.EXPECT().Delete(id).Return(errs.NewNotFoundError(""))
+	spotsRouter.HandleFunc("/spots/{id:[0-9]+}", spotsHandler.DeleteSpot)
 	request, _ := http.NewRequest(http.MethodDelete, "/spots/5", nil)
 	recorder := httptest.NewRecorder()
 
-	router.ServeHTTP(recorder, request)
+	spotsRouter.ServeHTTP(recorder, request)
 
 	assert.Equal(t, http.StatusNotFound, recorder.Code)
 	var response utils.ErrorResponse

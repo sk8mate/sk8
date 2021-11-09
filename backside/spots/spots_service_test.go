@@ -27,8 +27,8 @@ func Test_given_invalid_add_request_should_return_unprocessable_entity(t *testin
 	}
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
-	mockDb := mocks.NewMockSpotRepository(ctrl)
-	service := NewSpotService(mockDb)
+	mockDb := mocks.NewMockSpotsRepository(ctrl)
+	service := NewSpotsService(mockDb)
 	expectedError := errs.NewValidationError("invalid SpotsAddRequest.Name: value length must be at least 1 runes")
 
 	_, appError := service.Add(&request)
@@ -61,8 +61,8 @@ func Test_add_request_should_propagate_an_error_from_db(t *testing.T) {
 	}
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
-	mockDb := mocks.NewMockSpotRepository(ctrl)
-	service := NewSpotService(mockDb)
+	mockDb := mocks.NewMockSpotsRepository(ctrl)
+	service := NewSpotsService(mockDb)
 	expectedError := errs.NewNotFoundError("not found error")
 	mockDb.EXPECT().Add(&spotToAdd).Return(nil, expectedError)
 
@@ -108,8 +108,8 @@ func Test_add_request_should_return_spots_response_when_spot_added_successfully(
 	}
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
-	mockDb := mocks.NewMockSpotRepository(ctrl)
-	service := NewSpotService(mockDb)
+	mockDb := mocks.NewMockSpotsRepository(ctrl)
+	service := NewSpotsService(mockDb)
 	mockDb.EXPECT().Add(&spotToAdd).Return(&createdSpot, nil)
 
 	spotsAddData, appError := service.Add(&request)
@@ -121,8 +121,8 @@ func Test_add_request_should_return_spots_response_when_spot_added_successfully(
 func Test_get_request_should_propagate_an_error_from_db(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
-	mockDb := mocks.NewMockSpotRepository(ctrl)
-	service := NewSpotService(mockDb)
+	mockDb := mocks.NewMockSpotsRepository(ctrl)
+	service := NewSpotsService(mockDb)
 	expectedError := errs.NewNotFoundError("not found error")
 	id := 4
 	mockDb.EXPECT().Get(id).Return(nil, expectedError)
@@ -159,8 +159,8 @@ func Test_get_request_should_return_spot_response_when_spot_retrieved_successful
 	}
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
-	mockDb := mocks.NewMockSpotRepository(ctrl)
-	service := NewSpotService(mockDb)
+	mockDb := mocks.NewMockSpotsRepository(ctrl)
+	service := NewSpotsService(mockDb)
 	id := 4
 	mockDb.EXPECT().Get(id).Return(&spot, nil)
 
@@ -173,8 +173,8 @@ func Test_get_request_should_return_spot_response_when_spot_retrieved_successful
 func Test_get_all_request_should_propagate_an_error_from_db(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
-	mockDb := mocks.NewMockSpotRepository(ctrl)
-	service := NewSpotService(mockDb)
+	mockDb := mocks.NewMockSpotsRepository(ctrl)
+	service := NewSpotsService(mockDb)
 	expectedError := errs.NewNotFoundError("not found error")
 	mockDb.EXPECT().GetAll().Return(nil, expectedError)
 
@@ -238,8 +238,8 @@ func Test_get_all_request_should_return_spots_response_when_spots_retrieved_succ
 	}
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
-	mockDb := mocks.NewMockSpotRepository(ctrl)
-	service := NewSpotService(mockDb)
+	mockDb := mocks.NewMockSpotsRepository(ctrl)
+	service := NewSpotsService(mockDb)
 	mockDb.EXPECT().GetAll().Return(spots, nil)
 
 	spotsGetAllData, appError := service.GetAll()
@@ -262,8 +262,8 @@ func Test_given_invalid_update_request_should_return_unprocessable_entity(t *tes
 	}
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
-	mockDb := mocks.NewMockSpotRepository(ctrl)
-	service := NewSpotService(mockDb)
+	mockDb := mocks.NewMockSpotsRepository(ctrl)
+	service := NewSpotsService(mockDb)
 	expectedError := errs.NewValidationError("invalid SpotsUpdateRequest.Coordinates: embedded message failed validation | caused by: invalid SpotsUpdateRequest_Coordinates.Lat: value must be inside range [-90, 90]")
 	id := 4
 
@@ -297,8 +297,8 @@ func Test_update_request_should_propagate_an_error_from_db(t *testing.T) {
 	}
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
-	mockDb := mocks.NewMockSpotRepository(ctrl)
-	service := NewSpotService(mockDb)
+	mockDb := mocks.NewMockSpotsRepository(ctrl)
+	service := NewSpotsService(mockDb)
 	expectedError := errs.NewNotFoundError("not found error")
 	id := 4
 	mockDb.EXPECT().Update(id, &spot).Return(nil, expectedError)
@@ -341,8 +341,8 @@ func Test_update_request_should_return_updated_spot_response_when_spot_updated_s
 	}
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
-	mockDb := mocks.NewMockSpotRepository(ctrl)
-	service := NewSpotService(mockDb)
+	mockDb := mocks.NewMockSpotsRepository(ctrl)
+	service := NewSpotsService(mockDb)
 	id := 4
 	mockDb.EXPECT().Update(id, &spot).Return(&updatedSpot, nil)
 
@@ -355,8 +355,8 @@ func Test_update_request_should_return_updated_spot_response_when_spot_updated_s
 func Test_delete_request_should_propagate_an_error_from_db(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
-	mockDb := mocks.NewMockSpotRepository(ctrl)
-	service := NewSpotService(mockDb)
+	mockDb := mocks.NewMockSpotsRepository(ctrl)
+	service := NewSpotsService(mockDb)
 	expectedError := errs.NewNotFoundError("not found error")
 	id := 4
 	mockDb.EXPECT().Delete(id).Return(expectedError)
@@ -369,8 +369,8 @@ func Test_delete_request_should_propagate_an_error_from_db(t *testing.T) {
 func Test_delete_request_should_return_no_error_when_spot_deleted_successfully(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
-	mockDb := mocks.NewMockSpotRepository(ctrl)
-	service := NewSpotService(mockDb)
+	mockDb := mocks.NewMockSpotsRepository(ctrl)
+	service := NewSpotsService(mockDb)
 	id := 4
 	mockDb.EXPECT().Delete(id).Return(nil)
 
