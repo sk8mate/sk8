@@ -13,7 +13,7 @@ class ConfigService {
         options.connectTimeout = 15000;
         options.followRedirects = false;
         options.validateStatus = (status) {
-          return status! < 500;
+          return status! < 300;
         };
         return handler.next(options);
       }),
