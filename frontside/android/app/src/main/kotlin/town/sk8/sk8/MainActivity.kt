@@ -1,4 +1,4 @@
-package com.example.frontside
+package town.sk8
 
 import io.flutter.embedding.android.FlutterActivity
 

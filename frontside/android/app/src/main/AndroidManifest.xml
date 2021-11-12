@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.frontside">
+    package="town.sk8">
    <application
-        android:label="frontside"
+        android:label="sk8"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
