@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+option go_package = "./dto";
+
+package main;
+
+message LoginResponse {
+    string token = 1;
+}
