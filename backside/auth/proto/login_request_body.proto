@@ -4,6 +4,6 @@ option go_package = "./dto";
 
 package main;
 
-message LoginRequest {
+message LoginRequestBody {
     string idToken = 1;
 }

@@ -4,6 +4,6 @@ option go_package = "./dto";
 
 package main;
 
-message LoginResponse {
+message LoginResponseBody {
     string token = 1;
 }
