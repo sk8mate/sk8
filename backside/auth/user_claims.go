@@ -1,6 +1,6 @@
 package auth
 
-type GoogleClaims struct {
+type UserClaims struct {
 	Id            string
 	Email         string
 	EmailVerified bool
