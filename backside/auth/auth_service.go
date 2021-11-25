@@ -1,20 +1,27 @@
 package auth
 
 import (
-	"sk8.town/backside/auth/interfaces"
 	"sk8.town/backside/errs"
 )
 
+type LoginData struct {
+	OAuthIdToken string
+}
+
+type LoggedInData struct {
+	Token string
+}
+
 //go:generate mockgen --build_flags=--mod=mod -destination=./mocks/auth_service.go -package=mocks sk8.town/backside/auth AuthService
 type AuthService interface {
-	Login(*interfaces.LoginData) (*interfaces.LoggedInData, *errs.AppError)
+	Login(*LoginData) (*LoggedInData, *errs.AppError)
 }
 
 type DefaultAuthService struct {
 	tokenService TokenService
 }
 
-func (s DefaultAuthService) Login(loginData *interfaces.LoginData) (*interfaces.LoggedInData, *errs.AppError) {
+func (s DefaultAuthService) Login(loginData *LoginData) (*LoggedInData, *errs.AppError) {
 
 
 	//email, ok := OauthConnections[googleId]
