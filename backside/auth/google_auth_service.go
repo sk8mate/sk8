@@ -6,11 +6,11 @@ import (
 )
 
 type GoogleAuthService struct {
-	tokenService TokenService
+	tokenValidator TokenValidator
 }
 
 func (s GoogleAuthService) Login(loginData *LoginData) (*LoggedInData, *errs.AppError) {
-	userClaims, err := s.tokenService.Verify(loginData.OAuthIdToken)
+	userClaims, err := s.tokenValidator.Verify(loginData.OAuthIdToken)
 	if err != nil{
 		return nil, err
 	}
@@ -43,7 +43,7 @@ func (s GoogleAuthService) Login(loginData *LoginData) (*LoggedInData, *errs.App
 	return nil, nil
 }
 
-func NewGoogleAuthService(tokenServiceInit TokenService) GoogleAuthService {
-	return GoogleAuthService{tokenService: tokenServiceInit}
+func NewGoogleAuthService(tokenValidatorInit TokenValidator) GoogleAuthService {
+	return GoogleAuthService{tokenValidator: tokenValidatorInit}
 }
 

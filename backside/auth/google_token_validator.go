@@ -8,10 +8,10 @@ import (
 	"time"
 )
 
-type GoogleTokenService struct {
+type GoogleTokenValidator struct {
 }
 
-func (s GoogleTokenService) verifyPayload(payload *idtoken.Payload) (*UserClaims, *errs.AppError) {
+func (s GoogleTokenValidator) verifyPayload(payload *idtoken.Payload) (*UserClaims, *errs.AppError) {
 	if payload.Issuer != "accounts.google.com" && payload.Issuer != "https://accounts.google.com" {
 		return nil, errs.NewUnexpectedError("iss is invalid")
 	}
@@ -51,7 +51,7 @@ func (s GoogleTokenService) verifyPayload(payload *idtoken.Payload) (*UserClaims
 	return &userClaims, nil
 }
 
-func (s GoogleTokenService) Verify(token string) (*UserClaims, *errs.AppError) {
+func (s GoogleTokenValidator) Verify(token string) (*UserClaims, *errs.AppError) {
 	ctx := context.Background()
 	payload, err := idtoken.Validate(ctx, token, config.GetConfig().GoogleClientId)
 	if err != nil {
@@ -66,6 +66,6 @@ func (s GoogleTokenService) Verify(token string) (*UserClaims, *errs.AppError) {
 	return googleUserClaims, nil
 }
 
-func NewGoogleTokenService() GoogleTokenService {
-	return GoogleTokenService{}
+func NewGoogleTokenValidator() GoogleTokenValidator {
+	return GoogleTokenValidator{}
 }
