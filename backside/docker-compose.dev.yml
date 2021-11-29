@@ -1,6 +1,7 @@
 # Development
 
 version: "3.9"
+
 services:
   postgres:
     image: postgres:latest
@@ -11,6 +12,18 @@ services:
       - POSTGRES_DB=$SK8_DB_NAME
     ports:
       - "5432:5432"
+  mongodb:
+    image: mongo:latest
+    container_name: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_DATABASE: auth
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongo-data:/data/db
   backside:
     build:
       context: .
