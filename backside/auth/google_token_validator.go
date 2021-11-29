@@ -11,7 +11,7 @@ import (
 type GoogleTokenValidator struct {
 }
 
-func (s GoogleTokenValidator) verifyPayload(payload *idtoken.Payload) (*UserClaims, *errs.AppError) {
+func (s GoogleTokenValidator) verifyPayload(payload *idtoken.Payload) (*OAuthClientClaims, *errs.AppError) {
 	if payload.Issuer != "accounts.google.com" && payload.Issuer != "https://accounts.google.com" {
 		return nil, errs.NewUnexpectedError("iss is invalid")
 	}
@@ -40,7 +40,7 @@ func (s GoogleTokenValidator) verifyPayload(payload *idtoken.Payload) (*UserClai
 		return nil, errs.NewUnexpectedError("family_name field in payload is invalid")
 	}
 
-	userClaims := UserClaims{
+	userClaims := OAuthClientClaims{
 		Id:            payload.Subject,
 		Email:         email,
 		EmailVerified: emailVerified,
@@ -51,7 +51,7 @@ func (s GoogleTokenValidator) verifyPayload(payload *idtoken.Payload) (*UserClai
 	return &userClaims, nil
 }
 
-func (s GoogleTokenValidator) Verify(token string) (*UserClaims, *errs.AppError) {
+func (s GoogleTokenValidator) Verify(token string) (*OAuthClientClaims, *errs.AppError) {
 	ctx := context.Background()
 	payload, err := idtoken.Validate(ctx, token, config.GetConfig().GoogleClientId)
 	if err != nil {

@@ -1,6 +1,6 @@
 package auth
 
-type UserClaims struct {
+type OAuthClientClaims struct {
 	Id            string
 	Email         string
 	EmailVerified bool
