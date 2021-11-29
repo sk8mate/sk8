@@ -27,7 +27,7 @@ usage::
 	@echo "	make proto	compile protobuf files"
 
 dev::
-	docker-compose -f docker-compose.dev.yml up --build
+	docker-compose -f docker-compose.dev.yml up --build --force-recreate
 
 dev\:clean::
 	SK8_DB_DROP_ALL_TABLES=true docker-compose -f docker-compose.dev.yml up --build
