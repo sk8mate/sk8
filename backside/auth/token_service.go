@@ -10,18 +10,19 @@ import (
 
 //go:generate mockgen --build_flags=--mod=mod -destination=./mocks/token_service.go -package=mocks sk8.town/backside/auth TokenService
 type TokenService interface {
-	CreateToken(email string) (string, *errs.AppError)
+	CreateToken(email string, oauthId string) (string, *errs.AppError)
 	ParseToken(token string) (*UserClaims, *errs.AppError)
 }
 
 type DefaultTokenService struct{}
 
-func (DefaultTokenService) CreateToken(email string) (string, *errs.AppError) {
+func (DefaultTokenService) CreateToken(email string, oauthId string) (string, *errs.AppError) {
 	claims := UserClaims{
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(60 * time.Minute).Unix(),
 		},
 		Email: email,
+		OAuthId: oauthId,
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, &claims)

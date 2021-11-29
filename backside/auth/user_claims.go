@@ -6,5 +6,6 @@ import (
 
 type UserClaims struct {
 	jwt.StandardClaims
-	Email string `json:"email"`
+	OAuthId string `json:"oauth_id,omitempty"`
+	Email   string `json:"email"`
 }

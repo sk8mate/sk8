@@ -35,18 +35,18 @@ func (m *MockTokenService) EXPECT() *MockTokenServiceMockRecorder {
 }
 
 // CreateToken mocks base method
-func (m *MockTokenService) CreateToken(arg0 string) (string, *errs.AppError) {
+func (m *MockTokenService) CreateToken(arg0, arg1 string) (string, *errs.AppError) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateToken", arg0)
+	ret := m.ctrl.Call(m, "CreateToken", arg0, arg1)
 	ret0, _ := ret[0].(string)
 	ret1, _ := ret[1].(*errs.AppError)
 	return ret0, ret1
 }
 
 // CreateToken indicates an expected call of CreateToken
-func (mr *MockTokenServiceMockRecorder) CreateToken(arg0 interface{}) *gomock.Call {
+func (mr *MockTokenServiceMockRecorder) CreateToken(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateToken", reflect.TypeOf((*MockTokenService)(nil).CreateToken), arg0)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateToken", reflect.TypeOf((*MockTokenService)(nil).CreateToken), arg0, arg1)
 }
 
 // ParseToken mocks base method
