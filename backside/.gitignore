@@ -28,5 +28,6 @@
 .env
 backside
 postgres-data/
+mongo-data/
 
 # End of https://www.toptal.com/developers/gitignore/api/go
