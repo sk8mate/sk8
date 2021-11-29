@@ -12,7 +12,7 @@ var clientInstanceError error
 var mongoOnce sync.Once
 
 const (
-	uri = "mongodb://localhost:27017"
+	uri = "mongodb://root:rootpassword@localhost:27017"
 	dbName = "auth_db"
 	usersCollection = "users"
 )
