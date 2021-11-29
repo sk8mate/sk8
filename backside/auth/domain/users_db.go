@@ -4,6 +4,7 @@ import (
 	"context"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"sk8.town/backside/auth/config"
 	"sk8.town/backside/errs"
 )
 
@@ -12,6 +13,10 @@ type UsersRepository interface {
 	Add(*User) *errs.AppError
 	Get(email string) (*User, *errs.AppError)
 }
+
+const (
+	usersCollection = "users"
+)
 
 type UsersDb struct {
 }
@@ -22,7 +27,7 @@ func (db UsersDb) Add(user *User) *errs.AppError {
 		return errs.NewUnexpectedError(err.Error())
 	}
 
-	collection := client.Database(dbName).Collection(usersCollection)
+	collection := client.Database(config.GetConfig().DbName).Collection(usersCollection)
 
 	_, err = collection.InsertOne(context.TODO(), user)
 	if err != nil {
@@ -38,7 +43,7 @@ func (db UsersDb) Get(email string) (*User, *errs.AppError) {
 		return nil, errs.NewUnexpectedError(err.Error())
 	}
 
-	collection := client.Database(dbName).Collection(usersCollection)
+	collection := client.Database(config.GetConfig().DbName).Collection(usersCollection)
 
 	result := User{}
 	filter := bson.D{primitive.E{Key: "email", Value: email}}
