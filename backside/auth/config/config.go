@@ -12,6 +12,7 @@ var once sync.Once
 type Config struct {
 	GoogleClientId     string `required:"true" split_words:"true"`
 	GoogleClientSecret string `required:"true" split_words:"true"`
+	SecretKey          string `required:"true" split_words:"true"`
 }
 
 var config Config

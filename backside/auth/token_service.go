@@ -1,44 +1,51 @@
 package auth
 
 import (
+	"fmt"
+	"github.com/dgrijalva/jwt-go"
+	"sk8.town/backside/auth/config"
 	"sk8.town/backside/errs"
+	"time"
 )
 
 //go:generate mockgen --build_flags=--mod=mod -destination=./mocks/token_service.go -package=mocks sk8.town/backside/auth TokenService
 type TokenService interface {
 	CreateToken(email string) (string, *errs.AppError)
-	ParseToken(token string) (string, error)
+	ParseToken(token string) (*UserClaims, *errs.AppError)
 }
 
-//func CreateToken(email string) (string, error) {
-//	claims := MyClaims{
-//		StandardClaims: jwt.StandardClaims{
-//			ExpiresAt: time.Now().Add(5 * time.Minute).Unix(),
-//		},
-//		UserId: userId,
-//	}
-//
-//	token := jwt.NewWithClaims(jwt.SigningMethodHS256, &claims)
-//	signedToken, err := token.SignedString([]byte(config.Get().SecretKey))
-//	if err != nil {
-//		return "", fmt.Errorf("could not sign token %v", err)
-//	}
-//	return signedToken, nil
-//}
-//
-//func ParseToken(token string) (string, error) {
-//	tokenAfterVerification, err := jwt.ParseWithClaims(token, &MyClaims{}, func(tokenBeforeVerification *jwt.Token) (interface{}, error) {
-//		if tokenBeforeVerification.Method.Alg() != jwt.SigningMethodHS256.Alg() {
-//			return nil, fmt.Errorf("signing method not matched")
-//		}
-//
-//		return []byte(config.Get().SecretKey), nil
-//	})
-//
-//	if err != nil || !tokenAfterVerification.Valid {
-//		return "", fmt.Errorf("token is not valid")
-//	}
-//
-//	claims := tokenAfterVerification.Claims.(*MyClaims)
-//	return claims.UserId, nil
-//}
+type DefaultTokenService struct{}
+
+func (DefaultTokenService) CreateToken(email string) (string, *errs.AppError) {
+	claims := UserClaims{
+		StandardClaims: jwt.StandardClaims{
+			ExpiresAt: time.Now().Add(60 * time.Minute).Unix(),
+		},
+		Email: email,
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, &claims)
+	signedToken, err := token.SignedString([]byte(config.GetConfig().SecretKey))
+	if err != nil {
+		return "", errs.NewUnexpectedError("could not sign token")
+	}
+	return signedToken, nil
+}
+
+func (DefaultTokenService) ParseToken(token string) (*UserClaims, *errs.AppError) {
+	tokenAfterVerification, err := jwt.ParseWithClaims(token, &UserClaims{}, func(tokenBeforeVerification *jwt.Token) (interface{}, error) {
+		if tokenBeforeVerification.Method.Alg() != jwt.SigningMethodHS256.Alg() {
+			return nil, fmt.Errorf("signing method not matched")
+		}
+
+		return []byte(config.GetConfig().SecretKey), nil
+	})
+
+	if err != nil || !tokenAfterVerification.Valid {
+		return nil, errs.NewUnexpectedError("token is not valid")
+	}
+
+	userClaims := tokenAfterVerification.Claims.(*UserClaims)
+
+	return userClaims, nil
+}

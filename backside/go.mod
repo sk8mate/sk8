@@ -14,6 +14,7 @@ require (
 )
 
 require (
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/envoyproxy/protoc-gen-validate v0.6.1
 	github.com/golang/protobuf v1.5.2
 	github.com/google/uuid v1.3.0

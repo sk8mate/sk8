@@ -7,6 +7,7 @@ package mocks
 import (
 	gomock "github.com/golang/mock/gomock"
 	reflect "reflect"
+	auth "sk8.town/backside/auth"
 	errs "sk8.town/backside/errs"
 )
 
@@ -49,11 +50,11 @@ func (mr *MockTokenServiceMockRecorder) CreateToken(arg0 interface{}) *gomock.Ca
 }
 
 // ParseToken mocks base method
-func (m *MockTokenService) ParseToken(arg0 string) (string, error) {
+func (m *MockTokenService) ParseToken(arg0 string) (*auth.UserClaims, *errs.AppError) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ParseToken", arg0)
-	ret0, _ := ret[0].(string)
-	ret1, _ := ret[1].(error)
+	ret0, _ := ret[0].(*auth.UserClaims)
+	ret1, _ := ret[1].(*errs.AppError)
 	return ret0, ret1
 }
 
