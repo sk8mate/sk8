@@ -7,7 +7,7 @@ package mocks
 import (
 	gomock "github.com/golang/mock/gomock"
 	reflect "reflect"
-	interfaces "sk8.town/backside/auth/interfaces"
+	auth "sk8.town/backside/auth"
 	errs "sk8.town/backside/errs"
 )
 
@@ -35,10 +35,10 @@ func (m *MockAuthService) EXPECT() *MockAuthServiceMockRecorder {
 }
 
 // Login mocks base method
-func (m *MockAuthService) Login(arg0 *interfaces.LoginData) (*interfaces.LoggedInData, *errs.AppError) {
+func (m *MockAuthService) Login(arg0 *auth.LoginData) (*auth.LoggedInData, *errs.AppError) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Login", arg0)
-	ret0, _ := ret[0].(*interfaces.LoggedInData)
+	ret0, _ := ret[0].(*auth.LoggedInData)
 	ret1, _ := ret[1].(*errs.AppError)
 	return ret0, ret1
 }
