@@ -1,49 +1,46 @@
 package auth
 
 import (
-	"fmt"
+	"sk8.town/backside/auth/domain"
 	"sk8.town/backside/errs"
 )
 
 type GoogleAuthService struct {
-	tokenValidator GoogleTokenValidator
+	tokenValidator  GoogleTokenValidator
+	usersRepository domain.UsersRepository
+	tokenService    TokenService
 }
 
 func (s GoogleAuthService) Login(loginData *LoginData) (*LoggedInData, *errs.AppError) {
-	userClaims, err := s.tokenValidator.Verify(loginData.OAuthIdToken)
-	if err != nil{
+	oauthClientClaims, err := s.tokenValidator.Verify(loginData.OAuthIdToken)
+	if err != nil {
 		return nil, err
 	}
 
-	fmt.Println(userClaims)
-	//email, ok := OauthConnections[googleId]
-	//if !ok {
-	//	signedToken, err := domain.CreateToken(googleId)
-	//	if err != nil {
-	//		http.Error(c.Writer, "could not create token in oauth google receive", http.StatusInternalServerError)
-	//		return
-	//	}
-	//
-	//	urlValues := url.Values{}
-	//	urlValues.Add("signedToken", signedToken)
-	//	urlValues.Add("name", googleResponse.Name)
-	//	urlValues.Add("email", googleResponse.Email)
-	//	http.Redirect(c.Writer, c.Request, "/partial-register?"+urlValues.Encode(), http.StatusSeeOther)
-	//	return
-	//}
-	//
-	//err = CreateSession(email, c.Writer)
-	//if err != nil {
-	//	http.Error(c.Writer, "can not create user session", http.StatusInternalServerError)
-	//}
-	//
-	//msg := url.QueryEscape("logged in " + email)
-	//http.Redirect(c.Writer, c.Request, "/?msg="+msg, http.StatusSeeOther)
+	_, err = s.usersRepository.Get(oauthClientClaims.Email)
+	if err != nil {
+		newUser := domain.User{
+			FirstName: oauthClientClaims.FirstName,
+			LastName:  oauthClientClaims.LastName,
+			Email:     oauthClientClaims.Email,
+			OAuthId:   oauthClientClaims.Id,
+		}
 
-	return nil, nil
+		if err = s.usersRepository.Add(&newUser); err != nil {
+			return nil, errs.NewUnexpectedError(err.Message)
+		}
+	}
+
+	token, err := s.tokenService.CreateToken(oauthClientClaims.Email, oauthClientClaims.Id)
+	if err != nil {
+		return nil, err
+	}
+
+	loggedInData := LoggedInData{Token: token}
+
+	return &loggedInData, nil
 }
 
-func NewGoogleAuthService(tokenValidatorInit GoogleTokenValidator) GoogleAuthService {
-	return GoogleAuthService{tokenValidator: tokenValidatorInit}
+func NewGoogleAuthService(usersRepositoryInit domain.UsersRepository, tokenServiceInit TokenService) GoogleAuthService {
+	return GoogleAuthService{usersRepository: usersRepositoryInit, tokenService: tokenServiceInit}
 }
-
