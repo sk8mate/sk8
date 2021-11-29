@@ -7,7 +7,6 @@ package mocks
 import (
 	gomock "github.com/golang/mock/gomock"
 	reflect "reflect"
-	auth "sk8.town/backside/auth"
 	errs "sk8.town/backside/errs"
 )
 
@@ -34,17 +33,32 @@ func (m *MockTokenService) EXPECT() *MockTokenServiceMockRecorder {
 	return m.recorder
 }
 
-// Verify mocks base method
-func (m *MockTokenService) Verify(arg0 string) (*auth.UserClaims, *errs.AppError) {
+// CreateToken mocks base method
+func (m *MockTokenService) CreateToken(arg0 string) (string, *errs.AppError) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Verify", arg0)
-	ret0, _ := ret[0].(*auth.UserClaims)
+	ret := m.ctrl.Call(m, "CreateToken", arg0)
+	ret0, _ := ret[0].(string)
 	ret1, _ := ret[1].(*errs.AppError)
 	return ret0, ret1
 }
 
-// Verify indicates an expected call of Verify
-func (mr *MockTokenServiceMockRecorder) Verify(arg0 interface{}) *gomock.Call {
+// CreateToken indicates an expected call of CreateToken
+func (mr *MockTokenServiceMockRecorder) CreateToken(arg0 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Verify", reflect.TypeOf((*MockTokenService)(nil).Verify), arg0)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateToken", reflect.TypeOf((*MockTokenService)(nil).CreateToken), arg0)
+}
+
+// ParseToken mocks base method
+func (m *MockTokenService) ParseToken(arg0 string) (string, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ParseToken", arg0)
+	ret0, _ := ret[0].(string)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ParseToken indicates an expected call of ParseToken
+func (mr *MockTokenServiceMockRecorder) ParseToken(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ParseToken", reflect.TypeOf((*MockTokenService)(nil).ParseToken), arg0)
 }
