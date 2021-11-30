@@ -2,14 +2,11 @@ package auth
 
 import (
 	"encoding/json"
-	"github.com/gorilla/schema"
 	"net/http"
 	"sk8.town/backside/auth/dto"
 	"sk8.town/backside/errs"
 	"sk8.town/backside/utils"
 )
-
-var decoder = schema.NewDecoder()
 
 type GoogleHandler struct {
 	authService AuthService
