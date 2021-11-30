@@ -16,9 +16,9 @@ services:
     image: mongo:latest
     restart: always
     environment:
-      MONGO_INITDB_DATABASE: auth
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+      MONGO_INITDB_DATABASE: $SK8_AUTH_DB_NAME
+      MONGO_INITDB_ROOT_USERNAME: $SK8_AUTH_DB_USER
+      MONGO_INITDB_ROOT_PASSWORD: $SK8_AUTH_DB_PASSWORD
     ports:
       - "27017:27017"
     volumes:
