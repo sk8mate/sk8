@@ -50,7 +50,7 @@ func (db UsersDb) Get(email string) (*User, *errs.AppError) {
 
 	err = collection.FindOne(context.TODO(), filter).Decode(&result)
 	if err != nil {
-		return nil, errs.NewUnexpectedError(err.Error())
+		return nil, nil
 	}
 
 	return &result, nil

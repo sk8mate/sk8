@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"fmt"
 	"sk8.town/backside/auth/domain"
 	"sk8.town/backside/errs"
 )
@@ -12,13 +13,18 @@ type GoogleAuthService struct {
 }
 
 func (s GoogleAuthService) Login(loginData *LoginData) (*LoggedInData, *errs.AppError) {
+	fmt.Println(loginData.OAuthIdToken)
 	oauthClientClaims, err := s.tokenValidator.Verify(loginData.OAuthIdToken)
 	if err != nil {
 		return nil, err
 	}
 
-	_, err = s.usersRepository.Get(oauthClientClaims.Email)
+	existingUser, err := s.usersRepository.Get(oauthClientClaims.Email)
 	if err != nil {
+		return nil, err
+	}
+
+	if existingUser == nil {
 		newUser := domain.User{
 			FirstName: oauthClientClaims.FirstName,
 			LastName:  oauthClientClaims.LastName,
