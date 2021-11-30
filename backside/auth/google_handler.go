@@ -27,7 +27,8 @@ func (handler GoogleHandler) Login(writer http.ResponseWriter, request *http.Req
 		utils.WriteError(writer, appError)
 	} else {
 		response := &dto.LoginResponseBody{
-			Token: loggedInData.Token,
+			Status: "success",
+			Data:   &dto.LoginResponseData{Token: loggedInData.Token},
 		}
 		utils.WriteProtoJSON(writer, http.StatusOK, response)
 	}

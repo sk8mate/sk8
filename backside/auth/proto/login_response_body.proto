@@ -5,5 +5,9 @@ option go_package = "./dto";
 package main;
 
 message LoginResponseBody {
+    string status = 1;
+    LoginResponseData data = 2;
+}
+message LoginResponseData {
     string token = 1;
 }

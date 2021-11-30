@@ -41,4 +41,4 @@ PROTOC_GEN_VALIDATE=$$(go env GOPATH)/pkg/mod/github.com/envoyproxy/protoc-gen-v
 proto::
 	protoc -I . -I $(PROTOC_GEN_VALIDATE) --go_out=./places --validate_out="lang=go:./places" ./places/proto/*.proto
 	protoc -I . -I $(PROTOC_GEN_VALIDATE) --go_out=./spots --validate_out="lang=go:./spots" ./spots/proto/*.proto
-	protoc -I . -I $(PROTOC_GEN_VALIDATE) --go_out=./auth --validate_out="lang=go:./auth"./auth/proto/*.proto
+	protoc -I . -I $(PROTOC_GEN_VALIDATE) --go_out=./auth --validate_out="lang=go:./auth" ./auth/proto/*.proto
