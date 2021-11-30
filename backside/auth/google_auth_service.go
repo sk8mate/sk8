@@ -6,7 +6,7 @@ import (
 )
 
 type GoogleAuthService struct {
-	tokenValidator  GoogleTokenValidator
+	tokenValidator  OAuthTokenValidator
 	usersRepository domain.UsersRepository
 	tokenService    TokenService
 }
@@ -41,6 +41,6 @@ func (s GoogleAuthService) Login(loginData *LoginData) (*LoggedInData, *errs.App
 	return &loggedInData, nil
 }
 
-func NewGoogleAuthService(usersRepositoryInit domain.UsersRepository, tokenServiceInit TokenService) GoogleAuthService {
-	return GoogleAuthService{usersRepository: usersRepositoryInit, tokenService: tokenServiceInit}
+func NewGoogleAuthService(usersRepositoryInit domain.UsersRepository, tokenServiceInit TokenService, tokenValidatorInit OAuthTokenValidator) GoogleAuthService {
+	return GoogleAuthService{usersRepository: usersRepositoryInit, tokenService: tokenServiceInit, tokenValidator: tokenValidatorInit}
 }

@@ -50,3 +50,7 @@ func (DefaultTokenService) ParseToken(token string) (*UserClaims, *errs.AppError
 
 	return userClaims, nil
 }
+
+func NewTokenService() DefaultTokenService {
+	return DefaultTokenService{}
+}
