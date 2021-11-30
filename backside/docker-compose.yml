@@ -10,6 +10,14 @@ services:
       - POSTGRES_PASSWORD=$SK8_DB_PASSWORD
       - POSTGRES_DB=$SK8_DB_NAME
 
+  mongodb:
+    image: mongo:latest
+    restart: always
+    environment:
+      MONGO_INITDB_DATABASE: $SK8_AUTH_DB_NAME
+      MONGO_INITDB_ROOT_USERNAME: $SK8_AUTH_DB_USER
+      MONGO_INITDB_ROOT_PASSWORD: $SK8_AUTH_DB_PASSWORD
+
   backside:
     build:
       context: .
@@ -29,3 +37,4 @@ services:
       - "8080:8080"
     depends_on:
       - postgres
+      - mongodb
